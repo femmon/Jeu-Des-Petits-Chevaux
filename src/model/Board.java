@@ -98,6 +98,12 @@ public class Board {
 
 
     // For debugging
+
+    /**
+     * The first four printed lines pieces inside the nests.
+     * Each line after that is a node of path. 2 adjacent lines is connected.
+     * If a node is connected to home path, the home path node is printed in the same line
+     */
     public void printState() {
         System.out.println("-----------------------------------------------------------------");
         for (Nest n: nests) {
