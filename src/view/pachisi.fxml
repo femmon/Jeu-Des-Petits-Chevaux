@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<?import view.NestView?>
+<?import view.HomePathView ?>
+<?import view.PathView ?>
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
+<?import java.net.URL?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <!-- Just ignore this -->
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+    </rowConstraints>
+
+    <!-- Pay attention to this -->
+    <HBox prefHeight="672.0" prefWidth="830.0">
+        <VBox prefHeight="672.0" prefWidth="344.0">
+            <Pane fx:id="blueCorner">
+                <StackPane fx:id="blueNest">
+                    <NestView width="300.0" height="277.0" fill="blue"/>
+                    <Circle radius="100.0" fill="aliceblue"/>
+                </StackPane>
+                <PathView fx:id="bluePath1"/>
+                <PathView fx:id="bluePath2"/>
+            </Pane>
+            <HomePathView fx:id="home_path_1" prefHeight="150.0" prefWidth="344.0"/>
+            <Pane fx:id="yellowCorner">
+                <StackPane fx:id="yellowNest">
+                    <NestView width="300.0" height="277.0" fill="yellow"/>
+                    <Circle radius="100.0" fill="aliceblue"/>
+                </StackPane>
+                <PathView fx:id="yellowPath1"/>
+                <PathView fx:id="yellowPath2"/>
+            </Pane>
+        </VBox>
+        <VBox prefHeight="672.0" prefWidth="134.0">
+            <HomePathView fx:id="home_path_2" prefHeight="276.0" prefWidth="134.0"/>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="130.0" stroke="WHITE" strokeType="INSIDE" width="134.0"/>
+            <HomePathView fx:id="home_path_4" prefHeight="276.0" prefWidth="134.0"/>
+        </VBox>
+        <VBox prefHeight="672.0" prefWidth="344.0">
+            <Pane fx:id="redCorner">
+                <StackPane fx:id="redNest">
+                    <NestView width="300.0" height="277.0" fill="red"/>
+                    <Circle radius="100.0" fill="aliceblue"/>
+                </StackPane>
+                <PathView fx:id="redPath1"/>
+                <PathView fx:id="redPath2"/>
+            </Pane>
+            <HomePathView fx:id="home_path_3" prefHeight="134.0" prefWidth="344.0" />
+            <Pane fx:id="greenCorner">
+                <StackPane fx:id="greenNest">
+                    <NestView width="300.0" height="277.0" fill="green"/>
+                    <Circle radius="100.0" fill="aliceblue"/>
+                </StackPane>
+                <PathView fx:id="greenPath1"/>
+                <PathView fx:id="greenPath2"/>
+            </Pane>
+        </VBox>
+        <stylesheets>
+            <URL value="@debug.css"/>
+        </stylesheets>
+    </HBox>
+</GridPane>
