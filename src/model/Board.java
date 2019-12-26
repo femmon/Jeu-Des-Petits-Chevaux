@@ -1,5 +1,7 @@
 package model;
 
+import javafx.geometry.Pos;
+
 import java.util.ArrayList;
 
 import static model.Color.*;
@@ -96,19 +98,148 @@ public class Board {
         return current;
     }
 
+    public boolean move(Color color, int id, int moves) {
+        if (id < 0 || id > 3) {
+            throw new IllegalArgumentException();
+        }
+        if (moves < 1 || moves > 6) {
+            throw new IllegalArgumentException();
+        }
+
+        if (isHorseInNest(color, id)) {
+            if (moves == 6) return summon(color);
+            else return false;
+        }
+
+        PathNode nodeWithHorse = findHorseInPath(color, id);
+        if (isMoveInMovePath(nodeWithHorse)) return movePath(nodeWithHorse, moves);
+        else return moveHomePath(nodeWithHorse, moves);
+    }
+
+    private boolean isHorseInNest(Color color, int id) {
+        for (Nest nest: nests) {
+            if (nest.getColor() == color) {
+                for (Horse horse: nest.getHorseInNest()) {
+                    if (horse.getId() == id) return true;
+                }
+
+                return false;
+            }
+        }
+
+        // Should never happen
+        return false;
+    }
+
+    private PathNode findHorseInPath(Color color, int id) {
+        PathNode current = path;
+        do {
+            Horse currentHorse = current.getHorse();
+            if (currentHorse != null) {
+                if (currentHorse.getColor() == color && currentHorse.getId() == id) {
+                    return current;
+                }
+            }
+
+            PathNode homePath = current.getHomePositionNode();
+            while (homePath != null) {
+                Horse homePathHorse = homePath.getHorse();
+                if (homePathHorse != null) {
+                    if (homePathHorse.getColor() == color && homePathHorse.getId() == id) {
+                        return homePath;
+                    }
+                }
+
+                homePath = homePath.getHomePositionNode();
+            }
+
+            current = current.getNextAroundNode();
+        } while (current != path);
+
+        // Should never happens
+        return null;
+    }
+
+    private boolean isMoveInMovePath(PathNode nodeWithHorse) {
+        Position position = nodeWithHorse.getPosition();
+        if (position.getNumber() < 11) return true;
+        else if (position.getNumber() == 11) {
+            if (position.getColor() == nodeWithHorse.getHorse().getColor()) return false;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean movePath(PathNode nodeWithHorse, int moves) {
+        Horse horseToMove = nodeWithHorse.getHorse();
+        PathNode current = nodeWithHorse;
+        // Go moves - 1 steps
+        for (int i = 0; i < moves - 1; i++) {
+            // Can't go pass home arrival
+            if (current.getPosition().equals(new Position(horseToMove.getColor(), 11))) {
+                return false;
+            }
+
+            current = current.getNextAroundNode();
+            if (current.getHorse() != null) return false;
+        }
+
+        // Can't go pass home arrival
+        if (current.getPosition().equals(new Position(horseToMove.getColor(), 11))) {
+            return false;
+        }
+
+        current = current.getNextAroundNode();
+        Horse horseAtDestination = current.getHorse();
+        if (horseAtDestination == null) {
+            nodeWithHorse.setHorse(null);
+
+            current.setHorse(horseToMove);
+            return true;
+        } else if (horseAtDestination.getColor() == horseToMove.getColor()) return false;
+        else {
+            returnHorse(current.getHorse());
+            nodeWithHorse.setHorse(null);
+
+            current.setHorse(horseToMove);
+            return true;
+        }
+    }
+
+    private void returnHorse(Horse horse) {
+        for (Nest nest: nests) {
+            if (nest.getColor() == horse.getColor()) {
+                nest.add(horse);
+            }
+        }
+    }
+
+    private boolean moveHomePath(PathNode nodeWithHorse, int moves) {
+        return true;
+    }
+
 
     // For debugging
 
     /**
+     * Option:
+     *   "" - print nest with node/node with horses/node connected to homepath
+     *   "ignore-nest" - print node with horses/node connected to homepath
+     *   "verbose" - print every nest/node
      * The first four printed lines pieces inside the nests.
      * Each line after that is a node of path. 2 adjacent lines is connected.
      * If a node is connected to home path, the home path node is printed in the same line
      */
-    public void printState() {
+    public void printState(String mode) {
         System.out.println("-----------------------------------------------------------------");
         for (Nest n: nests) {
-            System.out.print(n.getColor() + ": ");
+            if (mode == "ignore-nest") continue;
             ArrayList<Horse> horses = n.getHorseInNest();
+
+            if (mode != "verbose" && horses.size() == 0) continue;
+
+            System.out.print(n.getColor() + ": ");
             for (int i = 0; i < horses.size(); i++) {
                 printHorse(horses.get(i));
                 if (i != horses.size() - 1) System.out.print(", ");
@@ -119,6 +250,11 @@ public class Board {
 
         PathNode current = path;
         do {
+            if (mode != "verbose" && current.getHorse() == null && current.getHomePositionNode() == null) {
+                current = current.getNextAroundNode();
+                continue;
+            }
+
             Position pos = current.getPosition();
             System.out.print(pos.getColor() + " / " + pos.getNumber() + ": ");
             if (current.getHorse() == null) System.out.print("None");
@@ -139,6 +275,10 @@ public class Board {
             current = current.getNextAroundNode();
         } while (current != path);
         System.out.println("-----------------------------------------------------------------");
+    }
+
+    public void printState() {
+        printState("");
     }
 
     private void printHorse(Horse horse) {

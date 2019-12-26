@@ -29,7 +29,20 @@ public class Main extends Application {
         Board b = new Board(a);
         b.printState();
         b.summon(RED);
+        b.summon(BLUE);
         b.printState();
+        b.move(RED, 0, 5);
+        b.printState();
+        b.move(RED, 0, 5);
+        b.printState();
+        for (int i = 0; i < 9; i++) {
+            b.move(RED, 0, 6);
+            b.printState();
+            }
+        b.move(RED, 0, 5);
+        b.printState("ignore-nest");
+        b.move(RED, 0, 5);
+        b.printState("ignore-nest");
     }
 
 
