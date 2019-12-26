@@ -19,8 +19,9 @@ public class Main extends Application {
      *   "B": summon a BLUE horse
      *   "Y": summon a YELLOW horse
      *   "G": summon a GREEN horse
-     *   "C i m": `C` is one of the 4 initial of color in uppercase (R, B, Y, G),
-     *   `i` is the id of horse: 0 - 3, `m` is the number of steps to move
+     *   "C i m": to move the horse "C-i" "m" steps forward.
+     *     `C` is one of the 4 initial of color in uppercase (R, B, Y, G),
+     *     `i` is the id of horse: 0 - 3, `m` is the number of steps to move
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
