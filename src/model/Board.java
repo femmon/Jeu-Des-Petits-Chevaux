@@ -1,7 +1,5 @@
 package model;
 
-import javafx.geometry.Pos;
-
 import java.util.ArrayList;
 
 import static model.Color.*;
@@ -216,7 +214,29 @@ public class Board {
     }
 
     private boolean moveHomePath(PathNode nodeWithHorse, int moves) {
-        return true;
+        Position position = nodeWithHorse.getPosition();
+        Horse horse = nodeWithHorse.getHorse();
+        // If standing at home arrival
+        if (position.equals(new Position(horse.getColor(), 11))) {
+            PathNode current = nodeWithHorse;
+            for (int i = 0; i < moves; i++) {
+                current = current.getHomePositionNode();
+                if (current.getHorse() != null) return false;
+            }
+
+            nodeWithHorse.setHorse(null);
+            current.setHorse(horse);
+            return true;
+        } else {
+            PathNode destination = nodeWithHorse.getHomePositionNode();
+            if (destination.getHorse() != null) return false;
+            // Need specific moves to get to next home path
+            if (destination.getPosition().getNumber() - 11 == moves) {
+                destination.setHorse(nodeWithHorse.getHorse());
+                nodeWithHorse.setHorse(null);
+                return true;
+            } else return false;
+        }
     }
 
 
