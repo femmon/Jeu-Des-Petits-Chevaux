@@ -1,30 +1,30 @@
 package view;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import model.Horse;
 
-import java.io.IOException;
+public class NestView extends StackPane {
 
-public class NestView extends Rectangle {
+    private StackPane nest;
+    private int horseCount = 0;
 
-    @FXML StackPane blueNest;
-    @FXML StackPane yellowNest;
-    @FXML StackPane redNest;
-    @FXML StackPane greenNest;
+     public NestView(StackPane nest) {
+          this.nest = nest;
+      }
 
-    public NestView() {
+     public void addHorse() {
+         horseCount++;
+     }
 
+    public void removeHorse() {
+         horseCount++;
+      }
+
+//    private void getHorse() {
+//        // returns horse count
+//    }
+    
+    public void getHorseCount() {
+        System.out.println("horseCount = " + horseCount);
     }
-
-    // this one displays new horses + delete horses
-    private void addHorse(Horse horse) { System.out.println("TBA"); }
-
-    private void removeHorse(Horse horse) {
-        System.out.println("TBA");
-    }
-
 }
