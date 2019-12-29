@@ -5,7 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import model.Horse;
 
-public class NestView extends StackPane {
+public class NestView {
 
     private StackPane nest;
     private int horseCount = 0;

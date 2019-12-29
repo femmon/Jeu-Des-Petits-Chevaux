@@ -17,7 +17,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("view/pachisi.fxml"));
         primaryStage.setTitle("Hello World");
         GameView gameview = new GameView((GridPane) root);
-        Scene primaryScene = new Scene(root, 800, 800);
+        Scene primaryScene = new Scene(root, 820, 820);
         primaryScene.getStylesheets().add(getClass().getResource("view/debug.css").toExternalForm());
         primaryStage.setScene(primaryScene);
         primaryStage.show();
