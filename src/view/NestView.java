@@ -1,5 +1,7 @@
 package view;
 
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import model.Horse;
 
@@ -19,12 +21,12 @@ public class NestView extends StackPane {
     public void removeHorse() {
          horseCount++;
       }
-
-//    private void getHorse() {
-//        // returns horse count
-//    }
     
     public void getHorseCount() {
         System.out.println("horseCount = " + horseCount);
+    }
+
+    public ObservableList<Node> getNestContents() {
+        return nest.getChildren();
     }
 }

@@ -1,76 +1,189 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 
-<?import view.HomePathView ?>
-<?import view.PathView ?>
-
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.HBox?>
-<?import java.net.URL?>
-<?import javafx.scene.shape.Circle?>
-
-<?import javafx.scene.layout.StackPane?>
-<GridPane fx:id="pachisi" alignment="center" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <!-- Just ignore this -->
-    <columnConstraints>
-        <ColumnConstraints />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints />
-    </rowConstraints>
+<GridPane fx:id="pachisi" alignment="center" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="812.0" prefWidth="826.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
     <!-- Pay attention to this -->
-    <HBox prefHeight="1000.0" prefWidth="1000.0">
-        <VBox prefHeight="672.0" prefWidth="344.0">
-            <Pane fx:id="blueCorner">
+    <HBox prefHeight="800.0" prefWidth="800.0">
+        <VBox prefHeight="800.0" prefWidth="350.0">
+            <Pane fx:id="blueCorner" prefHeight="350.0" prefWidth="317.0">
                 <StackPane fx:id="blueNest">
-                    <Rectangle width="333.0" height="277.0" fill="blue"/>
-                    <Circle radius="100.0" fill="aliceblue"/>
+                    <Rectangle fill="blue" height="240.0" width="240.0" />
+                    <Circle fill="aliceblue" radius="86.0" />
                 </StackPane>
-                <PathView fx:id="bluePath1"/>
-                <PathView fx:id="bluePath2"/>
+                <HBox fx:id="bluePath1" layoutX="163.0" layoutY="115.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                </HBox>
+                <HBox fx:id="bluePath2" layoutX="24.0" layoutY="254.0" prefHeight="40.0" prefWidth="290.0" spacing="10.0">
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="blue" strokeWidth="2" />
+                </HBox>
             </Pane>
-            <HomePathView fx:id="home_path_1" prefHeight="150.0" prefWidth="344.0"/>
-            <Pane fx:id="yellowCorner">
-                <StackPane fx:id="yellowNest">
-                    <Rectangle width="333.0" height="277.0" fill="yellow"/>
-                    <Circle radius="100.0" fill="aliceblue"/>
+            <HBox fx:id="home_path_yellow" prefHeight="200.0" prefWidth="400.0" spacing="8.0">
+                <Circle fill="#ffffff05" radius="18.0" stroke="ORANGE" strokeWidth="2.0">
+                    <HBox.margin>
+                        <Insets top="60.0" />
+                    </HBox.margin>
+                </Circle>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="YELLOW" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="YELLOW" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0">
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </Rectangle>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="YELLOW" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="YELLOW" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="YELLOW" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="YELLOW" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+            </HBox>
+            <Pane fx:id="yellowCorner" prefHeight="350.0" prefWidth="350.0">
+                <StackPane fx:id="yellowNest" layoutY="73.0" prefHeight="217.0" prefWidth="200.0">
+                    <Rectangle fill="yellow" height="240.0" width="223.0" />
+                    <Circle fill="aliceblue" radius="91.0" />
                 </StackPane>
-                <PathView fx:id="yellowPath1"/>
-                <PathView fx:id="yellowPath2"/>
+                <HBox fx:id="yellowPath1" layoutX="154.0" layoutY="165.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                </HBox>
+                <HBox fx:id="yellowPath2" layoutX="14.0" layoutY="15.0" prefHeight="38.0" prefWidth="239.0" spacing="10.0">
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="orange" strokeWidth="2" />
+                </HBox>
             </Pane>
         </VBox>
-        <VBox prefHeight="672.0" prefWidth="134.0">
-            <HBox fx:id="home_path_2" prefHeight="276.0" prefWidth="134.0"/>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="130.0" stroke="WHITE" strokeType="INSIDE" width="134.0"/>
-            <HBox fx:id="home_path_4" prefHeight="276.0" prefWidth="134.0"/>
+        <VBox prefHeight="800.0" prefWidth="150.0">
+            <VBox fx:id="home_path_blue" prefHeight="305.0" prefWidth="158.0" spacing="8.0">
+            <children>
+               <Circle fill="WHITE" radius="20.0" stroke="BLUE" strokeWidth="2.0">
+                  <VBox.margin>
+                     <Insets left="60.0" />
+                  </VBox.margin>
+               </Circle>
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+            </children></VBox>
+            <VBox fx:id="home_path_4" prefHeight="400.0" prefWidth="200.0" />
+         <VBox fx:id="home_path_green" prefHeight="400.0" prefWidth="200.0" rotate="180.0" spacing="8.0">
+            <children>
+               <Circle fill="WHITE" radius="20.0" stroke="LIME" strokeWidth="2.0">
+                  <VBox.margin>
+                     <Insets left="60.0" />
+                  </VBox.margin>
+               </Circle>
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIME" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIME" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIME" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIME" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIME" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIME" height="40.0" stroke="BLACK" strokeType="INSIDE" width="158.0" />
+            </children>
+         </VBox>
         </VBox>
-        <VBox prefHeight="672.0" prefWidth="344.0">
-            <Pane fx:id="redCorner">
-                <StackPane fx:id="redNest">
-                    <Rectangle width="333.0" height="277.0" fill="red"/>
-                    <Circle radius="100.0" fill="aliceblue"/>
+        <VBox prefHeight="800.0" prefWidth="350.0">
+            <Pane fx:id="redCorner" prefHeight="350.0" prefWidth="281.0">
+                <StackPane fx:id="redNest" layoutX="82.0" prefHeight="216.0" prefWidth="223.0">
+                    <Rectangle fill="red" height="237.0" layoutX="100.0" width="241.0" />
+                    <Circle fill="aliceblue" radius="97.0" StackPane.alignment="CENTER" />
                 </StackPane>
-                <PathView fx:id="redPath1"/>
-                <PathView fx:id="redPath2"/>
+                <HBox fx:id="redPath1" layoutX="-75.0" layoutY="115.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                </HBox>
+                <HBox fx:id="redPath2" layoutX="26.0" layoutY="254.0" prefHeight="40.0" prefWidth="290.0" spacing="10">
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="red" strokeWidth="2" />
+                </HBox>
             </Pane>
-            <HBox fx:id="home_path_3" prefHeight="134.0" prefWidth="344.0" />
-            <Pane fx:id="greenCorner">
-                <StackPane fx:id="greenNest">
-                    <Rectangle width="300.0" height="277.0" fill="green"/>
-                    <Circle radius="100.0" fill="aliceblue"/>
+            <HBox fx:id="home_path_3" prefHeight="200.0" prefWidth="346.0">
+            <children>
+               <HBox fx:id="home_path_red" prefHeight="200.0" prefWidth="400.0" rotate="180.0" spacing="8.0">
+                  <children>
+                     <Circle fill="#ffffff05" radius="18.0" stroke="RED" strokeWidth="2.0">
+                        <HBox.margin>
+                           <Insets top="60.0" />
+                        </HBox.margin>
+                     </Circle>
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0">
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                     </Rectangle>
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="167.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+                  </children>
+               </HBox>
+            </children></HBox>
+            <Pane fx:id="greenCorner" prefHeight="350.0" prefWidth="350.0">
+                <StackPane fx:id="greenNest" layoutX="99.0" layoutY="77.0" prefWidth="210.0">
+                    <Rectangle fill="green" height="238.0" width="221.0" />
+                    <Circle fill="aliceblue" radius="86.0" />
                 </StackPane>
-                <PathView fx:id="greenPath1"/>
-                <PathView fx:id="greenPath2"/>
+                <HBox fx:id="greenPath1" layoutX="-66.0" layoutY="165.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                </HBox>
+                <HBox fx:id="greenPath2" layoutX="35.0" layoutY="14.0" prefHeight="38.0" prefWidth="239.0" spacing="10.0">
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                    <Circle fill="whitesmoke" radius="18.0" stroke="green" strokeWidth="2" />
+                </HBox>
             </Pane>
         </VBox>
         <stylesheets>
-            <URL value="@debug.css"/>
+            <URL value="@debug.css" />
         </stylesheets>
     </HBox>
+    <!-- Just ignore this -->
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
 </GridPane>

@@ -6,8 +6,8 @@ public class PathView extends HBox {
 
     public PathView() {
         super();
-        super.setWidth(344);
-        super.setHeight(150);
+        super.setWidth(300);
+        super.setHeight(100);
     }
 
 }
