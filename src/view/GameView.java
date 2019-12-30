@@ -85,7 +85,7 @@ public class GameView {
     private void drawHomePaths(VBox bluePath, VBox greenPath, HBox yellowPath, HBox redPath) {
         HomePathView bluePathView = new HomePathView(bluePath, Color.BLUE);
         HomePathView greenPathView = new HomePathView(greenPath, Color.GREEN);
-        HomePathView yellowPathView = new HomePathView(yellowPath, Color.YELLOW);
+        HomePathView yellowPathView = new HomePathView(yellowPath, Color.ORANGE);
         HomePathView redPathView = new HomePathView(redPath, Color.RED);
         bluePathView.getVertPathTile();
         greenPathView.getVertPathTile();
@@ -98,7 +98,7 @@ public class GameView {
 
 
     private void drawPaths(HBox[] paths, HBox[] secPaths) {
-        Color[] COLOR_LIST =  {Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN};
+        Color[] COLOR_LIST =  {Color.BLUE, Color.RED, Color.ORANGE, Color.GREEN};
         int index = 0, index2 = 0;
         for (HBox path: paths) {
             PathView pathDrawer = new PathView(path, COLOR_LIST[index]);
