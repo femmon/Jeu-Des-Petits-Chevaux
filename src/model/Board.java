@@ -23,7 +23,6 @@ public class Board {
     private void resetNest(ArrayList<Player> playerList) {
         for (Player player: playerList) {
             Color color = player.getPlayerSide();
-
             // Find the nest with the same Color as the player
             for (Nest nest: nests) {
                 if (nest.getColor() == color) {
@@ -83,8 +82,6 @@ public class Board {
                 return true;
             }
         }
-
-        // Should never reach here
         return false;
     }
 
@@ -120,12 +117,9 @@ public class Board {
                 for (Horse horse: nest.getHorseInNest()) {
                     if (horse.getId() == id) return true;
                 }
-
                 return false;
             }
         }
-
-        // Should never happen
         return false;
     }
 
@@ -147,14 +141,10 @@ public class Board {
                         return homePath;
                     }
                 }
-
                 homePath = homePath.getHomePositionNode();
             }
-
             current = current.getNextAroundNode();
         } while (current != path);
-
-        // Should never happens
         return null;
     }
 
