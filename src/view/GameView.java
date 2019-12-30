@@ -1,17 +1,23 @@
 package view;
 
-import javafx.event.Event;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.util.Stack;
+
 
 public class GameView {
 
     // 4 nests
+    @FXML GridPane pachisi;
+
     @FXML StackPane blueNest;
     @FXML StackPane yellowNest;
     @FXML StackPane redNest;
@@ -32,6 +38,7 @@ public class GameView {
 
     // 1. obtains empty components from the fxml
     public GameView(GridPane pachisi) {
+        this.pachisi = pachisi;
         fetchingNests(pachisi);
         fetchingHomePath(pachisi);
         fetchingPaths(pachisi);
@@ -71,7 +78,7 @@ public class GameView {
     public void getContentsOf(StackPane nest) {
         NestView selectedNest = new NestView(nest);
         System.out.println(nest.getId() + " : " + selectedNest.getNestContents());
-        nest.getChildren().get(0).setOpacity(0.5);
+        nest.getChildren().get(0).setOpacity(1);
     }
 
     // 1.2 drawing StackPanes on each HBox | VBox element
@@ -117,7 +124,11 @@ public class GameView {
             System.out.println(homePathView.getPathContents(0).get(2));
         }
 
-    // exports scene
+    // 3. Outsourcing components for controller to handle
+
+    public ObservableList<Node> getBlueNest() {
+        return blueNest.getChildren();
+    }
 
 }
 
