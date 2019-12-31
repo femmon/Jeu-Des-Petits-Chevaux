@@ -3,8 +3,7 @@ package model;
 import java.util.Random;
 
 public class Dice {
-    private int dice1Value;
-    private int dice2Value;
+    private int diceValue;
     private Random numberGenerator;
 
     public Dice() {
@@ -12,16 +11,11 @@ public class Dice {
         throwDice();
     }
 
-    public int getDice1Value() {
-        return dice1Value;
-    }
-
-    public int getDice2Value() {
-        return dice2Value;
+    public int getDiceValue() {
+        return diceValue;
     }
 
     public void throwDice() {
-        dice1Value = numberGenerator.nextInt(6) + 1;
-        dice2Value = numberGenerator.nextInt(6) + 1;
+        diceValue = numberGenerator.nextInt(6) + 1;
     }
 }

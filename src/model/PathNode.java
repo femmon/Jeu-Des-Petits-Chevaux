@@ -40,4 +40,8 @@ public class PathNode {
     public void setHomePositionNode(PathNode homePositionNode) {
         this.homePositionNode = homePositionNode;
     }
+
+    public boolean isHorseInNode() {
+        return this.horse != null;
+    }
 }

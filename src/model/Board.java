@@ -97,7 +97,7 @@ public class Board {
         if (id < 0 || id > 3) {
             throw new IllegalArgumentException();
         }
-        if (moves < 1 || moves > 6) {
+        if (moves < 1 || moves > 12) {
             throw new IllegalArgumentException();
         }
 
@@ -228,7 +228,6 @@ public class Board {
             } else return false;
         }
     }
-
 
     // For debugging
 

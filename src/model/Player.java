@@ -7,8 +7,21 @@ public class Player {
     private String name;
     private PlayerType playerType;
     private int score = 0;
+    private int diceValue = 0;
     private Color playerSide;
-    private ArrayList<Horse> horseList= new ArrayList<Horse>();
+
+    public Player(String name, PlayerType playerType, int score, Color playerSide) {
+        this.name = name;
+        this.playerType = playerType;
+        this.score = score;
+        this.playerSide = playerSide;
+    }
+
+    public Player(String name, PlayerType playerType, Color playerSide) {
+        this.name = name;
+        this.playerType = playerType;
+        this.playerSide = playerSide;
+    }
 
     public String getName() {
         return name;
@@ -42,23 +55,19 @@ public class Player {
         this.playerSide = playerSide;
     }
 
-    public ArrayList<Horse> getHorseList() {
-        return horseList;
+    public int getDiceValue() {
+        return diceValue;
     }
 
-    public void setHorseList(ArrayList<Horse> horseList) {
-        this.horseList = horseList;
+    public void setDiceValue(int diceValue) {
+        this.diceValue = diceValue;
     }
 
-    public Horse getHorse(int i) {
-        return horseList.get(i);
+    public void addScore(int bonusScore) {
+        this.score = score + bonusScore;
     }
 
-    public void addHorse(Horse horse) {
-        horseList.add(horse);
-    }
-
-    public void removeHorse(int i){
-        horseList.remove(i);
+    public void minusScore(int minusValue) {
+        this.score = score - minusValue;
     }
 }
