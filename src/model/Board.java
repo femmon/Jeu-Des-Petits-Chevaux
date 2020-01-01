@@ -4,10 +4,17 @@ import java.util.ArrayList;
 
 import static model.Color.*;
 
+/**
+ * Board contains the position of horses and the rules on how to move them
+ */
 public class Board {
     private Nest[] nests;
     private PathNode path;
 
+    /**
+     * Create a board from the player list
+     * @param playerList
+     */
     public Board(ArrayList<Player> playerList) {
         nests = new Nest[4];
         Color[] colors = {RED, GREEN, BLUE, YELLOW};
@@ -20,6 +27,10 @@ public class Board {
         path = makePath();
     }
 
+    /**
+     * Clear the horses in nests. Refill if the player is playing (not NONE PlayerType)
+     * @param playerList
+     */
     private void resetNest(ArrayList<Player> playerList) {
         for (Player player: playerList) {
             Color color = player.getPlayerSide();
@@ -38,6 +49,10 @@ public class Board {
         }
     }
 
+    /**
+     * Build the graph of game path
+     * @return
+     */
     private PathNode makePath() {
         Color[] colors = {BLUE, RED, GREEN, YELLOW};
         PathNode first10 = null;
@@ -72,6 +87,11 @@ public class Board {
         return first10;
     }
 
+    /**
+     * Summon a horse from nest to start point
+     * @param color
+     * @return true if can summon, false if all horses have been summoned or something is blocking
+     */
     public boolean summon(Color color) {
         for (Nest nest: nests) {
             if (nest.getColor() == color) {
@@ -85,6 +105,11 @@ public class Board {
         return false;
     }
 
+    /**
+     * Get the PathNode of the starting space of a Color
+     * @param color
+     * @return
+     */
     private PathNode getStartingSpace(Color color) {
         PathNode current = path;
         while (!(current.getPosition().equals(new Position(color, 0)))) {
@@ -93,24 +118,54 @@ public class Board {
         return current;
     }
 
-    public boolean move(Color color, int id, int moves) {
+    /**
+     * Move the horse with the specified color and id
+     * @param color
+     * @param id
+     * @param moves
+     * @return the new position, or null if unsuccessful
+     */
+    public Position move(Color color, int id, int moves) {
+        PathNode destination = findMoveDestination(color, id, moves);
+        if (destination == null) return null;
+
+        if (destination.getHorse() != null) returnHorse(destination.getHorse());
+        PathNode start = findHorseInPath(color, id);
+        destination.setHorse(start.getHorse());
+        start.setHorse(null);
+        return destination.getPosition();
+    }
+
+    /**
+     * Find the new position without actually moving
+     * @param color
+     * @param id
+     * @param moves
+     * @return the new position, or null if unsuccessful
+     */
+    private PathNode findMoveDestination(Color color, int id, int moves) {
         if (id < 0 || id > 3) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Horse ID must be from 0 to 3");
         }
         if (moves < 1 || moves > 12) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("A horse can move from 1 to 12 at a time");
         }
 
         if (isHorseInNest(color, id)) {
-            if (moves == 6) return summon(color);
-            else return false;
+            throw new UnsupportedOperationException("Can't move a horse in nest");
         }
 
         PathNode nodeWithHorse = findHorseInPath(color, id);
-        if (isMoveInMovePath(nodeWithHorse)) return movePath(nodeWithHorse, moves);
-        else return moveHomePath(nodeWithHorse, moves);
+        if (isMoveInMovePath(nodeWithHorse)) return movePathDryRun(nodeWithHorse, moves);
+        else return moveHomePathDryRun(nodeWithHorse, moves);
     }
 
+    /**
+     * Check if a horse is inside nest
+     * @param color
+     * @param id
+     * @return
+     */
     private boolean isHorseInNest(Color color, int id) {
         for (Nest nest: nests) {
             if (nest.getColor() == color) {
@@ -123,6 +178,12 @@ public class Board {
         return false;
     }
 
+    /**
+     * Find the position of a horse
+     * @param color
+     * @param id
+     * @return
+     */
     private PathNode findHorseInPath(Color color, int id) {
         PathNode current = path;
         do {
@@ -148,6 +209,11 @@ public class Board {
         return null;
     }
 
+    /**
+     * Check to see if a horse is moving around the path or going up home path
+     * @param nodeWithHorse
+     * @return
+     */
     private boolean isMoveInMovePath(PathNode nodeWithHorse) {
         Position position = nodeWithHorse.getPosition();
         if (position.getNumber() < 11) return true;
@@ -159,42 +225,74 @@ public class Board {
         }
     }
 
-    private boolean movePath(PathNode nodeWithHorse, int moves) {
+    /**
+     * Find the destination without moving. Use this when horse move around path (instead of moving up home path)
+     * @param nodeWithHorse
+     * @param moves
+     * @return
+     */
+    private PathNode movePathDryRun(PathNode nodeWithHorse, int moves) {
         Horse horseToMove = nodeWithHorse.getHorse();
         PathNode current = nodeWithHorse;
         // Go moves - 1 steps
         for (int i = 0; i < moves - 1; i++) {
             // Can't go pass home arrival
             if (current.getPosition().equals(new Position(horseToMove.getColor(), 11))) {
-                return false;
+                return null;
             }
 
             current = current.getNextAroundNode();
-            if (current.getHorse() != null) return false;
+            if (current.getHorse() != null) return null;
         }
 
         // Can't go pass home arrival
         if (current.getPosition().equals(new Position(horseToMove.getColor(), 11))) {
-            return false;
+            return null;
         }
 
         current = current.getNextAroundNode();
         Horse horseAtDestination = current.getHorse();
         if (horseAtDestination == null) {
-            nodeWithHorse.setHorse(null);
-
-            current.setHorse(horseToMove);
-            return true;
-        } else if (horseAtDestination.getColor() == horseToMove.getColor()) return false;
+            return current;
+        } else if (horseAtDestination.getColor() == horseToMove.getColor()) return null;
         else {
-            returnHorse(current.getHorse());
-            nodeWithHorse.setHorse(null);
-
-            current.setHorse(horseToMove);
-            return true;
+            return current;
         }
     }
 
+    /**
+     * Find the destination without moving. Use this when horse move up home path (instead of moving around path)
+     * @param nodeWithHorse
+     * @param moves
+     * @return
+     */
+    private PathNode moveHomePathDryRun(PathNode nodeWithHorse, int moves) {
+        Position position = nodeWithHorse.getPosition();
+        Horse horse = nodeWithHorse.getHorse();
+        // If standing at home arrival
+        if (position.equals(new Position(horse.getColor(), 11))) {
+            PathNode current = nodeWithHorse;
+            for (int i = 0; i < moves; i++) {
+                current = current.getHomePositionNode();
+                if (current == null) return null;
+                if (current.getHorse() != null) return null;
+            }
+
+            return current;
+        } else {
+            PathNode destination = nodeWithHorse.getHomePositionNode();
+            if (destination.getHorse() != null) return null;
+            // Need specific moves to get to next home path
+            if (destination.getPosition().getNumber() - 11 == moves) {
+                return destination;
+            } else return null;
+        }
+    }
+
+    /**
+     * Return a horse to its nest
+     * @param horse
+     */
     private void returnHorse(Horse horse) {
         for (Nest nest: nests) {
             if (nest.getColor() == horse.getColor()) {
@@ -203,30 +301,29 @@ public class Board {
         }
     }
 
-    private boolean moveHomePath(PathNode nodeWithHorse, int moves) {
-        Position position = nodeWithHorse.getPosition();
-        Horse horse = nodeWithHorse.getHorse();
-        // If standing at home arrival
-        if (position.equals(new Position(horse.getColor(), 11))) {
-            PathNode current = nodeWithHorse;
-            for (int i = 0; i < moves; i++) {
-                current = current.getHomePositionNode();
-                if (current.getHorse() != null) return false;
-            }
+    /**
+     * Find the destination of a move without moving
+     * This is different from findMoveDestination() where it returns PathNode. This only returns Position
+     * @param color
+     * @param id
+     * @param moves
+     * @return
+     */
+    public Position moveDryRun(Color color, int id, int moves) {
+        PathNode destination = findMoveDestination(color, id, moves);
+        if (destination == null) return null;
+        else return destination.getPosition();
+    }
 
-            nodeWithHorse.setHorse(null);
-            current.setHorse(horse);
-            return true;
-        } else {
-            PathNode destination = nodeWithHorse.getHomePositionNode();
-            if (destination.getHorse() != null) return false;
-            // Need specific moves to get to next home path
-            if (destination.getPosition().getNumber() - 11 == moves) {
-                destination.setHorse(nodeWithHorse.getHorse());
-                nodeWithHorse.setHorse(null);
-                return true;
-            } else return false;
-        }
+    /**
+     * Check if a move is possible
+     * @param color
+     * @param id
+     * @param moves
+     * @return
+     */
+    public boolean canMove(Color color, int id, int moves) {
+        return findMoveDestination(color, id, moves) != null;
     }
 
     // For debugging

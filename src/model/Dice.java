@@ -3,19 +3,18 @@ package model;
 import java.util.Random;
 
 public class Dice {
-    private int diceValue;
+    private byte diceValue;
     private Random numberGenerator;
 
     public Dice() {
         numberGenerator = new Random();
-        throwDice();
     }
 
-    public int getDiceValue() {
+    public byte getDiceValue() {
         return diceValue;
     }
 
     public void throwDice() {
-        diceValue = numberGenerator.nextInt(6) + 1;
+        diceValue = (byte) (numberGenerator.nextInt(6) + 1);
     }
 }
