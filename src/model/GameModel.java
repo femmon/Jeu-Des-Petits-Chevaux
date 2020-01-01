@@ -6,7 +6,6 @@ import java.io.*    ;
 public class GameModel {
 
     private boolean isEndGame = false;
-    private boolean isBonusTurn = false;
     private int turn = 0;
     private ArrayList<Player> playerList = new ArrayList<Player>();
     private Board board;
@@ -64,6 +63,38 @@ public class GameModel {
     public int throwDice() {
         Dice dice = new Dice();
         return dice.getDiceValue();
+    }
+
+    public boolean isSummon(int dice1, int dice2) {
+        return dice1 == 6 || dice2 == 6;
+    }
+
+    public boolean isBonusTurn(int dice1, int dice2) {
+        return dice1 == dice2;
+    }
+
+    public void chooseDice(int diceValue, Player player) {
+        player.setDiceValue(diceValue);
+    }
+
+    public ArrayList<Horse> findAllHorse(Player player, Board board) {
+        ArrayList<Horse> horseInBoardList = new ArrayList<Horse>();
+
+        for (int i = 0; i < 4; i++) {
+            PathNode NodeWithHorse = board.findHorseInPath(player.getPlayerSide(), i);
+            if (NodeWithHorse != null){
+                horseInBoardList.add(NodeWithHorse.getHorse());
+            }
+        }
+        return horseInBoardList;
+    }
+
+    public Horse chooseHorse(ArrayList<Horse> horseArrayList, int id) {
+        return horseArrayList.get(id);
+    }
+
+    public void moveHorse(int diceValue) {
+
     }
 
     public void playGame() {

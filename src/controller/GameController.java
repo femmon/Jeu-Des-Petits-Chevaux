@@ -60,11 +60,7 @@ public class GameController {
         game.setPlayer("2", PlayerType.MACHINE, Color.RED);
         game.setPlayer("3", PlayerType.HUMAN, Color.GREEN);
         game.setPlayer("4", PlayerType.MACHINE, Color.YELLOW);
-        game.setTurnOrder();
-        System.out.println(game.getPlayerList().get(0).getName());
-        System.out.println(game.getPlayerList().get(1).getName());
-        System.out.println(game.getPlayerList().get(2).getName());
-        System.out.println(game.getPlayerList().get(3).getName());
+
     }
 
 

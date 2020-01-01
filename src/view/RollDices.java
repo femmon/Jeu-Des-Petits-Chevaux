@@ -1,4 +1,4 @@
-package santa_claus;
+package view;
 
 import javafx.animation.RotateTransition;
 import javafx.geometry.Pos;
@@ -27,6 +27,7 @@ class RollDices extends GridPane {
         addRow(0, dice1, dice2);
         setAlignment(Pos.CENTER);
     }
+
     private void setAnimation () {
         RotateTransition rt = new RotateTransition(Duration.seconds(1), dice1);
         rt.setFromAngle(0);
