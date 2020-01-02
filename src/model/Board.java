@@ -10,6 +10,7 @@ import static model.Color.*;
 public class Board {
     private Nest[] nests;
     private PathNode path;
+    private boolean isEndGame;
 
     /**
      * Create a board from the player list
@@ -25,6 +26,8 @@ public class Board {
         resetNest(playerList);
 
         path = makePath();
+
+        isEndGame = false;
     }
 
     /**
@@ -87,6 +90,10 @@ public class Board {
         return first10;
     }
 
+    public boolean getIsEndGame() {
+        return isEndGame;
+    }
+
     /**
      * Summon a horse from nest to start point
      * @param color
@@ -119,7 +126,7 @@ public class Board {
     }
 
     /**
-     * Move the horse with the specified color and id
+     * Move the horse with the specified color and id. Update isEndGame if necessary
      * @param color
      * @param id
      * @param moves
@@ -129,10 +136,24 @@ public class Board {
         PathNode destination = findMoveDestination(color, id, moves);
         if (destination == null) return null;
 
+        // Move horse (and kick if needed)
         if (destination.getHorse() != null) returnHorse(destination.getHorse());
         PathNode start = findHorseInPath(color, id);
         destination.setHorse(start.getHorse());
         start.setHorse(null);
+
+        // Update end game flag
+        Position destPosition = destination.getPosition();
+        // Moving the horse to the fourth home position could end the game
+        if (destPosition.getNumber() == 14) {
+            PathNode homePosition = destination;
+            for (int i = 0; i < 3; i++) {
+                homePosition = homePosition.getHomePositionNode();
+                if (homePosition.getHorse() == null) return destination.getPosition();
+            }
+            isEndGame = true;
+        }
+
         return destination.getPosition();
     }
 
