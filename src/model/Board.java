@@ -184,7 +184,7 @@ public class Board {
      * @param id
      * @return
      */
-    private PathNode findHorseInPath(Color color, int id) {
+    public PathNode findHorseInPath(Color color, int id) {
         PathNode current = path;
         do {
             Horse currentHorse = current.getHorse();
@@ -324,6 +324,13 @@ public class Board {
      */
     public boolean canMove(Color color, int id, int moves) {
         return findMoveDestination(color, id, moves) != null;
+    }
+
+
+    //**
+
+    public PathNode getPath() {
+        return path;
     }
 
     // For debugging

@@ -24,14 +24,14 @@ public class GameController {
     GameModel game = new GameModel();
 
     private GameController() throws IOException {
-        stage = new Stage();
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/pachisi.fxml")));
-        Parent root = loader.load();
-        gameView = new GameView((GridPane) root);
-        Scene primaryScene = new Scene(root, 820, 820);
-        //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
-        stage.setScene(primaryScene);
-        controllerDemo();
+//        stage = new Stage();
+//        FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/pachisi.fxml")));
+//        Parent root = loader.load();
+//        gameView = new GameView((GridPane) root);
+//        Scene primaryScene = new Scene(root, 820, 820);
+//        //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
+//        stage.setScene(primaryScene);
+//        controllerDemo();
         gameModelTest();
     }
 
@@ -56,11 +56,12 @@ public class GameController {
 
     //gameModel test
     private void gameModelTest() {
+        System.out.println("Start");
         game.setPlayer("1", PlayerType.HUMAN, Color.BLUE);
         game.setPlayer("2", PlayerType.MACHINE, Color.RED);
         game.setPlayer("3", PlayerType.HUMAN, Color.GREEN);
         game.setPlayer("4", PlayerType.MACHINE, Color.YELLOW);
-
+        game.playGame();
     }
 
 

@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import model.Dice;
 
 class RollDices extends GridPane {
     private Dice dice1;
