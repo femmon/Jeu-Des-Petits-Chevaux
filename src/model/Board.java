@@ -97,19 +97,20 @@ public class Board {
     /**
      * Summon a horse from nest to start point
      * @param color
-     * @return true if can summon, false if all horses have been summoned or something is blocking
+     * @return the id of the summoned horse, or -1 if can't summon
      */
-    public boolean summon(Color color) {
+    public int summon(Color color) {
         for (Nest nest: nests) {
             if (nest.getColor() == color) {
-                if (nest.isEmpty()) return false;
+                if (nest.isEmpty()) return -1;
                 PathNode startingSpace = getStartingSpace(color);
-                if (startingSpace.getHorse() != null) return false;
-                startingSpace.setHorse(nest.getHorseInNest().remove(0));
-                return true;
+                if (startingSpace.getHorse() != null) return -1;
+                Horse summoned = nest.getHorseInNest().remove(0);
+                startingSpace.setHorse(summoned);
+                return summoned.getId();
             }
         }
-        return false;
+        return -1;
     }
 
     /**
