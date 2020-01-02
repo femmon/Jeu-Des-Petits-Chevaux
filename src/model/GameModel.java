@@ -164,14 +164,16 @@ public class GameModel {
                 //throw dice
                 dice1 = throwDice();
                 dice2 = throwDice();
-                System.out.println("Dice1 Value:" + dice1 );
-                System.out.println("Dice2 Value:" + dice2 );
+                System.out.println("Dice 1 Value:" + dice1 );
+                System.out.println("Dice 2 Value:" + dice2 );
                 //check for summon condition and bonus turn
                 if (isSummon(dice1, dice2)) {
                     bonusTurn = true;
                     if (wantToSummon()) {
                         if (board.summon(playerList.get(i).getPlayerSide())) {
                             System.out.println("summon success");
+                            i--;
+                            continue;
                         } else {
                             System.out.println("summon failed");
                         }
