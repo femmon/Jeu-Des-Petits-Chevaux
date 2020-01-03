@@ -165,7 +165,7 @@ public class Board {
      * @param moves
      * @return the new position, or null if unsuccessful
      */
-    private PathNode findMoveDestination(Color color, int id, int moves) {
+    public PathNode findMoveDestination(Color color, int id, int moves) {
         if (id < 0 || id > 3) {
             throw new IllegalArgumentException("Horse ID must be from 0 to 3");
         }
@@ -206,7 +206,7 @@ public class Board {
      * @param id
      * @return
      */
-    private PathNode findHorseInPath(Color color, int id) {
+    PathNode findHorseInPath(Color color, int id) {
         PathNode current = path;
         do {
             Horse currentHorse = current.getHorse();

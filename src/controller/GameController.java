@@ -32,7 +32,6 @@ public class GameController {
         //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
         stage.setScene(primaryScene);
         controllerDemo();
-        gameModelTest();
     }
 
     public static GameController getInstance() throws IOException {
