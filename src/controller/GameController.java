@@ -24,15 +24,14 @@ public class GameController {
     GameModel game = new GameModel();
 
     private GameController() throws IOException {
-//        stage = new Stage();
-//        FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/pachisi.fxml")));
-//        Parent root = loader.load();
-//        gameView = new GameView((GridPane) root);
-//        Scene primaryScene = new Scene(root, 820, 820);
-//        //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
-//        stage.setScene(primaryScene);
-//        controllerDemo();
-        gameModelTest();
+        stage = new Stage();
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/pachisi.fxml")));
+        Parent root = loader.load();
+        gameView = new GameView((GridPane) root);
+        Scene primaryScene = new Scene(root, 820, 820);
+        //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
+        stage.setScene(primaryScene);
+        controllerDemo();
     }
 
     public static GameController getInstance() throws IOException {

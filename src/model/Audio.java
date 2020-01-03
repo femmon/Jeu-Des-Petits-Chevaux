@@ -18,12 +18,10 @@ public class Audio {
     }
 
     public void start() {
-        Runnable playMusic = () -> mediaPlayer.play();
-        mediaPlayer.setOnReady(playMusic);
+        mediaPlayer.setAutoPlay(true);
     }
 
     public void stop() {
-        Runnable stopMusic = () -> mediaPlayer.stop();
-        mediaPlayer.setOnEndOfMedia(stopMusic);
-    }
+        mediaPlayer.setAutoPlay(false);
+}
 }

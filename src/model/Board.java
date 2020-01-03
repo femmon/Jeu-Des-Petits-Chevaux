@@ -10,6 +10,7 @@ import static model.Color.*;
 public class Board {
     private Nest[] nests;
     private PathNode path;
+    private boolean isEndGame;
 
     /**
      * Create a board from the player list
@@ -25,6 +26,8 @@ public class Board {
         resetNest(playerList);
 
         path = makePath();
+
+        isEndGame = false;
     }
 
     /**
@@ -87,22 +90,27 @@ public class Board {
         return first10;
     }
 
+    public boolean getIsEndGame() {
+        return isEndGame;
+    }
+
     /**
      * Summon a horse from nest to start point
      * @param color
-     * @return true if can summon, false if all horses have been summoned or something is blocking
+     * @return the id of the summoned horse, or -1 if can't summon
      */
-    public boolean summon(Color color) {
+    public int summon(Color color) {
         for (Nest nest: nests) {
             if (nest.getColor() == color) {
-                if (nest.isEmpty()) return false;
+                if (nest.isEmpty()) return -1;
                 PathNode startingSpace = getStartingSpace(color);
-                if (startingSpace.getHorse() != null) return false;
-                startingSpace.setHorse(nest.getHorseInNest().remove(0));
-                return true;
+                if (startingSpace.getHorse() != null) return -1;
+                Horse summoned = nest.getHorseInNest().remove(0);
+                startingSpace.setHorse(summoned);
+                return summoned.getId();
             }
         }
-        return false;
+        return -1;
     }
 
     /**
@@ -119,7 +127,7 @@ public class Board {
     }
 
     /**
-     * Move the horse with the specified color and id
+     * Move the horse with the specified color and id. Update isEndGame if necessary
      * @param color
      * @param id
      * @param moves
@@ -129,10 +137,24 @@ public class Board {
         PathNode destination = findMoveDestination(color, id, moves);
         if (destination == null) return null;
 
+        // Move horse (and kick if needed)
         if (destination.getHorse() != null) returnHorse(destination.getHorse());
         PathNode start = findHorseInPath(color, id);
         destination.setHorse(start.getHorse());
         start.setHorse(null);
+
+        // Update end game flag
+        Position destPosition = destination.getPosition();
+        // Moving the horse to the fourth home position could end the game
+        if (destPosition.getNumber() == 14) {
+            PathNode homePosition = destination;
+            for (int i = 0; i < 3; i++) {
+                homePosition = homePosition.getHomePositionNode();
+                if (homePosition.getHorse() == null) return destination.getPosition();
+            }
+            isEndGame = true;
+        }
+
         return destination.getPosition();
     }
 
@@ -143,7 +165,7 @@ public class Board {
      * @param moves
      * @return the new position, or null if unsuccessful
      */
-    private PathNode findMoveDestination(Color color, int id, int moves) {
+    public PathNode findMoveDestination(Color color, int id, int moves) {
         if (id < 0 || id > 3) {
             throw new IllegalArgumentException("Horse ID must be from 0 to 3");
         }
@@ -184,7 +206,7 @@ public class Board {
      * @param id
      * @return
      */
-    public PathNode findHorseInPath(Color color, int id) {
+    PathNode findHorseInPath(Color color, int id) {
         PathNode current = path;
         do {
             Horse currentHorse = current.getHorse();
