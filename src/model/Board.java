@@ -100,17 +100,36 @@ public class Board {
      * @return the id of the summoned horse, or -1 if can't summon
      */
     public int summon(Color color) {
+        if (!canSummon(color)) return -1;
+
         for (Nest nest: nests) {
             if (nest.getColor() == color) {
-                if (nest.isEmpty()) return -1;
                 PathNode startingSpace = getStartingSpace(color);
-                if (startingSpace.getHorse() != null) return -1;
                 Horse summoned = nest.getHorseInNest().remove(0);
                 startingSpace.setHorse(summoned);
                 return summoned.getId();
             }
         }
         return -1;
+    }
+
+    /**
+     * Check if it is possible to summon a horse
+     * @param color
+     * @return
+     */
+    public boolean canSummon(Color color) {
+        for (Nest nest: nests) {
+            if (nest.getColor() == color) {
+                if (nest.isEmpty()) return false;
+                PathNode startingSpace = getStartingSpace(color);
+                if (startingSpace.getHorse() != null) return false;
+                Horse summoned = nest.getHorseInNest().remove(0);
+                startingSpace.setHorse(summoned);
+                return true;
+            }
+        }
+        return true;
     }
 
     /**
