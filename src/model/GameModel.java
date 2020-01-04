@@ -1,5 +1,7 @@
 package model;
 
+import javafx.scene.shape.Path;
+
 import java.util.*;
 import java.io.*    ;
 
@@ -99,6 +101,30 @@ public class GameModel {
         return horseArrayList.get(id);
     }
 
+    public int calculatePointInHomePath(PathNode destination) {
+        switch (destination.getPosition().getNumber()) {
+            case 12:
+                return 1;
+            case 13:
+                return 2;
+            case 14:
+                return 3;
+            case 15:
+                return 4;
+            case 16:
+                return 5;
+            case 17:
+                return 6;
+            default:
+                return 0;
+        }
+    }
+
+    public boolean isInHomePath(PathNode currentPosition) {
+        return currentPosition.getPosition().getNumber() >= 12
+                && currentPosition.getPosition().getNumber() <= 17;
+    }
+
     //---------------------------------------TEST-----------------------------------------------------------------
     public void initPlayer() {
         setPlayer("1", PlayerType.HUMAN, Color.BLUE);
@@ -111,7 +137,8 @@ public class GameModel {
     private void printTurnOrder() {
         int i = 0;
         for (Player player : playerList) {
-            System.out.println(i + "-" + playerList.get(i).getDiceValue() + " " + playerList.get(i).getPlayerSide());
+            System.out.println(i + "- Dice Value:" + playerList.get(i).getDiceValue() +
+                    " Player Side:" + playerList.get(i).getPlayerSide());
             i++;
         }
     }
@@ -161,16 +188,18 @@ public class GameModel {
         printTurnOrder();
         while (!board.getIsEndGame()) {
             for (int i = findPlayerWithHighestDice(findMaximumDiceValue()); i < playerList.size(); i++) {
+
                 System.out.println("--------------------Turn-------------------");
                 System.out.println("Turn: Player " + playerList.get(i).getPlayerSide());
-                //init variable
                 bonusTurn = false;
                 ArrayList<Horse> horseList;
+
                 //throw dice
                 dice1 = throwDice();
                 dice2 = throwDice();
                 System.out.println("Dice 1 Value:" + dice1 );
                 System.out.println("Dice 2 Value:" + dice2 );
+
                 //check for summon condition and bonus turn
                 if (isSummon(dice1, dice2)) {
                     if (wantToSummon()) {
@@ -181,17 +210,58 @@ public class GameModel {
                             System.out.println("summon failed");
                         }
                     }
-                } else if (isBonusTurn(dice1, dice2)) {
+                }
+
+                //Check bonus turn
+                if (isBonusTurn(dice1, dice2)) {
                     bonusTurn = true;
                 }
-                //move
+
+                //Scan all horse in the board
                 horseList = findAllHorse(playerList.get(i), board);
+
                 if (horseList.size() != 0) {
+                    //pick dice value
                     int moves = pickDiceValue(dice1, dice2);
                     printHorseList(horseList);
+
+                    //pick Horse
                     int pickedHorseID = pickHorse();
-                    Position pos = board.move(horseList.get(pickedHorseID).getColor(), pickedHorseID, moves);
-                    System.out.println("Horse move to position: " + pos.getColor() + "-" + pos.getNumber());
+
+                    //Move and score
+                    PathNode currentPosition =
+                            board.findHorseInPath(playerList.get(i).getPlayerSide(), pickedHorseID);
+
+                    PathNode destination =
+                            board.findMoveDestination(playerList.get(i).getPlayerSide(), pickedHorseID, moves);
+
+                    Horse kickedHorse = board.kickHorse(destination);
+
+                    // Add bonus score for kick horse
+                    if (kickedHorse != null) {
+                        for (int j = 0; j < playerList.size(); j++) {
+                            if (playerList.get(i).getPlayerSide() == kickedHorse.getColor()) {
+                                playerList.get(i).addScore(2);
+                            }
+                        }
+                    }
+                    //Move
+                    board.moveHorse(pickedHorseID,playerList.get(i).getPlayerSide(), destination);
+
+                    //Add score if move to HomePath
+                    if (board.isMoveInHomePath(currentPosition)) {
+                        playerList.get(i).addScore(calculatePointInHomePath(destination));
+                    }
+
+                    if (isInHomePath(currentPosition)) {
+                        playerList.get(i).addScore(1);
+                    }
+                    //Check for endGame
+                    board.checkForEndGameFlag(destination);
+
+                    if (board.getIsEndGame()) {
+                        break;
+                    }
                 } else {
                     System.out.println("No horse End turn");
                 }
@@ -201,5 +271,7 @@ public class GameModel {
                 }
             }
         }
+
+        //TODO: display Score Board
     }
 }

@@ -5,14 +5,15 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import model.Dice;
 
-class RollDices extends GridPane {
+public class RollDices extends GridPane {
     int dice = 0;
     private ImageView imageDice = new ImageView();
 
-    RollDices(int dice) {
+    public RollDices(int dice) {
         this.dice = dice;
         setOnMouseClicked(event -> setAnimation());
         getNewValue();
@@ -21,7 +22,8 @@ class RollDices extends GridPane {
     }
 
     private void setAnimation () {
-        RotateTransition rt = new RotateTransition(Duration.seconds(1), imageDice);
+        RotateTransition rt = new RotateTransition(Duration.seconds(4), imageDice);
+        rt.setAxis(Rotate.Y_AXIS);
         rt.setFromAngle(0);
         rt.setToAngle(360);
         rt.play();
@@ -34,7 +36,7 @@ class RollDices extends GridPane {
     }
 
     private void getNewValue() {
-        imageDice.setImage(new Image("file:src/santa_claus/Images/" + dice + ".png",
+        imageDice.setImage(new Image("file:src/view/image/" + dice + ".png",
                 100, 100, true, true));
     }
 }

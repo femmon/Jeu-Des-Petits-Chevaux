@@ -7,10 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.*;
-import view.GameView;
+import view.*;
 
 import java.io.IOException;
 
@@ -30,6 +31,7 @@ public class GameController {
         //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
         stage.setScene(primaryScene);
 //        controllerDemo();
+//        displayDice();
         gameModelTest();
     }
 
@@ -54,12 +56,20 @@ public class GameController {
 
     //gameModel test
     private void gameModelTest() {
-        System.out.println("Start");
-//        game.setPlayer("1", PlayerType.HUMAN, Color.BLUE);
-//        game.setPlayer("2", PlayerType.MACHINE, Color.RED);
-//        game.setPlayer("3", PlayerType.HUMAN, Color.GREEN);
-//        game.setPlayer("4", PlayerType.MACHINE, Color.YELLOW);
         game.playGame();
+    }
+
+    //Test Dice
+    public void displayDice() {
+        RollDices rollDices = new RollDices(4);
+        StackPane secondaryLayout = new StackPane();
+        secondaryLayout.getChildren().add(rollDices);
+
+        Scene secondScene = new Scene(secondaryLayout, 300, 300);
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Dice");
+        newWindow.setScene(secondScene);
+        newWindow.show();
     }
 
 
