@@ -24,41 +24,45 @@ public class GameModel {
 
 //---------------------------------SET TURN ORDER-------------------------------------------
 
-    public void setTurnOrder() {
-        //roll dice for set turn
-        int tempDice = -1;
+    public void rollDiceForTurn() {
+        int tempDice = 0;
         for (int i = 0; i < playerList.size(); i++) {
             int diceValue = throwDice();
-//            if (isDuplicateDiceValue(diceValue)) {
-//                i--;
-//                continue;
-//            }
+            if (isDuplicateDiceValue(diceValue)) {
+                i--;
+                continue;
+            }
             playerList.get(i).setDiceValue(diceValue);
+
         }
-        sortPlayerDiceValue();
     }
 
-    public boolean isDuplicateDiceValue(int diceValue) {
-        int i = 0;
-        for (Player player : playerList) {
-            if (playerList.get(i).getDiceValue() == diceValue) {
+    private boolean isDuplicateDiceValue(int diceValue) {
+        for (int i = 0; i < playerList.size(); i++) {
+            if (diceValue == playerList.get(i).getDiceValue()) {
                 return true;
             }
-            i++;
         }
         return false;
     }
 
-    public void sortPlayerDiceValue() {
-        //sort player dice
-        Comparator<Player> playerDiceValue = new Comparator<Player>() {
-            @Override
-            public int compare(Player p1, Player p2) {
-                return Integer.compare(p1.getDiceValue(), p2.getDiceValue());
+    private int findMaximumDiceValue() {
+        int max = 0;
+        for (Player player : playerList) {
+            if (player.getDiceValue() > max) {
+                max = player.getDiceValue();
             }
-        };
-        Collections.sort(this.playerList, playerDiceValue);
-        Collections.reverse(playerList);
+        }
+        return max;
+    }
+
+    private int findPlayerWithHighestDice(int max) {
+        for (int i = 0; i < playerList.size(); i++) {
+            if (playerList.get(i).getDiceValue() == max) {
+                return i;
+            }
+        }
+        return -1;
     }
 //-----------------------------------GAME ACTION---------------------------------------
     public int throwDice() {
@@ -98,15 +102,16 @@ public class GameModel {
     //---------------------------------------TEST-----------------------------------------------------------------
     public void initPlayer() {
         setPlayer("1", PlayerType.HUMAN, Color.BLUE);
-        setPlayer("2", PlayerType.MACHINE, Color.RED);
+        setPlayer("2", PlayerType.MACHINE, Color.YELLOW);
         setPlayer("3", PlayerType.HUMAN, Color.GREEN);
-        setPlayer("4", PlayerType.MACHINE, Color.YELLOW);
+        setPlayer("4", PlayerType.MACHINE, Color.RED);
+
     }
 
     private void printTurnOrder() {
         int i = 0;
         for (Player player : playerList) {
-            System.out.println(i + "-" + playerList.get(i).getName() + " " + playerList.get(i).getPlayerSide());
+            System.out.println(i + "-" + playerList.get(i).getDiceValue() + " " + playerList.get(i).getPlayerSide());
             i++;
         }
     }
@@ -146,16 +151,16 @@ public class GameModel {
     }
 
     public void playGame() {
-        //initPlayer();
+        initPlayer();
+        rollDiceForTurn();
         System.out.println("START GAME");
         Board board = new Board(playerList);
         int dice1 = 0;
         int dice2 = 0;
-        setTurnOrder();
         System.out.println("-------------------TurnOrder-------------------");
         printTurnOrder();
-        while (!isEndGame) {
-            for (int i = 0; i < playerList.size(); i++) {
+        while (!board.getIsEndGame()) {
+            for (int i = findPlayerWithHighestDice(findMaximumDiceValue()); i < playerList.size(); i++) {
                 System.out.println("--------------------Turn-------------------");
                 System.out.println("Turn: Player " + playerList.get(i).getPlayerSide());
                 //init variable
@@ -168,11 +173,9 @@ public class GameModel {
                 System.out.println("Dice 2 Value:" + dice2 );
                 //check for summon condition and bonus turn
                 if (isSummon(dice1, dice2)) {
-                    bonusTurn = true;
                     if (wantToSummon()) {
-                        if (board.summon(playerList.get(i).getPlayerSide())) {
+                        if (board.summon(playerList.get(i).getPlayerSide()) != -1) {
                             System.out.println("summon success");
-                            i--;
                             continue;
                         } else {
                             System.out.println("summon failed");

@@ -9,41 +9,32 @@ import javafx.util.Duration;
 import model.Dice;
 
 class RollDices extends GridPane {
-    private Dice dice1;
-    private Dice dice2;
-    private ImageView imageDice1 = new ImageView();
-    private ImageView imageDice2 = new ImageView();
+    int dice = 0;
+    private ImageView imageDice = new ImageView();
 
-    RollDices(Dice dice1, Dice dice2) {
-        this.dice1 = dice1;
-        this.dice2 = dice2;
-
+    RollDices(int dice) {
+        this.dice = dice;
         setOnMouseClicked(event -> setAnimation());
         getNewValue();
-        addRow(0, imageDice1, imageDice2);
+        addRow(0, imageDice);
         setAlignment(Pos.CENTER);
     }
 
     private void setAnimation () {
-        RotateTransition rt = new RotateTransition(Duration.seconds(1), imageDice1);
+        RotateTransition rt = new RotateTransition(Duration.seconds(1), imageDice);
         rt.setFromAngle(0);
         rt.setToAngle(360);
         rt.play();
 
-        RotateTransition newRt = new RotateTransition(Duration.seconds(1), imageDice2);
-        newRt.setFromAngle(0);
-        newRt.setToAngle(360);
-        newRt.setOnFinished(event -> getNewValue());
-        newRt.play();
+//        RotateTransition newRt = new RotateTransition(Duration.seconds(1), imageDice2);
+//        newRt.setFromAngle(0);
+//        newRt.setToAngle(360);
+//        newRt.setOnFinished(event -> getNewValue());
+//        newRt.play();
     }
 
     private void getNewValue() {
-        dice1.throwDice();
-        imageDice1.setImage(new Image("file:src/santa_claus/Images/" + dice1.getDiceValue() + ".png",
-                100, 100, true, true));
-
-        dice2.throwDice();
-        imageDice2.setImage(new Image("file:src/santa_claus/Images/" + dice2.getDiceValue() + ".png",
+        imageDice.setImage(new Image("file:src/santa_claus/Images/" + dice + ".png",
                 100, 100, true, true));
     }
 }

@@ -9,9 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.Color;
-import model.GameModel;
-import model.PlayerType;
+import model.*;
 import view.GameView;
 
 import java.io.IOException;
@@ -31,7 +29,8 @@ public class GameController {
         Scene primaryScene = new Scene(root, 820, 820);
         //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
         stage.setScene(primaryScene);
-        controllerDemo();
+//        controllerDemo();
+        gameModelTest();
     }
 
     public static GameController getInstance() throws IOException {
@@ -56,10 +55,10 @@ public class GameController {
     //gameModel test
     private void gameModelTest() {
         System.out.println("Start");
-        game.setPlayer("1", PlayerType.HUMAN, Color.BLUE);
-        game.setPlayer("2", PlayerType.MACHINE, Color.RED);
-        game.setPlayer("3", PlayerType.HUMAN, Color.GREEN);
-        game.setPlayer("4", PlayerType.MACHINE, Color.YELLOW);
+//        game.setPlayer("1", PlayerType.HUMAN, Color.BLUE);
+//        game.setPlayer("2", PlayerType.MACHINE, Color.RED);
+//        game.setPlayer("3", PlayerType.HUMAN, Color.GREEN);
+//        game.setPlayer("4", PlayerType.MACHINE, Color.YELLOW);
         game.playGame();
     }
 
