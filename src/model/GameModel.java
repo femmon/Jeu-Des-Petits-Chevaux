@@ -232,11 +232,13 @@ public class GameModel {
                     PathNode currentPosition =
                             board.findHorseInPath(playerList.get(i).getPlayerSide(), pickedHorseID);
 
+                    // FIXME: can be NULL
                     PathNode destination =
                             board.findMoveDestination(playerList.get(i).getPlayerSide(), pickedHorseID, moves);
 
                     Horse kickedHorse = board.kickHorse(destination);
 
+                    // FIXME: decrease score of kickedHorse and increase score of playerList.get(i)
                     // Add bonus score for kick horse
                     if (kickedHorse != null) {
                         for (int j = 0; j < playerList.size(); j++) {
