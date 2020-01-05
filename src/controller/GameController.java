@@ -39,7 +39,43 @@ public class GameController {
             controller = new GameController();
         return controller;
     }
+    
+    @FXML
+    private Button EngButton, VnButton, StrtButton;
 
+
+    public void handleClickedButton(ActionEvent e) throws IOException {
+        Stage stage;
+        Parent root;
+
+        if (e.getSource() == EngButton) {
+            stage = (Stage) EngButton.getScene().getWindow();
+
+        } else {
+            stage = (Stage) VnButton.getScene().getWindow();
+        }
+        root = FXMLLoader.load(getClass().getResource("../view/FinalSetting.fxml"));
+
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Settings");
+        stage.show();
+    }
+
+    public void handleClickedButton1(ActionEvent event) throws IOException {
+        Stage stage1;
+        Parent root;
+
+        if (event.getSource() == StrtButton);
+            stage1 = (Stage) StrtButton.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("../view/pachisi.fxml"));
+
+            Scene scene = new Scene(root);
+            stage1.setScene(scene);
+            stage1.setTitle("Pachisi");
+            stage1.show();
+    }
+    
     public void update() {
             stage.show();
     }
