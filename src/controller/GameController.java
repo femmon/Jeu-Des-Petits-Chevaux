@@ -1,21 +1,15 @@
 package controller;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.Color;
 import model.GameModel;
-import model.PlayerType;
 import view.GameView;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 
 public class GameController {
@@ -41,7 +35,43 @@ public class GameController {
             controller = new GameController();
         return controller;
     }
+    @FXML
+//    private Button EngButton, VnButton, StrtButton;
+//
 
+
+//    public void handleClickedButton(ActionEvent e) throws IOException {
+//        Stage stage;
+//        Parent root;
+//
+//        if (e.getSource() == EngButton) {
+//            stage = (Stage) EngButton.getScene().getWindow();
+//
+//        } else {
+//            stage = (Stage) VnButton.getScene().getWindow();
+//        }
+//        root = FXMLLoader.load(getClass().getResource("../view/FinalSetting.fxml"));
+//
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.setTitle("Settings");
+//        stage.show();
+//    }
+//
+//    public void handleClickedButton1(ActionEvent event) throws IOException {
+//        Stage stage1;
+//        Parent root;
+//
+//        if (event.getSource() == StrtButton);
+//            stage1 = (Stage) StrtButton.getScene().getWindow();
+//            root = FXMLLoader.load(getClass().getResource("../view/pachisi.fxml"));
+//
+//            Scene scene = new Scene(root);
+//            stage1.setScene(scene);
+//            stage1.setTitle("Pachisi");
+//            stage1.show();
+//    }
+    
     public void update() {
             stage.show();
     }
