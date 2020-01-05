@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="812.0" prefWidth="826.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
->
+<HBox alignment="center" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="812.0" prefWidth="826.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
     <!-- Pay attention to this -->
     <HBox prefHeight="800.0" prefWidth="800.0">
@@ -21,7 +21,12 @@
             <Pane fx:id="blueCorner" prefHeight="350.0" prefWidth="317.0">
                 <StackPane fx:id="blueNest">
                     <Rectangle fill="blue" height="240.0" width="240.0" />
-                    <Circle fill="aliceblue" radius="86.0" />
+                    <Circle fill="aliceblue" radius="80.0" />
+               <Label fx:id="blueScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="89.0" text="Score : 0" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
                 </StackPane>
                 <HBox fx:id="bluePath1" layoutX="163.0" layoutY="115.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
                 </HBox>
@@ -33,8 +38,13 @@
             </HBox>
             <Pane fx:id="yellowCorner" prefHeight="350.0" prefWidth="350.0">
                 <StackPane fx:id="yellowNest" layoutY="73.0" prefHeight="217.0" prefWidth="200.0">
-                    <Rectangle fill="yellow" height="240.0" width="223.0" />
-                    <Circle fill="aliceblue" radius="91.0" />
+                    <Rectangle fill="ORANGE" height="240.0" width="240.0" />
+                    <Circle fill="aliceblue" radius="80.0" />
+               <Label fx:id="yellowScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score: " textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
                 </StackPane>
                 <HBox fx:id="yellowPath1" layoutX="154.0" layoutY="165.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
                 </HBox>
@@ -52,8 +62,13 @@
         <VBox prefHeight="800.0" prefWidth="350.0">
             <Pane fx:id="redCorner" prefHeight="350.0" prefWidth="281.0">
                 <StackPane fx:id="redNest" layoutX="82.0" prefHeight="216.0" prefWidth="223.0">
-                    <Rectangle fill="red" height="237.0" layoutX="100.0" width="241.0" />
-                    <Circle fill="aliceblue" radius="97.0" StackPane.alignment="CENTER" />
+                    <Rectangle fill="red" height="240.0" width="240.0" />
+                    <Circle fill="aliceblue" radius="80.0" StackPane.alignment="CENTER" />
+               <Label fx:id="redScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score:  0" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
                 </StackPane>
                 <HBox fx:id="redPath1" layoutX="-75.0" layoutY="115.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
                 </HBox>
@@ -66,8 +81,13 @@
             </HBox>
             <Pane fx:id="greenCorner" prefHeight="350.0" prefWidth="350.0">
                 <StackPane fx:id="greenNest" layoutX="99.0" layoutY="77.0" prefWidth="210.0">
-                    <Rectangle fill="green" height="238.0" width="221.0" />
-                    <Circle fill="aliceblue" radius="86.0" />
+                    <Rectangle fill="green" height="240.0" width="240.0" />
+                    <Circle fill="aliceblue" radius="80.0" />
+               <Label fx:id="greenScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score:  0" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
                 </StackPane>
                 <HBox fx:id="greenPath1" layoutX="-66.0" layoutY="165.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
                 </HBox>
@@ -80,10 +100,4 @@
         </stylesheets>
     </HBox>
     <!-- Just ignore this -->
-    <columnConstraints>
-        <ColumnConstraints />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints />
-    </rowConstraints>
-</GridPane>
+</HBox>
