@@ -238,11 +238,11 @@ public class GameModel {
 
                     Horse kickedHorse = board.kickHorse(destination);
 
-                    // FIXME: decrease score of kickedHorse and increase score of playerList.get(i)
                     // Add bonus score for kick horse
                     if (kickedHorse != null) {
                         for (int j = 0; j < playerList.size(); j++) {
-                            if (playerList.get(i).getPlayerSide() == kickedHorse.getColor()) {
+                            if (playerList.get(j).getPlayerSide() == kickedHorse.getColor()) {
+                                playerList.get(j).minusScore(2);
                                 playerList.get(i).addScore(2);
                             }
                         }
