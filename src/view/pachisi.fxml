@@ -31,7 +31,6 @@
                 <HBox fx:id="bluePath1" layoutX="163.0" layoutY="115.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
                 </HBox>
                 <HBox fx:id="bluePath2" layoutX="24.0" layoutY="254.0" prefHeight="40.0" prefWidth="290.0" spacing="10.0">
-
                 </HBox>
             </Pane>
             <HBox fx:id="home_path_yellow" prefHeight="200.0" prefWidth="400.0" spacing="8.0">
@@ -46,7 +45,7 @@
                   </font>
                </Label>
                 </StackPane>
-                <HBox fx:id="yellowPath1" layoutX="154.0" layoutY="165.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
+                <HBox fx:id="yellowPath1" layoutX="154.0" layoutY="165.0" prefHeight="38.0" prefWidth="239.0" rotate="270.0" spacing="10.0">
                 </HBox>
                 <HBox fx:id="yellowPath2" layoutX="14.0" layoutY="15.0" prefHeight="38.0" prefWidth="239.0" spacing="10.0">
                 </HBox>
@@ -89,7 +88,7 @@
                   </font>
                </Label>
                 </StackPane>
-                <HBox fx:id="greenPath1" layoutX="-66.0" layoutY="165.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
+                <HBox fx:id="greenPath1" layoutX="-66.0" layoutY="165.0" prefHeight="38.0" prefWidth="239.0" rotate="270.0" spacing="10.0">
                 </HBox>
                 <HBox fx:id="greenPath2" layoutX="35.0" layoutY="14.0" prefHeight="38.0" prefWidth="239.0" spacing="10.0">
                 </HBox>

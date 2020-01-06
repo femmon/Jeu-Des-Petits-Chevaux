@@ -76,11 +76,19 @@ public class GameController {
             stage.show();
     }
 
-    // this concerns with which object to call
+    /**
+     * The index labeling :
+     * 0 : Red nest
+     * 1 : Green nest
+     * 2 : Blue nest
+     * 3 : Yellow nest
+     * @param view
+     */
     private void controllerDemo(GameView view) {
-        view.nestEvent();
+        view.nestEvent(1);
+        view.nestEvent(2);
         view.pathEvents();
-        view.setHomePathEvent();
+        view.homePathEvent(1);
     }
 
     // you can see that the nest fades by half

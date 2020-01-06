@@ -57,4 +57,9 @@ public class PathView {
         }
     }
 
+    public void horseOutOfCage(ImageView horseImage) {
+        horseImage.setRotate(-90);
+        path.getChildren().set(0, horseImage);
+    }
+
 }

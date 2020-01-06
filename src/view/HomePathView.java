@@ -66,7 +66,7 @@ public class HomePathView {
         tile.setHeight(158);
         tile.setWidth(40);
         Label tileNumber = new Label(String.valueOf(index));
-        tileNumber.setTextFill(Color.BLACK);
+        tileNumber.setTextFill(Color.WHITE);
         tileNumber.setStyle("-fx-font: 24 arial; -fx-font-weight: 800");
         return new StackPane(tile, tileNumber);
     }

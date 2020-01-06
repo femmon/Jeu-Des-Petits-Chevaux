@@ -100,24 +100,13 @@ public class NestView {
     }
 
     public void onHorseSelectedEvent() {
-        for (Node node: horseStable.getChildren()) {
+        for (Node node : horseStable.getChildren()) {
             node.setOnMouseClicked(e -> {
-                horseClickedState++;
-                System.out.println("horseClicked = " + horseClickedState);
-                holdHorse((ImageView) node);
-
                 node.setScaleX(1.2);
                 node.setScaleY(1.2);
             });
-
         }
     }
     // event 3. put horse to new position
 
-    public ImageView holdHorse(ImageView horse) {
-        if (horseClickedState == 2) {
-            return null;
-        }
-        return horse;
-    }
 }
