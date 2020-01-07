@@ -114,4 +114,37 @@ public class GameController {
         newWindow.show();
     }
 
+//-------------------------GAME PLAY-------------------------------
+
+    //for set turn order
+    private void throwDice(int diceValue) {
+
+    }
+
+    //for throw dice for move
+    private void throwDice(int diceValue1, int diceValue2) {
+
+    }
+
+    private void pickDicevalue() {
+
+    }
+
+    private void displayDiceValue() {
+
+    }
+
+    private void pickHorse() {
+
+    }
+
+    private void summonHorse() {
+
+    }
+
+    private void moveHorse() {
+
+    }
+
+
 }

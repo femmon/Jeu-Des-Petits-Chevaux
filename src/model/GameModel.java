@@ -177,103 +177,102 @@ public class GameModel {
         return input.nextInt();
     }
 
-    public void playGame() {
-        initPlayer();
-        rollDiceForTurn();
-        System.out.println("START GAME");
-        Board board = new Board(playerList);
-        int dice1 = 0;
-        int dice2 = 0;
-        System.out.println("-------------------TurnOrder-------------------");
-        printTurnOrder();
-        while (!board.getIsEndGame()) {
-            for (int i = findPlayerWithHighestDice(findMaximumDiceValue()); i < playerList.size(); i++) {
-
-                System.out.println("--------------------Turn-------------------");
-                System.out.println("Turn: Player " + playerList.get(i).getPlayerSide());
-                bonusTurn = false;
-                ArrayList<Horse> horseList;
-
-                //throw dice
-                dice1 = throwDice();
-                dice2 = throwDice();
-                System.out.println("Dice 1 Value:" + dice1 );
-                System.out.println("Dice 2 Value:" + dice2 );
-
-                //check for summon condition and bonus turn
-                if (isSummon(dice1, dice2)) {
-                    if (wantToSummon()) {
-                        if (board.summon(playerList.get(i).getPlayerSide()) != -1) {
-                            System.out.println("summon success");
-                            continue;
-                        } else {
-                            System.out.println("summon failed");
-                        }
-                    }
-                }
-
-                //Check bonus turn
-                if (isBonusTurn(dice1, dice2)) {
-                    bonusTurn = true;
-                }
-
-                //Scan all horse in the board
-                horseList = findAllHorse(playerList.get(i), board);
-
-                if (horseList.size() != 0) {
-                    //pick dice value
-                    int moves = pickDiceValue(dice1, dice2);
-                    printHorseList(horseList);
-
-                    //pick Horse
-                    int pickedHorseID = pickHorse();
-
-                    //Move and score
-                    PathNode currentPosition =
-                            board.findHorseInPath(playerList.get(i).getPlayerSide(), pickedHorseID);
-
-                    // FIXME: can be NULL
-                    PathNode destination =
-                            board.findMoveDestination(playerList.get(i).getPlayerSide(), pickedHorseID, moves);
-
-                    Horse kickedHorse = board.kickHorse(destination);
-
-                    // Add bonus score for kick horse
-                    if (kickedHorse != null) {
-                        for (int j = 0; j < playerList.size(); j++) {
-                            if (playerList.get(j).getPlayerSide() == kickedHorse.getColor()) {
-                                playerList.get(j).minusScore(2);
-                                playerList.get(i).addScore(2);
-                            }
-                        }
-                    }
-                    //Move
-                    board.moveHorse(pickedHorseID,playerList.get(i).getPlayerSide(), destination);
-
-                    //Add score if move to HomePath
-                    if (board.isMoveInHomePath(currentPosition)) {
-                        playerList.get(i).addScore(calculatePointInHomePath(destination));
-                    }
-
-                    if (isInHomePath(currentPosition)) {
-                        playerList.get(i).addScore(1);
-                    }
-                    //Check for endGame
-                    board.checkForEndGameFlag(destination);
-
-                    if (board.getIsEndGame()) {
-                        break;
-                    }
-                } else {
-                    System.out.println("No horse End turn");
-                }
-
-                if (bonusTurn) {
-                    i--;
-                }
-            }
-        }
-
-        //TODO: display Score Board
-    }
+//    public void playGame() {
+//        initPlayer();
+//        rollDiceForTurn();
+//        System.out.println("START GAME");
+//        Board board = new Board(playerList);
+//        int dice1 = 0;
+//        int dice2 = 0;
+//        System.out.println("-------------------TurnOrder-------------------");
+//        printTurnOrder();
+//        while (!board.getIsEndGame()) {
+//            for (int i = findPlayerWithHighestDice(findMaximumDiceValue()); i < playerList.size(); i++) {
+//
+//                System.out.println("--------------------Turn-------------------");
+//                System.out.println("Turn: Player " + playerList.get(i).getPlayerSide());
+//                bonusTurn = false;
+//                ArrayList<Horse> horseList;
+//
+//                //throw dice
+//                dice1 = throwDice();
+//                dice2 = throwDice();
+//                System.out.println("Dice 1 Value:" + dice1 );
+//                System.out.println("Dice 2 Value:" + dice2 );
+//
+//                //check for summon condition and bonus turn
+//                if (isSummon(dice1, dice2)) {
+//                    if (wantToSummon()) {
+//                        if (board.summon(playerList.get(i).getPlayerSide()) != -1) {
+//                            System.out.println("summon success");
+//                            continue;
+//                        } else {
+//                            System.out.println("summon failed");
+//                        }
+//                    }
+//                }
+//
+//                //Check bonus turn
+//                if (isBonusTurn(dice1, dice2)) {
+//                    bonusTurn = true;
+//                }
+//
+//                //Scan all horse in the board
+//                horseList = findAllHorse(playerList.get(i), board);
+//
+//                if (horseList.size() != 0) {
+//                    //pick dice value
+//                    int moves = pickDiceValue(dice1, dice2);
+//                    printHorseList(horseList);
+//
+//                    //pick Horse
+//                    int pickedHorseID = pickHorse();
+//
+//                    //Move and score
+//                    PathNode currentPosition =
+//                            board.findHorseInPath(playerList.get(i).getPlayerSide(), pickedHorseID);
+//
+//                    // FIXME: can be NULL
+//                    PathNode destination =
+//                            board.findMoveDestination(playerList.get(i).getPlayerSide(), pickedHorseID, moves);
+//
+//                    Horse kickedHorse = board.kickHorse(destination);
+//
+//                    // Add bonus score for kick horse
+//                    if (kickedHorse != null) {
+//                        for (int j = 0; j < playerList.size(); j++) {
+//                            if (playerList.get(j).getPlayerSide() == kickedHorse.getColor()) {
+//                                playerList.get(j).minusScore(2);
+//                                playerList.get(i).addScore(2);
+//                            }
+//                        }
+//                    }
+//                    //Move
+//                    board.moveHorse(pickedHorseID,playerList.get(i).getPlayerSide(), destination);
+//
+//                    //Add score if move to HomePath
+//                    if (board.isMoveInHomePath(currentPosition)) {
+//                        playerList.get(i).addScore(calculatePointInHomePath(destination));
+//                    }
+//
+//                    if (isInHomePath(currentPosition)) {
+//                        playerList.get(i).addScore(1);
+//                    }
+//                    //Check for endGame
+//                    board.checkForEndGameFlag(destination);
+//
+//                    if (board.getIsEndGame()) {
+//                        break;
+//                    }
+//                } else {
+//                    System.out.println("No horse End turn");
+//                }
+//
+//                if (bonusTurn) {
+//                    i--;
+//                }
+//            }
+//        }
+//        //TODO: display Score Board
+//    }
 }
