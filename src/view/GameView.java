@@ -181,8 +181,6 @@ public class GameView {
         return chosenHorseID;
     }
 
-
-
     public HomePathView getHomePath(int index) {
         return homePathInstances[index];
     }

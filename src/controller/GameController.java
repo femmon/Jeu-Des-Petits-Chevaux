@@ -33,8 +33,8 @@ public class GameController {
         Scene primaryScene = new Scene(root, 820, 820);
         //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
         stage.setScene(primaryScene);
-        controllerDemo(gameView);
-        displaySetting();
+//        controllerDemo(gameView);
+//        displaySetting();
     }
 
     public static GameController getInstance() throws IOException {
@@ -95,15 +95,15 @@ public class GameController {
      */
         RollDices rollDices = new RollDices(dicevalue);
     }
-
-    private void throwDice() {
-        /*
-        * get dice value
-        * Display dice (Roll animation)
-        */
+    /*
+     * get dice value
+     * Display dice (Roll animation)
+     * @return Dice obj
+     */
+    private Dice throwDice() {
         Dice dice = new Dice();
         dice.throwDice();
-
+        return dice;
     }
 
     public boolean isSummon(int dice1, int dice2) {
@@ -128,12 +128,45 @@ public class GameController {
     }
 
     //-----------------------Set turn---------------------
-    private void setTurn() {
-        /*
-        * set turn base on the dice value
-         */
+    public void rollDiceForTurn() {
+        for (int i = 0; i < playerList.size(); i++) {
+            int diceValue = throwDice().getDiceValue();
+            if (isDuplicateDiceValue(diceValue)) {
+                i--;
+                continue;
+            }
+            playerList.get(i).setDiceValue(diceValue);
+
+        }
     }
 
+    private boolean isDuplicateDiceValue(int diceValue) {
+        for (int i = 0; i < playerList.size(); i++) {
+            if (diceValue == playerList.get(i).getDiceValue()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int findMaximumDiceValue() {
+        int max = 0;
+        for (Player player : playerList) {
+            if (player.getDiceValue() > max) {
+                max = player.getDiceValue();
+            }
+        }
+        return max;
+    }
+
+    private int findPlayerWithHighestDice(int max) {
+        for (int i = 0; i < playerList.size(); i++) {
+            if (playerList.get(i).getDiceValue() == max) {
+                return i;
+            }
+        }
+        return -1;
+    }
     //--------------------Game play methods---------------------
     private void displayDiceValue(int dicevalue1, int diceValue2) {
         /*
@@ -218,9 +251,9 @@ public class GameController {
         }
     }
 
-//    private void summonHorse(GameView view, int index) {
-//        view.summonHorse(index);
-//    }
+    private void summonHorse(GameView view, int index) {
+        view.summonHorse(index);
+    }
 
     public void playGame() {
 
