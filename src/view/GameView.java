@@ -2,15 +2,9 @@ package view;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.*;
+import javafx.scene.image.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -108,8 +102,8 @@ public class GameView {
     public void getContentsOf(StackPane nest) {
 //        Image img = new Image("file:src/view/image/BlueHorse.png");
 //        ImageView ivs = new ImageView(img);
-        NestView selectedNest = new NestView(nest);
-        System.out.println(nest.getId() + " : " + selectedNest.getNestContents());
+//        NestView selectedNest = new NestView(nest);
+//        System.out.println(nest.getId() + " : " + selectedNest.getNestContents());
 //        nest.getChildren().add(ivs);
     }
 

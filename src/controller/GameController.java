@@ -95,13 +95,6 @@ public class GameController {
         view.homePathEvent(1);
     }
 
-    // you can see that the nest fades by half
-
-    //gameModel test
-    private void gameModelTest() {
-        game.playGame();
-    }
-
     //Test Dice
     public void displayDice() {
         RollDices rollDices = new RollDices(4);
