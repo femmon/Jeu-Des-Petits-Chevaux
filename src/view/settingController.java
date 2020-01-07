@@ -1,4 +1,4 @@
-package sample;
+package view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.io.IOException;
 
-public class Controller {
+public class settingController {
 
     @FXML
     private Button EngButton, VnButton, StrtButton;
