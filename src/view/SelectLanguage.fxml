@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.settingController">
    <children>
       <Label layoutX="38.0" layoutY="41.0" text="WELCOME TO THE GAME!">
          <font>
@@ -16,7 +16,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="EngButton" layoutX="152.0" layoutY="209.0" mnemonicParsing="false" onAction="#handleClickedButton" prefHeight="35.0" prefWidth="100.0" text="English" />
-      <Button fx:id="VnButton" layoutX="150.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleClickedButton" prefHeight="35.0" prefWidth="100.0" text="Vietnamese" />
+      <Button fx:id="EngButton" layoutX="152.0" layoutY="209.0" mnemonicParsing="false" onAction="#toPlayerSetting" prefHeight="35.0" prefWidth="100.0" text="English" />
+      <Button fx:id="VnButton" layoutX="150.0" layoutY="288.0" mnemonicParsing="false" onAction="#toPlayerSetting" prefHeight="35.0" prefWidth="100.0" text="Vietnamese" />
    </children>
 </AnchorPane>
