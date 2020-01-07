@@ -15,6 +15,6 @@ public class Dice {
     }
 
     public void throwDice() {
-        diceValue = (int) (numberGenerator.nextInt(6) + 1);
+        diceValue = (numberGenerator.nextInt(6) + 1);
     }
 }

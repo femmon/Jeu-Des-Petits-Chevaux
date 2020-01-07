@@ -22,6 +22,7 @@ public class PathView {
 
     public PathView(HBox path, Color color) {
         this.path = path;
+        path.setMaxHeight(250);
         this.color = color;
     }
 
@@ -68,7 +69,8 @@ public class PathView {
 
     public void horseOutOfCage(ImageView horseImage) {
         horseImage.setRotate(-90);
-        path.getChildren().set(0, horseImage);
+        System.out.println(horseImage + " is standing at " + getPathContents().get(0).getId());
+        getPathContents().set(0, horseImage);
     }
 
 }

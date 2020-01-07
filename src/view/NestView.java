@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /**
  * NestView fills horses into the nest and listens instructions from GameView
@@ -21,7 +22,9 @@ public class NestView {
     private StackPane nest;
     GridPane horseStable = new GridPane();
     private int sideEnum;
-    private int horseClickedState = 0;
+    private String horseColor = "";
+    private ArrayList<ImageView> removedHorses;
+
 //    private Node[] horsePairs = new Node[2];
 
      public NestView(StackPane nest, int sideEnum) throws FileNotFoundException {
@@ -49,18 +52,22 @@ public class NestView {
             case 0:
                 horsePath += "RedHorse.png";
                 horseStable.setId("redCage");
+                horseColor = "Red";
                 break;
             case 1:
                 horsePath += "GreenHorse.png";
                 horseStable.setId("greenCage");
+                horseColor = "Green";
                 break;
             case 2:
                 horsePath += "BlueHorse.png";
                 horseStable.setId("blueCage");
+                horseColor = "Blue";
                 break;
             case 3:
                 horsePath += "YellowHorse.png";
                 horseStable.setId("yellowCage");
+                horseColor = "Yellow";
                 break;
         }
 
@@ -72,7 +79,7 @@ public class NestView {
         horseStable.setHgap(5);
 
         for (int horseID = 0; horseID <= 3; horseID++) {
-            horseStable.add(horseResized(horseImage), flipFlopping(horseID), horseID / 2);
+            horseStable.add(horseResized(horseImage, horseID), flipFlopping(horseID), horseID / 2);
         }
         getNestContents().add(horseStable);
 
@@ -83,10 +90,11 @@ public class NestView {
 //        removeHorse("greenCage");
     }
 
-    private ImageView horseResized(Image horse) {
+    private ImageView horseResized(Image horse, int horseID) {
          ImageView horseImage = new ImageView(horse);
-         horseImage.setFitWidth(36);
-         horseImage.setFitHeight(60);
+         horseImage.setId(horseColor + "_" + horseID);
+         horseImage.setFitWidth(30);
+         horseImage.setFitHeight(40);
          return horseImage;
     }
 
@@ -95,9 +103,15 @@ public class NestView {
     /**
     * Remember that this function only removes the most recent horse ID that is called
      */
-    public void removeHorse() {
-        horseStable.setOnMouseClicked(e -> horseStable.getChildren().remove(0, 1));
+    public void addToRemovedList(ImageView horse) {
+        removedHorses.add(horse);
     }
+
+    public ArrayList<ImageView> getRemovedHorses() {
+        return removedHorses;
+    }
+
+
 
     // event 3. put horse to new position
 

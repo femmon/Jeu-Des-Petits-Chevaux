@@ -1,10 +1,14 @@
 package controller;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -34,6 +38,7 @@ public class GameController {
         //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
         stage.setScene(primaryScene);
         controllerDemo(gameView);
+
     }
 
     public static GameController getInstance() throws IOException {
@@ -55,12 +60,12 @@ public class GameController {
      * @param view
      */
     private void controllerDemo(GameView view) {
-        view.nestEvent(1);
-        view.nestEvent(2);
         view.pathEvents();
-
         view.homePathEvent(2);
         view.homePathEvent(1);
+        gameView.summonHorse(3);
+        moveHorse("0xffa500ff_2");
+        System.out.println(gameView.exportChosenHorseID());
     }
 
     //Test Dice
@@ -93,6 +98,7 @@ public class GameController {
         */
         Dice dice = new Dice();
         dice.throwDice();
+
     }
 
     public boolean isSummon(int dice1, int dice2) {
@@ -162,13 +168,29 @@ public class GameController {
         //check if the user want to summon or not
     }
 
-    private void summonHorse() {
 
+    private void moveHorse(String id) {
+        // 2 for loops
+        // looping all paths
+        // looping each element of path
+        PathView[] pathGroup = gameView.getAllPaths();
+        for (PathView pathView : pathGroup) {
+            ObservableList<Node> pathContents = pathView.getPathContents();
+            for (Node pathContent : pathContents) {
+                StackPane candidateNode = (StackPane) pathContent;
+                if (pathContent.getId().equals(id)) {
+                    Label label = new Label("Bruh");
+                    candidateNode.getChildren().add(label);
+                    label.toFront();
+                    System.out.println("Id found");
+                }
+            }
+        }
     }
 
-    private void moveHorse() {
-
-    }
+//    private void summonHorse(GameView view, int index) {
+//        view.summonHorse(index);
+//    }
 
     public void playGame() {
 

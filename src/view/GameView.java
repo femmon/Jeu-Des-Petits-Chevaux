@@ -1,6 +1,5 @@
 package view;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.*;
 import javafx.scene.image.*;
@@ -8,10 +7,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-
-
-import javax.swing.text.Element;
-import java.util.Stack;
 /**
  * This function fetches UI templates from FXML board + sets up the board + updates the board accordingly in correspondence with GameController
  * */
@@ -49,9 +44,9 @@ public class GameView {
     HBox greenPath1; HBox greenPath2;
 
 
-    NestView[] nestInstances = new NestView[4];
-    HomePathView[] homePathInstances = new HomePathView[4];
-    public PathView[] allPaths = new PathView[8];
+    private NestView[] nestInstances = new NestView[4];
+    private HomePathView[] homePathInstances = new HomePathView[4];
+    private PathView[] allPaths = new PathView[8];
     Color[] COLOR_LIST = {Color.RED, Color.GREEN, Color.BLUE, Color.ORANGE};
 
     // 1. obtains empty components from the fxml
@@ -164,16 +159,36 @@ public class GameView {
         }
     }
 
+    private String chosenHorseID;
+    private void getChosenHorseID(String id) {
+        chosenHorseID = id;
+    }
+
+    public NestView getNest(int index) {
+        return nestInstances[index];
+    }
 
     public void summonHorse(int index) {
-        nestInstances[index].horseStable.setOnMouseClicked(e -> {
+        getNest(index).horseStable.setOnMouseClicked(e -> {
              Node chosenHorse = e.getPickResult().getIntersectedNode();
             if (chosenHorse instanceof ImageView) {
-                System.out.println(chosenHorse);
-                if (index % 2 == 0) allPaths[index + 2].horseOutOfCage((ImageView) chosenHorse);
-                else allPaths[index + 1].horseOutOfCage((ImageView) chosenHorse);
+                allPaths[index * 2].horseOutOfCage((ImageView) chosenHorse);
             }
         });
+    }
+
+    public String exportChosenHorseID() {
+        return chosenHorseID;
+    }
+
+
+
+    public HomePathView getHomePath(int index) {
+        return homePathInstances[index];
+    }
+
+    public PathView[] getAllPaths() {
+        return allPaths;
     }
 }
 
