@@ -48,10 +48,10 @@ public class GameController {
 
     /**
      * The index labeling :
-     * 0 : Red nest
-     * 1 : Green nest
-     * 2 : Blue nest
-     * 3 : Yellow nest
+     * 0 : Red nest/horse/homePath
+     * 1 : Green nest/horse/homePath
+     * 2 : Blue nest/horse/homePath
+     * 3 : Yellow nest/horse/homePath
      * @param view
      */
     private void controllerDemo(GameView view) {
