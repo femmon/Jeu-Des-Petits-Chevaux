@@ -131,12 +131,24 @@ public class GameController {
          */
     }
 
-    private int pickDicevalue() {
-        /*
-        * receive the dice value user choose
-        * @return finalDiceValue
-         */
-        return 0;
+    /*
+     * receive the dice value user choose
+     * @return finalDiceValue
+     */
+    private int pickDicevalue(Dice dice1, Dice dice2) {
+        if (!dice1.isPicked() && !dice2.isPicked()) {
+            dice1.setPickedDice(true);
+            dice2.setPickedDice(true);
+            return dice1.getDiceValue() + dice2.getDiceValue();
+        } else if (!dice1.isPicked()) {
+            dice1.setPickedDice(true);
+            return dice1.getDiceValue();
+        } else if(!dice2.isPicked()) {
+            dice2.setPickedDice(true);
+            return dice2.getDiceValue();
+        } else {
+            return -1;
+        }
     }
 
     public ArrayList<Horse> findAllHorse(Player player, Board board) {
@@ -150,19 +162,38 @@ public class GameController {
         return horseInBoardList;
     }
 
+    /*
+     * Let user pick horse to move
+     * set eventListener to all horse that is able to move
+     * @return hourseID
+     */
     private int pickHorse() {
-        /*
-        *Let user pick horse to move
-        * @return hourseID
-         */
+
         return 0;
     }
 
-    private void wantToSummon() {
-        //check if the user want to summon or not
+    private int convertPlayerSideToView(Color color) {
+        switch (color) {
+            case RED: return 0;
+            case GREEN: return 1;
+            case BLUE: return 2;
+            case YELLOW: return 3;
+            default: return -1;
+        }
     }
 
-    private void summonHorse() {
+    private boolean wantToSummon() {
+        //check if the user want to summon or not
+        return false;
+    }
+
+    private void summonHorse(Player player) {
+        if(wantToSummon()) {
+            gameView.summonHorse(convertPlayerSideToView(player.getPlayerSide()));
+        }
+    }
+
+    private void displayScoreBoard() {
 
     }
 
@@ -182,6 +213,8 @@ public class GameController {
 
     }
 
+    public void exit() {
 
+    }
 
 }
