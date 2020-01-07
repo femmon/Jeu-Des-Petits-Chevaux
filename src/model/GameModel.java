@@ -82,17 +82,17 @@ public class GameModel {
         player.setDiceValue(diceValue);
     }
 
-    public ArrayList<Horse> findAllHorse(Player player, Board board) {
-        ArrayList<Horse> horseInBoardList = new ArrayList<Horse>();
-
-        for (int i = 0; i < 4; i++) {
-            PathNode NodeWithHorse = board.findHorseInPath(player.getPlayerSide(), i);
-            if (NodeWithHorse != null){
-                horseInBoardList.add(NodeWithHorse.getHorse());
-            }
-        }
-        return horseInBoardList;
-    }
+//    public ArrayList<Horse> findAllHorse(Player player, Board board) {
+//        ArrayList<Horse> horseInBoardList = new ArrayList<Horse>();
+//
+//        for (int i = 0; i < 4; i++) {
+//            PathNode NodeWithHorse = board.findHorseInPath(player.getPlayerSide(), i);
+//            if (NodeWithHorse != null){
+//                horseInBoardList.add(NodeWithHorse.getHorse());
+//            }
+//        }
+//        return horseInBoardList;
+//    }
 
     public Horse chooseHorse(ArrayList<Horse> horseArrayList, int id) {
         return horseArrayList.get(id);
