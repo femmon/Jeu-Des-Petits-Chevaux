@@ -3,7 +3,11 @@ package view;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -11,6 +15,9 @@ import javafx.scene.paint.Color;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
+
+import javax.swing.text.Element;
+import java.util.Stack;
 /**
  * This function fetches UI templates from FXML board + sets up the board + updates the board accordingly in correspondence with GameController
  * */
@@ -97,6 +104,15 @@ public class GameView {
     }
 
 
+    // 1.1 demo to show that you can access nest component
+    public void getContentsOf(StackPane nest) {
+//        Image img = new Image("file:src/view/image/BlueHorse.png");
+//        ImageView ivs = new ImageView(img);
+        NestView selectedNest = new NestView(nest);
+        System.out.println(nest.getId() + " : " + selectedNest.getNestContents());
+//        nest.getChildren().add(ivs);
+    }
+
     // 1.2 drawing StackPanes on each HBox | VBox element
     private void initHomePaths(VBox[] vertHomePaths, HBox[] horzHomePaths) {
         homePathInstances[2] = new HomePathView(vertHomePaths[0], Color.BLUE);  // blue home path
@@ -160,6 +176,7 @@ public class GameView {
             order++;
         }
     }
+
 
     public void nestEvent(int index) {
         nestInstances[index].onHorseSelectedEvent();

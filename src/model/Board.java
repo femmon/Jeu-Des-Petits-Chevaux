@@ -1,5 +1,6 @@
 package model;
 
+import javax.print.attribute.standard.Destination;
 import java.util.ArrayList;
 
 import static model.Color.*;
@@ -152,30 +153,14 @@ public class Board {
      * @param moves
      * @return a Move object
      */
-    public Move move(Color color, int id, int moves) {
-        PathNode start = findHorseInPath(color, id);
-        PathNode destination = findMoveDestination(start, moves);
-        Move move = buildMove(start, destination);
-        if (destination == null) return move;
-
+    public void move(Color color, int id, int moves) {
+        PathNode destination = findMoveDestination(color, id, moves);
+        if (destination == null) return;
         // Move horse (and kick if needed)
-        if (destination.getHorse() != null) returnHorse(destination.getHorse());
-        destination.setHorse(start.getHorse());
-        start.setHorse(null);
-
+        kickHorse(destination);
+        moveHorse(id, color, destination);
         // Update end game flag
-        Position destPosition = destination.getPosition();
-        // Moving the horse to the fourth home position could end the game
-        if (destPosition.getNumber() == 14) {
-            PathNode homePosition = destination;
-            for (int i = 0; i < 3; i++) {
-                homePosition = homePosition.getHomePositionNode();
-                if (homePosition.getHorse() == null) return move;
-            }
-            isEndGame = true;
-        }
-
-        return move;
+        checkForEndGameFlag(destination);
     }
 
     /**
@@ -184,6 +169,7 @@ public class Board {
      * @param moves
      * @return the new position, or null if unsuccessful
      */
+
     private PathNode findMoveDestination(PathNode start, int moves) {
         if (moves < 1 || moves > 12) {
             throw new IllegalArgumentException("A horse can move from 1 to 12 at a time");
@@ -193,6 +179,39 @@ public class Board {
         else return moveHomePathDryRun(start, moves);
     }
 
+        PathNode nodeWithHorse = findHorseInPath(color, id);
+        if (isMoveInHomePath(nodeWithHorse)) return moveHomePathDryRun(nodeWithHorse, moves);
+        else return movePathDryRun(nodeWithHorse, moves);
+    }
+
+    //move horse
+    public void moveHorse(int id, Color color, PathNode destination) {
+        PathNode start = findHorseInPath(color, id);
+        destination.setHorse(start.getHorse());
+        start.setHorse(null);
+    }
+
+    //kicked horse
+    public Horse kickHorse(PathNode destination) {
+        if (destination.getHorse() != null) {
+            returnHorse(destination.getHorse());
+            return destination.getHorse();
+        }
+        else return null;
+    }
+
+    //checkForEndGame
+    public void checkForEndGameFlag(PathNode destination){
+        if (destination.getPosition().getNumber() == 14) {
+            for (int i = 0; i < 3; i++) {
+                destination = destination.getHomePositionNode();
+                if (destination.getHorse() == null) {
+                    isEndGame = false;
+                    return;
+                }
+            }
+            isEndGame = true;
+        }
     /**
      * Create a Move object from start and finish PathNode
      * @param start
@@ -265,12 +284,12 @@ public class Board {
      * @param nodeWithHorse
      * @return
      */
-    private boolean isMoveInMovePath(PathNode nodeWithHorse) {
+    public boolean isMoveInHomePath(PathNode nodeWithHorse) {
         Position position = nodeWithHorse.getPosition();
-        if (position.getNumber() < 11) return true;
+        if (position.getNumber() < 11) return false;
         else if (position.getNumber() == 11) {
-            if (position.getColor() == nodeWithHorse.getHorse().getColor()) return false;
-            return true;
+            if (position.getColor() == nodeWithHorse.getHorse().getColor()) return true;
+            return false;
         } else {
             return false;
         }
@@ -328,7 +347,6 @@ public class Board {
                 if (current == null) return null;
                 if (current.getHorse() != null) return null;
             }
-
             return current;
         } else {
             PathNode destination = nodeWithHorse.getHomePositionNode();
@@ -376,6 +394,13 @@ public class Board {
     public boolean canMove(Color color, int id, int moves) {
         PathNode start = findHorseInPath(color, id);
         return findMoveDestination(start, moves) != null;
+    }
+
+
+    //**
+
+    public PathNode getPath() {
+        return path;
     }
 
     // For debugging
