@@ -22,14 +22,20 @@ public class HomePathView {
         this.horzPathTile = hPath;
         this.color = color;
         isHorizontal = true;
-        getHorzPathTile();
+        getPathTile(0);
+
     };
 
     public HomePathView(VBox vPath, Color color) {
         this.vertPathTile = vPath;
         this.color = color;
         isHorizontal = false;
-        getVertPathTile();
+        getPathTile(1);
+    }
+
+    public ObservableList<Node> getPathContents(int type) {
+        if (type == 0) return horzPathTile.getChildren();   // 0 -> horizontal tile
+        else return vertPathTile.getChildren();        // 1 -> vertical tile
     }
 
     private StackPane startingCircle() {
@@ -71,35 +77,37 @@ public class HomePathView {
         return new StackPane(tile, tileNumber);
     }
 
-
-    public void getHorzPathTile() {
-        horzPathTile.getChildren().add(startingCircle());
+    public void getPathTile(int type) {
+        getPathContents(type).add(startingCircle());
         for (int index = 1; index <= 6; ++index) {
-            horzPathTile.getChildren().add(makeTile(index));
+            getPathContents(type).add(makeTile(index));
+            taggingHomePaths(type);
         }
     }
 
-    public void getVertPathTile() {
-        vertPathTile.getChildren().add(startingCircle());
-        for (int index = 1; index <= 6; ++index) {
-                vertPathTile.getChildren().add(makeTile(index));
+    private void taggingHomePaths(int type) {
+        int id = 11;
+        for (Node node: getPathContents(type)) {
+            node.setId(color + "_" + id);
+            id++;
         }
-    }
-
-    public ObservableList<Node> getPathContents(int type) {
-        if (type == 0) return horzPathTile.getChildren();
-        else return vertPathTile.getChildren();
     }
 
     public void onClickedEvent() {
         if (isHorizontal) {
-            for (Node path: horzPathTile.getChildren()) {
-                path.setOnMouseClicked(event -> path.setOpacity(0.7));
+            for (Node path: getPathContents(0)) {
+                path.setOnMouseClicked(event -> {
+                    path.setOpacity(0.7);
+                    System.out.println(path.getId());
+                });
             }
         }
         else {
-            for (Node path: vertPathTile.getChildren()) {
-                path.setOnMouseClicked(event -> path.setOpacity(0.7));
+            for (Node path: getPathContents(1)) {
+                path.setOnMouseClicked(event -> {
+                    path.setOpacity(0.7);
+                    System.out.println(path.getId());
+                });
             }
         }
     }

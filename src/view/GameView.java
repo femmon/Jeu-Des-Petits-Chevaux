@@ -13,12 +13,23 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 
 import javax.swing.text.Element;
 import java.util.Stack;
 /**
  * This function fetches UI templates from FXML board + sets up the board + updates the board accordingly in correspondence with GameController
+ * */
+
+/**
+ * Hex code explanation
+ * 0xff0000ff - red
+ * 0x008000ff - green
+ * 0x0000ffff - blue
+ * 0xffa500ff - orange
+ *
+ * For ex: The id of each home path is: 0xffa500ff_11 -> 0xffa500ff_17
  * */
 
 public class GameView {
@@ -46,7 +57,8 @@ public class GameView {
 
     NestView[] nestInstances = new NestView[4];
     HomePathView[] homePathInstances = new HomePathView[4];
-    PathView[] allPaths = new PathView[8];
+    public PathView[] allPaths = new PathView[8];
+    Color[] COLOR_LIST = {Color.RED, Color.GREEN, Color.BLUE, Color.ORANGE};
 
     // 1. obtains empty components from the fxml
     public GameView(HBox pachisi) throws FileNotFoundException {
@@ -87,7 +99,7 @@ public class GameView {
         yellowPath2 = (HBox) pachisi.lookup("#yellowPath2");
         greenPath2 = (HBox) pachisi.lookup("#greenPath2");
         HBox[] paths = {redPath1, greenPath1, bluePath1 , yellowPath1};  // 0, 1, 2, 3     // path codes
-        HBox[] secPaths = {redPath2, greenPath2, bluePath2 , yellowPath2}; // 4, 5, 6 ,7
+        HBox[] secPaths = {redPath2, greenPath2, bluePath2 , yellowPath2}; // 4, 5, 6, 7
         initPaths(paths, secPaths, allPaths);
     }
 
@@ -116,21 +128,34 @@ public class GameView {
 
 
     private void initPaths(HBox[] paths, HBox[] secPaths, PathView[] allPaths) {
-        Color[] COLOR_LIST =  {Color.RED, Color.GREEN, Color.BLUE, Color.ORANGE};
-        int index = 0, index2 = 0;
-        for (HBox path: paths) {
-            PathView pathDrawer = new PathView(path, COLOR_LIST[index]);
-            pathDrawer.fillPath();
-            allPaths[index] = pathDrawer;
-            index++;
-        }
 
-        for (HBox secPath: secPaths) {
-            PathView pathDrawer = new PathView(secPath, COLOR_LIST[index2]);
-            pathDrawer.fillSecPath();
-            allPaths[index2 + 4] = pathDrawer;
-            index2++;
-        }
+//        int index = 0, index2 = 0;
+//        for (HBox path: paths) {
+//            PathView pathDrawer = new PathView(path, COLOR_LIST[index]);
+//            pathDrawer.fillPath();
+//            allPaths[index] = pathDrawer;
+//            index++;
+//        }
+//
+//        for (HBox secPath: secPaths) {
+//            PathView pathDrawer = new PathView(secPath, COLOR_LIST[index2]);
+//            pathDrawer.fillSecPath();
+//            allPaths[index2 + 4] = pathDrawer;
+//            index2++;
+//        }
+         for (int index = 0; index <= 6; index += 2) {
+           PathView pathDrawer = new PathView(paths[index / 2], COLOR_LIST[index / 2]);
+           pathDrawer.fillPath();
+           allPaths[index] = pathDrawer;
+         }
+
+         for (int index = 1; index <= 7; index += 2) {
+           PathView pathDrawer = new PathView(secPaths[index / 2], COLOR_LIST[index / 2]);
+           pathDrawer.fillSecPath();
+           allPaths[index] = pathDrawer;
+         }
+
+        System.out.println("allPaths = " + Arrays.toString(allPaths));
     }
 
     public void pathEvents() {
@@ -154,13 +179,13 @@ public class GameView {
 
 
     public void nestEvent(int index) {
-//        nestInstances[1].removeHorse();
         nestInstances[index].onHorseSelectedEvent();
         nestInstances[index].horseStable.setOnMouseClicked(e -> {
              Node chosenHorse = e.getPickResult().getIntersectedNode();
             if (chosenHorse instanceof ImageView) {
                 System.out.println(chosenHorse);
-                allPaths[index].horseOutOfCage((ImageView) chosenHorse);
+                if (index % 2 == 0) allPaths[index + 2].horseOutOfCage((ImageView) chosenHorse);
+                else allPaths[index + 1].horseOutOfCage((ImageView) chosenHorse);
             }
         });
     }

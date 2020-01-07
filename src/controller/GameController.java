@@ -90,7 +90,8 @@ public class GameController {
     private void controllerDemo(GameView view) {
         view.nestEvent(1);
         view.nestEvent(2);
-        view.pathEvents();
+
+        
         view.homePathEvent(1);
     }
 

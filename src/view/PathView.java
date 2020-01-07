@@ -25,6 +25,10 @@ public class PathView {
         this.color = color;
     }
 
+    public ObservableList<Node> getPathContents() {
+        return path.getChildren();
+    }
+
     private StackPane createCircle() {
         Circle step = new Circle(18);
         step.setStroke(color);
@@ -36,13 +40,15 @@ public class PathView {
 
     public void fillPath() {
         for (int index = 0; index < 5; index++) {
-            path.getChildren().add(createCircle());
+            getPathContents().add(createCircle());
+            getPathContents().get(index).setId(color + "_" + index);
         }
     }
 
     public void fillSecPath() {
         for (int index = 0; index < 6; index++) {
-            path.getChildren().add(createCircle());
+            getPathContents().add(createCircle());
+            getPathContents().get(index).setId(color + "_" + (10 - index));
         }
     }
 
@@ -53,7 +59,10 @@ public class PathView {
      */
     public void highlightCircle() {
         for (Node node: path.getChildren()) {
-            node.setOnMouseClicked(e -> node.setStyle("-fx-border-color: gray; -fx-opacity: 0.2"));
+            node.setOnMouseClicked(e -> {
+                node.setStyle("-fx-border-color: gray; -fx-opacity: 0.2");
+                System.out.println(node.getId());
+            });
         }
     }
 
