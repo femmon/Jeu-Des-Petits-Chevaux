@@ -112,7 +112,7 @@ public class GameController {
 
     private void setPlayerList() {
         /*
-        * Receive input from the setting and setplayer
+         * Receive input from the setting and setplayer
          */
     }
 

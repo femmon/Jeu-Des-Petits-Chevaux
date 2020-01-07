@@ -57,7 +57,7 @@ public class Board {
      * @return
      */
     private PathNode makePath() {
-        Color[] colors = {BLUE, RED, GREEN, YELLOW};
+        Color[] colors = {BLUE, YELLOW, GREEN, RED};
         PathNode first10 = null;
         PathNode homeArrival = null;
 
