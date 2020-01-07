@@ -1,7 +1,6 @@
 package view;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,20 +9,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 
 public class settingController {
-
     @FXML
     private Button EngButton, VnButton, StrtButton;
-
     @FXML
     private VBox playerCheckBox, comCheckBox;
-
     private Parent finalSetting;
 
     @FXML
@@ -94,11 +88,3 @@ public class settingController {
         stage.show();
     }
 }
-
-
-
-
-
-
-
-
