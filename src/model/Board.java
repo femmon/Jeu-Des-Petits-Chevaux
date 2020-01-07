@@ -231,7 +231,7 @@ public class Board {
      * @param id
      * @return
      */
-    PathNode findHorseInPath(Color color, int id) {
+    public PathNode findHorseInPath(Color color, int id) {
         if (id < 0 || id > 3) {
             throw new IllegalArgumentException("Horse ID must be from 0 to 3");
         }

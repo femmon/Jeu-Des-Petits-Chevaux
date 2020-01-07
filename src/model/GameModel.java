@@ -1,7 +1,5 @@
 package model;
 
-import javafx.scene.shape.Path;
-
 import java.util.*;
 import java.io.*    ;
 
@@ -11,7 +9,6 @@ public class GameModel {
     private boolean bonusTurn = false;
     private int turn = 0;
     private ArrayList<Player> playerList = new ArrayList<Player>();
-//    private Board board;
 
 //---------------------------------SET PLAYER----------------------------------------------
 
@@ -25,6 +22,12 @@ public class GameModel {
     }
 
 //---------------------------------SET TURN ORDER-------------------------------------------
+
+    public int throwDice() {
+        Dice dice = new Dice();
+        dice.throwDice();
+        return dice.getDiceValue();
+    }
 
     public void rollDiceForTurn() {
         int tempDice = 0;
@@ -67,12 +70,6 @@ public class GameModel {
         return -1;
     }
 //-----------------------------------GAME ACTION---------------------------------------
-    public int throwDice() {
-        Dice dice = new Dice();
-        dice.throwDice();
-        return dice.getDiceValue();
-    }
-
     public boolean isSummon(int dice1, int dice2) {
         return dice1 == 6 || dice2 == 6;
     }

@@ -1,4 +1,4 @@
-package santa_claus;
+package view;
 
 import javafx.animation.FadeTransition;
 import javafx.geometry.Pos;
