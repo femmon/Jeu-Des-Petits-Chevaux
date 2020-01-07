@@ -170,8 +170,7 @@ public class GameView {
     }
 
 
-    public void nestEvent(int index) {
-        nestInstances[index].onHorseSelectedEvent();
+    public void summonHorse(int index) {
         nestInstances[index].horseStable.setOnMouseClicked(e -> {
              Node chosenHorse = e.getPickResult().getIntersectedNode();
             if (chosenHorse instanceof ImageView) {
