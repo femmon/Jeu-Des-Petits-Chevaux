@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -19,6 +20,7 @@ public class settingController {
     @FXML
     private VBox playerCheckBox, comCheckBox;
     private Parent finalSetting;
+    private HBox board;
 
     @FXML
     public void initialize() throws IOException{
@@ -28,23 +30,15 @@ public class settingController {
         StrtButton = (Button) finalSetting.lookup("#StrtButton");
 
         StrtButton.setOnMouseClicked(e -> {
-            try {
-                Stage stage1;
-                Parent root;
+            // Get current stage
+            Stage stage = (Stage) StrtButton.getScene().getWindow();
 
-                if (e.getSource() == StrtButton);
-                stage1 = (Stage) StrtButton.getScene().getWindow();
-                root = FXMLLoader.load(getClass().getResource("pachisi.fxml"));
+            Scene primaryScene = new Scene(board, 820, 820);
+            stage.setScene(primaryScene);
+            stage.setTitle("Pachisi");
+            stage.show();
 
-                Scene scene = new Scene(root);
-                stage1.setScene(scene);
-                stage1.setTitle("Pachisi");
-                stage1.show();
-
-                getPlayerInfo();
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-            }
+            getPlayerInfo();
         });
 
         for (int i = 1; i < 5; i++) {
@@ -86,5 +80,9 @@ public class settingController {
         stage.setScene(scene);
         stage.setTitle("Settings");
         stage.show();
+    }
+
+    public void setBoard(HBox board) {
+        this.board = board;
     }
 }

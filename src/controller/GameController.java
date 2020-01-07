@@ -26,15 +26,23 @@ public class GameController {
     private ArrayList<Player> playerList = new ArrayList<Player>();
 
     private GameController() throws IOException {
-        stage = new Stage();
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/pachisi.fxml")));
+        // Create game view
+        HBox board = (HBox) FXMLLoader.load(getClass().getResource("../view/pachisi.fxml"));
+        gameView = new GameView(board);
+
+        // Create setting controller and pass in board to display after setting
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/LanguageSettingView.fxml")));
         Parent root = loader.load();
-        gameView = new GameView((HBox) root);
-        Scene primaryScene = new Scene(root, 820, 820);
+        settingController controller = (settingController) loader.getController();
+        controller.setBoard(board);
+
+        stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Settings");
+
         //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
-        stage.setScene(primaryScene);
-//        controllerDemo(gameView);
-//        displaySetting();
+        controllerDemo(gameView);
     }
 
     public static GameController getInstance() throws IOException {
@@ -42,7 +50,7 @@ public class GameController {
             controller = new GameController();
         return controller;
     }
-    
+
     public void update() {
             stage.show();
     }
@@ -77,15 +85,6 @@ public class GameController {
         newWindow.show();
     }
 
-    public void displaySetting() throws IOException {
-        Stage stage = new Stage();
-        Parent root;
-        root = FXMLLoader.load(getClass().getResource("../view/LanguageSettingView.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Settings");
-        stage.show();
-    }
 //-------------------------GAME PLAY------------------------------
 
     private void displayDiceValue(int dicevalue) {
