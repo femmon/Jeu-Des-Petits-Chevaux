@@ -104,14 +104,6 @@ public class GameView {
     }
 
 
-    // 1.1 demo to show that you can access nest component
-    public void getContentsOf(StackPane nest) {
-//        Image img = new Image("file:src/view/image/BlueHorse.png");
-//        ImageView ivs = new ImageView(img);
-        NestView selectedNest = new NestView(nest);
-        System.out.println(nest.getId() + " : " + selectedNest.getNestContents());
-//        nest.getChildren().add(ivs);
-    }
 
     // 1.2 drawing StackPanes on each HBox | VBox element
     private void initHomePaths(VBox[] vertHomePaths, HBox[] horzHomePaths) {

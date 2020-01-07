@@ -20,7 +20,6 @@ public class GameController {
     Stage stage;
     static GameController controller;
     GameView gameView;
-    GameModel game = new GameModel();
 
     private GameController() throws IOException {
         stage = new Stage();
@@ -81,38 +80,22 @@ public class GameController {
 
     /**
      * The index labeling :
-     * 0 : Red nest
-     * 1 : Green nest
-     * 2 : Blue nest
-     * 3 : Yellow nest
+     * 0 : Red nest/horse/homePath
+     * 1 : Green nest/horse/homePath
+     * 2 : Blue nest/horse/homePath
+     * 3 : Yellow nest/horse/homePath
      * @param view
      */
     private void controllerDemo(GameView view) {
-        view.nestEvent(1);
-        view.nestEvent(2);
-
-        
+        view.summonHorse(1);
+        view.summonHorse(2);
+        view.pathEvents();
         view.homePathEvent(1);
     }
 
     // you can see that the nest fades by half
 
     //gameModel test
-    private void gameModelTest() {
-        game.playGame();
-    }
-
     //Test Dice
-    public void displayDice() {
-        RollDices rollDices = new RollDices(4);
-        StackPane secondaryLayout = new StackPane();
-        secondaryLayout.getChildren().add(rollDices);
-
-        Scene secondScene = new Scene(secondaryLayout, 300, 300);
-        Stage newWindow = new Stage();
-        newWindow.setTitle("Dice");
-        newWindow.setScene(secondScene);
-        newWindow.show();
-    }
 
 }

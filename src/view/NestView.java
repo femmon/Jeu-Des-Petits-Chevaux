@@ -99,14 +99,6 @@ public class NestView {
         horseStable.setOnMouseClicked(e -> horseStable.getChildren().remove(0, 1));
     }
 
-    public void onHorseSelectedEvent() {
-        for (Node node : horseStable.getChildren()) {
-            node.setOnMouseClicked(e -> {
-                node.setScaleX(1.2);
-                node.setScaleY(1.2);
-            });
-        }
-    }
     // event 3. put horse to new position
 
 }
