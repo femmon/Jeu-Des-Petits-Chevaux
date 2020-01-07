@@ -55,8 +55,8 @@ public class GameController {
      * @param view
      */
     private void controllerDemo(GameView view) {
-        view.nestEvent(1);
-        view.nestEvent(2);
+        view.summonHorse(1);
+        view.summonHorse(2);
         view.pathEvents();
 
         view.homePathEvent(2);
