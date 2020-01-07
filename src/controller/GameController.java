@@ -38,7 +38,7 @@ public class GameController {
         //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
         stage.setScene(primaryScene);
         controllerDemo(gameView);
-
+        displaySetting();
     }
 
     public static GameController getInstance() throws IOException {
@@ -81,6 +81,15 @@ public class GameController {
         newWindow.show();
     }
 
+    public void displaySetting() throws IOException {
+        Stage stage = new Stage();
+        Parent root;
+        root = FXMLLoader.load(getClass().getResource("../view/SelectLanguage.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Settings");
+        stage.show();
+    }
 //-------------------------GAME PLAY------------------------------
 
     private void displayDiceValue(int dicevalue) {
