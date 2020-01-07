@@ -22,7 +22,7 @@ public class settingController {
 
     @FXML
     public void initialize() throws IOException{
-        finalSetting = FXMLLoader.load(getClass().getResource("FinalSetting.fxml"));
+        finalSetting = FXMLLoader.load(getClass().getResource("PlayerSettingView.fxml"));
         playerCheckBox = (VBox) finalSetting.lookup("#playerCheckBox");
         comCheckBox = (VBox) finalSetting.lookup("#comCheckBox");
         StrtButton = (Button) finalSetting.lookup("#StrtButton");

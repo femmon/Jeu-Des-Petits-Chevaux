@@ -2,16 +2,12 @@ package controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.*;
 import view.*;
@@ -84,7 +80,7 @@ public class GameController {
     public void displaySetting() throws IOException {
         Stage stage = new Stage();
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("../view/SelectLanguage.fxml"));
+        root = FXMLLoader.load(getClass().getResource("../view/LanguageSettingView.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Settings");
