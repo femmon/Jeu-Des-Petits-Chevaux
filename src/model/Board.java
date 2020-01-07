@@ -101,17 +101,36 @@ public class Board {
      * @return the id of the summoned horse, or -1 if can't summon
      */
     public int summon(Color color) {
+        if (!canSummon(color)) return -1;
+
         for (Nest nest: nests) {
             if (nest.getColor() == color) {
-                if (nest.isEmpty()) return -1;
                 PathNode startingSpace = getStartingSpace(color);
-                if (startingSpace.getHorse() != null) return -1;
                 Horse summoned = nest.getHorseInNest().remove(0);
                 startingSpace.setHorse(summoned);
                 return summoned.getId();
             }
         }
         return -1;
+    }
+
+    /**
+     * Check if it is possible to summon a horse
+     * @param color
+     * @return
+     */
+    public boolean canSummon(Color color) {
+        for (Nest nest: nests) {
+            if (nest.getColor() == color) {
+                if (nest.isEmpty()) return false;
+                PathNode startingSpace = getStartingSpace(color);
+                if (startingSpace.getHorse() != null) return false;
+                Horse summoned = nest.getHorseInNest().remove(0);
+                startingSpace.setHorse(summoned);
+                return true;
+            }
+        }
+        return true;
     }
 
     /**
@@ -132,7 +151,7 @@ public class Board {
      * @param color
      * @param id
      * @param moves
-     * @return the new position, or null if unsuccessful
+     * @return a Move object
      */
     public void move(Color color, int id, int moves) {
         PathNode destination = findMoveDestination(color, id, moves);
@@ -142,28 +161,23 @@ public class Board {
         moveHorse(id, color, destination);
         // Update end game flag
         checkForEndGameFlag(destination);
-
     }
 
     /**
      * Find the new position without actually moving
-     * @param color
-     * @param id
+     * @param start
      * @param moves
      * @return the new position, or null if unsuccessful
      */
-    public PathNode findMoveDestination(Color color, int id, int moves) {
-        if (id < 0 || id > 3) {
-            throw new IllegalArgumentException("Horse ID must be from 0 to 3");
-        }
 
+    private PathNode findMoveDestination(PathNode start, int moves) {
         if (moves < 1 || moves > 12) {
             throw new IllegalArgumentException("A horse can move from 1 to 12 at a time");
         }
 
-        if (isHorseInNest(color, id)) {
-            throw new UnsupportedOperationException("Can't move a horse in nest");
-        }
+        if (isMoveInMovePath(start)) return movePathDryRun(start, moves);
+        else return moveHomePathDryRun(start, moves);
+    }
 
         PathNode nodeWithHorse = findHorseInPath(color, id);
         if (isMoveInHomePath(nodeWithHorse)) return moveHomePathDryRun(nodeWithHorse, moves);
@@ -198,6 +212,18 @@ public class Board {
             }
             isEndGame = true;
         }
+    /**
+     * Create a Move object from start and finish PathNode
+     * @param start
+     * @param finish
+     * @return
+     */
+    private Move buildMove(PathNode start, PathNode finish) {
+        Move move = new Move(start.getHorse(), start.getPosition(),
+                finish == null ? null : finish.getPosition(), null);
+
+        if (finish.getHorse() != null) move.setKickedHorse(finish.getHorse());
+        return move;
     }
 
     /**
@@ -225,6 +251,10 @@ public class Board {
      * @return
      */
     PathNode findHorseInPath(Color color, int id) {
+        if (id < 0 || id > 3) {
+            throw new IllegalArgumentException("Horse ID must be from 0 to 3");
+        }
+
         PathNode current = path;
         do {
             Horse currentHorse = current.getHorse();
@@ -348,10 +378,10 @@ public class Board {
      * @param moves
      * @return
      */
-    public Position moveDryRun(Color color, int id, int moves) {
-        PathNode destination = findMoveDestination(color, id, moves);
-        if (destination == null) return null;
-        else return destination.getPosition();
+    public Move moveDryRun(Color color, int id, int moves) {
+        PathNode start = findHorseInPath(color, id);
+        PathNode destination = findMoveDestination(start, moves);
+        return buildMove(start, destination);
     }
 
     /**
@@ -362,7 +392,8 @@ public class Board {
      * @return
      */
     public boolean canMove(Color color, int id, int moves) {
-        return findMoveDestination(color, id, moves) != null;
+        PathNode start = findHorseInPath(color, id);
+        return findMoveDestination(start, moves) != null;
     }
 
 

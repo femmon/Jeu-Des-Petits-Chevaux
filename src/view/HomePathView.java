@@ -16,15 +16,20 @@ public class HomePathView {
     private HBox horzPathTile;
     private VBox vertPathTile;
     private Color color;
+    private boolean isHorizontal;
 
     public HomePathView(HBox hPath, Color color) {
         this.horzPathTile = hPath;
         this.color = color;
+        isHorizontal = true;
+        getHorzPathTile();
     };
 
     public HomePathView(VBox vPath, Color color) {
         this.vertPathTile = vPath;
         this.color = color;
+        isHorizontal = false;
+        getVertPathTile();
     }
 
     private StackPane startingCircle() {
@@ -38,7 +43,7 @@ public class HomePathView {
         return startingStep;
     }
 
-    private StackPane makeTile(int index, boolean isHorizontal) {
+    private StackPane makeTile(int index) {
         Rectangle tile = new Rectangle();
         tile.setArcHeight(5);
         tile.setArcWidth(5);
@@ -61,7 +66,7 @@ public class HomePathView {
         tile.setHeight(158);
         tile.setWidth(40);
         Label tileNumber = new Label(String.valueOf(index));
-        tileNumber.setTextFill(Color.BLACK);
+        tileNumber.setTextFill(Color.WHITE);
         tileNumber.setStyle("-fx-font: 24 arial; -fx-font-weight: 800");
         return new StackPane(tile, tileNumber);
     }
@@ -70,20 +75,33 @@ public class HomePathView {
     public void getHorzPathTile() {
         horzPathTile.getChildren().add(startingCircle());
         for (int index = 1; index <= 6; ++index) {
-            horzPathTile.getChildren().add(makeTile(index, true));
+            horzPathTile.getChildren().add(makeTile(index));
         }
     }
 
     public void getVertPathTile() {
         vertPathTile.getChildren().add(startingCircle());
         for (int index = 1; index <= 6; ++index) {
-                vertPathTile.getChildren().add(makeTile(index, false));
+                vertPathTile.getChildren().add(makeTile(index));
         }
     }
-    
+
     public ObservableList<Node> getPathContents(int type) {
         if (type == 0) return horzPathTile.getChildren();
         else return vertPathTile.getChildren();
+    }
+
+    public void onClickedEvent() {
+        if (isHorizontal) {
+            for (Node path: horzPathTile.getChildren()) {
+                path.setOnMouseClicked(event -> path.setOpacity(0.7));
+            }
+        }
+        else {
+            for (Node path: vertPathTile.getChildren()) {
+                path.setOnMouseClicked(event -> path.setOpacity(0.7));
+            }
+        }
     }
 
 }
