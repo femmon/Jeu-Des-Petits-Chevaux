@@ -2,15 +2,9 @@ package view;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.*;
+import javafx.scene.image.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -104,6 +98,7 @@ public class GameView {
     }
 
 
+    // 1.1 demo to show that you can access nest component
 
     // 1.2 drawing StackPanes on each HBox | VBox element
     private void initHomePaths(VBox[] vertHomePaths, HBox[] horzHomePaths) {

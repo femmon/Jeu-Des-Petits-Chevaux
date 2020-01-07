@@ -38,8 +38,6 @@ class Music extends HBox {
 
         setPauseMusic();
         setPlayMusic();
-        setVolumeUp();
-        setVolumeDown();
         // Add btPause to pane Music
         getChildren().addAll(buttons[0], buttons[2], buttons[3]);
         setSpacing(5);
@@ -62,24 +60,6 @@ class Music extends HBox {
             getChildren().remove(buttons[1]);
             getChildren().add(0, buttons[0]);
             mediaPlayer.play();
-        });
-    }
-
-    private void setVolumeUp() {
-        buttons[2].setOnAction(ActionEvent -> {
-            if (volume < 1) {
-                volume = volume + 0.1;
-                mediaPlayer.setVolume(volume);
-            }
-        });
-    }
-
-    private void setVolumeDown() {
-        buttons[3].setOnAction(ActionEvent -> {
-            if (volume > 0) {
-                volume = volume - 0.1;
-                mediaPlayer.setVolume(volume);
-            }
         });
     }
 
