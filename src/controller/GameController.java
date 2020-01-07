@@ -6,9 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.GameModel;
-import view.GameView;
+import model.*;
+import view.*;
+
 
 import java.io.IOException;
 
@@ -93,7 +96,22 @@ public class GameController {
 
     // you can see that the nest fades by half
 
+    //gameModel test
+    private void gameModelTest() {
+        game.playGame();
+    }
 
+    //Test Dice
+    public void displayDice() {
+        RollDices rollDices = new RollDices(4);
+        StackPane secondaryLayout = new StackPane();
+        secondaryLayout.getChildren().add(rollDices);
 
+        Scene secondScene = new Scene(secondaryLayout, 300, 300);
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Dice");
+        newWindow.setScene(secondScene);
+        newWindow.show();
+    }
 
 }
