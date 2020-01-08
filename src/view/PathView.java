@@ -67,10 +67,24 @@ public class PathView {
         }
     }
 
-    public void horseOutOfCage(ImageView horseImage) {
-        horseImage.setRotate(-90);
-        System.out.println(horseImage + " is standing at " + getPathContents().get(0).getId());
-        getPathContents().set(0, horseImage);
+    public void setHorse(String id, ImageView horse) {
+        String strID = id.substring(id.length() - 1);
+        int realID = Integer.parseInt(strID);
+        if (realID > 5) {
+            realID -= 5;
+        }
+        StackPane path = (StackPane) getPathContents().get(realID);
+        path.getChildren().add(horse);
+    }
+
+    public void removeHorse(String id, ImageView horse) {
+        String strID = id.substring(id.length() - 1);
+        int realID = Integer.parseInt(strID);
+        if (realID > 5) {
+            realID -= 5;
+        }
+        StackPane path = (StackPane) getPathContents().get(realID);
+        path.getChildren().remove(horse);
     }
 
 }

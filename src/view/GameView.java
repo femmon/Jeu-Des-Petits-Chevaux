@@ -11,15 +11,6 @@ import java.util.Arrays;
  * This function fetches UI templates from FXML board + sets up the board + updates the board accordingly in correspondence with GameController
  * */
 
-/**
- * Hex code explanation
- * 0xff0000ff - red
- * 0x008000ff - green
- * 0x0000ffff - blue
- * 0xffa500ff - orange
- *
- * For ex: The id of each home path is: 0xffa500ff_11 -> 0xffa500ff_17
- * */
 
 public class GameView {
 
@@ -56,6 +47,10 @@ public class GameView {
         fetchingHomePath(pachisi);
         fetchingPaths(pachisi);
 
+    }
+
+    public HBox getPachisi() {
+        return pachisi;
     }
 
     public void fetchingNests(HBox pachisi) throws FileNotFoundException {
@@ -136,8 +131,6 @@ public class GameView {
            pathDrawer.fillSecPath();
            allPaths[index] = pathDrawer;
          }
-
-        System.out.println("allPaths = " + Arrays.toString(allPaths));
     }
 
     public void pathEvents() {
@@ -168,20 +161,9 @@ public class GameView {
         return nestInstances[index];
     }
 
-    public void summonHorse(int index) {
-        getNest(index).horseStable.setOnMouseClicked(e -> {
-             Node chosenHorse = e.getPickResult().getIntersectedNode();
-            if (chosenHorse instanceof ImageView) {
-                allPaths[index * 2].horseOutOfCage((ImageView) chosenHorse);
-            }
-        });
-    }
-
     public String exportChosenHorseID() {
         return chosenHorseID;
     }
-
-
 
     public HomePathView getHomePath(int index) {
         return homePathInstances[index];

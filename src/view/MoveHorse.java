@@ -6,11 +6,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-class MoveHorse extends StackPane {
+public class MoveHorse extends StackPane {
     private ImageView horse;
     //private int clickCount = 0;
 
-    MoveHorse(ImageView horse) {
+    public MoveHorse(ImageView horse) {
         this.horse = horse;
 
         /*setOnMouseClicked(event -> {
