@@ -10,7 +10,6 @@ import javafx.scene.layout.StackPane;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 /**
  * NestView fills horses into the nest and listens instructions from GameView
@@ -20,10 +19,9 @@ import java.util.ArrayList;
 
 public class NestView {
     private StackPane nest;
-    GridPane horseStable = new GridPane();
+    private GridPane horseStable = new GridPane();
     private int sideEnum;
     private String horseColor = "";
-    private ArrayList<ImageView> removedHorses;
 
 //    private Node[] horsePairs = new Node[2];
 
@@ -32,10 +30,6 @@ public class NestView {
           this.sideEnum = sideEnum;
           fillHorses();
       }
-
-//    public void getHorseCount() {
-//        System.out.println("horseCount = " + horseCount);
-//    }
 
     private int flipFlopping (int i) {
         if (i % 2 == 0) return 0;
@@ -51,23 +45,19 @@ public class NestView {
         switch (sideEnum) {
             case 0:
                 horsePath += "RedHorse.png";
-                horseStable.setId("redCage");
-                horseColor = "Red";
+                horseColor = "red";
                 break;
             case 1:
                 horsePath += "GreenHorse.png";
-                horseStable.setId("greenCage");
-                horseColor = "Green";
+                horseColor = "green";
                 break;
             case 2:
                 horsePath += "BlueHorse.png";
-                horseStable.setId("blueCage");
-                horseColor = "Blue";
+                horseColor = "blue";
                 break;
             case 3:
                 horsePath += "YellowHorse.png";
-                horseStable.setId("yellowCage");
-                horseColor = "Yellow";
+                horseColor = "yellow";
                 break;
         }
 
@@ -98,21 +88,19 @@ public class NestView {
          return horseImage;
     }
 
-
-    // event 2. remove horse - PASS
-    /**
-    * Remember that this function only removes the most recent horse ID that is called
-     */
-    public void addToRemovedList(ImageView horse) {
-        removedHorses.add(horse);
+    public GridPane getHorseStable() {
+        return horseStable;
     }
 
-    public ArrayList<ImageView> getRemovedHorses() {
-        return removedHorses;
+    public void addHorse(ImageView horse) {
+         horseStable.getChildren().add(horse);
     }
 
+    public int getStableSize() {
+        return horseStable.getChildren().size();
+    }
 
+    // this method keeps track of horses in the nest
 
-    // event 3. put horse to new position
 
 }
