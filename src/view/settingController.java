@@ -90,10 +90,6 @@ public class settingController {
         stage.show();
     }
 
-    public void setBoard(HBox board) {
-        this.board = board;
-    }
-
     public void initData(GameController gameController, HBox board) {
         this.gameController = gameController;
         this.board = board;
