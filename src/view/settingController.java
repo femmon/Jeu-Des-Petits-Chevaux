@@ -60,7 +60,6 @@ public class settingController {
             VBox playerList = (VBox) finalSetting.lookup("#playerList");
             String name = ((TextField) playerList.getChildren().get(i)).getText();
             System.out.println(name);
-
             System.out.println("Human: " + ((CheckBox) playerCheckBox.getChildren().get(i)).isSelected());
             System.out.println("COM: " + ((CheckBox) comCheckBox.getChildren().get(i)).isSelected());
         }
