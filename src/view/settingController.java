@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,8 +14,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class settingController {
+    GameController gameController;
     @FXML
     private Button EngButton, VnButton, StrtButton;
     @FXML
@@ -56,14 +59,19 @@ public class settingController {
     }
 
     private void getPlayerInfo() {
+        ArrayList<String> nameList = new ArrayList<>();
+        ArrayList<Boolean> human = new ArrayList<>();
+        ArrayList<Boolean> com = new ArrayList<>();
         for (int i = 1; i < 5; i++) {
             VBox playerList = (VBox) finalSetting.lookup("#playerList");
             String name = ((TextField) playerList.getChildren().get(i)).getText();
-            System.out.println(name);
+            nameList.add(name);
 
-            System.out.println("Human: " + ((CheckBox) playerCheckBox.getChildren().get(i)).isSelected());
-            System.out.println("COM: " + ((CheckBox) comCheckBox.getChildren().get(i)).isSelected());
+            human.add(((CheckBox) playerCheckBox.getChildren().get(i)).isSelected());
+            com.add(((CheckBox) comCheckBox.getChildren().get(i)).isSelected());
         }
+
+        gameController.setPlayerList(nameList, human, com);
     }
 
     public void toPlayerSetting(ActionEvent e) {
@@ -83,6 +91,11 @@ public class settingController {
     }
 
     public void setBoard(HBox board) {
+        this.board = board;
+    }
+
+    public void initData(GameController gameController, HBox board) {
+        this.gameController = gameController;
         this.board = board;
     }
 }

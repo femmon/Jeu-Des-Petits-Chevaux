@@ -34,7 +34,7 @@ public class GameController {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/LanguageSettingView.fxml")));
         Parent root = loader.load();
         settingController controller = (settingController) loader.getController();
-        controller.setBoard(board);
+        controller.initData(this, board);
 
         stage = new Stage();
         Scene scene = new Scene(root);
@@ -115,15 +115,30 @@ public class GameController {
 
     //-----------------------Set player----------------------------
 
-    public void setPlayer(String name, PlayerType playerType, Color color) {
+    private void setPlayer(String name, PlayerType playerType, Color color) {
         Player player = new Player(name, playerType, color);
         this.playerList.add(player);
     }
 
-    private void setPlayerList() {
-        /*
-         * Receive input from the setting and setplayer
-         */
+    public void setPlayerList(ArrayList<String> name, ArrayList<Boolean> human, ArrayList<Boolean> com) {
+        Color[] list = {Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
+
+        for (int i = 0; i < 4; i++) {
+            PlayerType playerType;
+            if (human.get(i) == false && com.get(i) == false) {
+                playerType = PlayerType.NONE;
+            } else if (human.get(i) == true) {
+                playerType = PlayerType.HUMAN;
+            } else {
+                playerType = PlayerType.MACHINE;
+            }
+
+            setPlayer(name.get(i), playerType, list[i]);
+        }
+
+        for (Player p: playerList) {
+            System.out.println(p.getName() + " " + p.getPlayerType());
+        }
     }
 
     //-----------------------Set turn---------------------
