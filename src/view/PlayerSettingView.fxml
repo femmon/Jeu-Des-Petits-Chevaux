@@ -9,7 +9,7 @@
    <children>
       <VBox prefHeight="400.0" prefWidth="150.0">
          <children>
-            <Label text="Team Color">
+            <Label fx:id="teamColor" text="Team Color">
                <font>
                   <Font size="24.0" />
                </font>

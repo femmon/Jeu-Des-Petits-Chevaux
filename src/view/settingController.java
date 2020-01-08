@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,15 +23,15 @@ public class settingController {
     private Button EngButton, VnButton, StrtButton;
     @FXML
     private VBox playerCheckBox, comCheckBox;
-    private Parent finalSetting;
+    private Parent playerSettingView;
     private HBox board;
 
     @FXML
     public void initialize() throws IOException{
-        finalSetting = FXMLLoader.load(getClass().getResource("PlayerSettingView.fxml"));
-        playerCheckBox = (VBox) finalSetting.lookup("#playerCheckBox");
-        comCheckBox = (VBox) finalSetting.lookup("#comCheckBox");
-        StrtButton = (Button) finalSetting.lookup("#StrtButton");
+        playerSettingView = FXMLLoader.load(getClass().getResource("PlayerSettingView.fxml"));
+        playerCheckBox = (VBox) playerSettingView.lookup("#playerCheckBox");
+        comCheckBox = (VBox) playerSettingView.lookup("#comCheckBox");
+        StrtButton = (Button) playerSettingView.lookup("#StrtButton");
 
         StrtButton.setOnMouseClicked(e -> {
             // Get current stage
@@ -63,7 +64,7 @@ public class settingController {
         ArrayList<Boolean> human = new ArrayList<>();
         ArrayList<Boolean> com = new ArrayList<>();
         for (int i = 1; i < 5; i++) {
-            VBox playerList = (VBox) finalSetting.lookup("#playerList");
+            VBox playerList = (VBox) playerSettingView.lookup("#playerList");
             String name = ((TextField) playerList.getChildren().get(i)).getText();
             nameList.add(name);
 
@@ -79,15 +80,23 @@ public class settingController {
 
         if (e.getSource() == EngButton) {
             stage = (Stage) EngButton.getScene().getWindow();
+            Language.getInstance().setLanguage("en");
 
         } else {
             stage = (Stage) VnButton.getScene().getWindow();
+            Language.getInstance().setLanguage("vi");
         }
 
-        Scene scene = new Scene(finalSetting);
+        Scene scene = new Scene(playerSettingView);
+        updateLanguagePlayerSetting();
         stage.setScene(scene);
         stage.setTitle("Settings");
         stage.show();
+    }
+
+    private void updateLanguagePlayerSetting() {
+        Language language = Language.getInstance();
+        ((Label) playerSettingView.lookup("#teamColor")).setText(language.getString("teamColor"));
     }
 
     public void initData(GameController gameController, HBox board) {
