@@ -2,17 +2,14 @@ package controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.*;
 import view.*;
@@ -34,15 +31,23 @@ public class GameController {
 //    private ArrayList<ArrayList <Player>> playerLists = new ArrayList<>();;
 
     private GameController() throws IOException {
-        stage = new Stage();
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/pachisi.fxml")));
-        Parent root = loader.load();
-        gameView = new GameView((HBox) root);
-        Scene primaryScene = new Scene(root, 820, 820);
-        //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
-        stage.setScene(primaryScene);
-        controllerDemo(gameView);
+        // Create game view
+        HBox board = (HBox) FXMLLoader.load(getClass().getResource("../view/pachisi.fxml"));
+        gameView = new GameView(board);
 
+        // Create setting controller and pass in board to display after setting
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/LanguageSettingView.fxml")));
+        Parent root = loader.load();
+        settingController controller = (settingController) loader.getController();
+        controller.initData(this, board);
+
+        stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Settings");
+
+        //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
+        controllerDemo(gameView);
     }
 
     public static GameController getInstance() throws IOException {
@@ -50,7 +55,7 @@ public class GameController {
             controller = new GameController();
         return controller;
     }
-    
+
     public void update() {
             stage.show();
     }
@@ -216,15 +221,15 @@ public class GameController {
      */
         RollDices rollDices = new RollDices(dicevalue);
     }
-
-    private void throwDice() {
-        /*
-        * get dice value
-        * Display dice (Roll animation)
-        */
+    /*
+     * get dice value
+     * Display dice (Roll animation)
+     * @return Dice obj
+     */
+    private Dice throwDice() {
         Dice dice = new Dice();
         dice.throwDice();
-
+        return dice;
     }
 
     public boolean isSummon(int dice1, int dice2) {
@@ -237,24 +242,72 @@ public class GameController {
 
     //-----------------------Set player----------------------------
 
-    public void setPlayer(String name, PlayerType playerType, Color color) {
+    private void setPlayer(String name, PlayerType playerType, Color color) {
         Player player = new Player(name, playerType, color);
         this.playerList.add(player);
     }
 
-    private void setPlayerList() {
-        /*
-         * Receive input from the setting and setplayer
-         */
+    public void setPlayerList(ArrayList<String> name, ArrayList<Boolean> human, ArrayList<Boolean> com) {
+        Color[] list = {Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
+
+        for (int i = 0; i < 4; i++) {
+            PlayerType playerType;
+            if (human.get(i) == false && com.get(i) == false) {
+                playerType = PlayerType.NONE;
+            } else if (human.get(i) == true) {
+                playerType = PlayerType.HUMAN;
+            } else {
+                playerType = PlayerType.MACHINE;
+            }
+
+            setPlayer(name.get(i), playerType, list[i]);
+        }
+
+        for (Player p: playerList) {
+            System.out.println(p.getName() + " " + p.getPlayerType());
+        }
     }
 
     //-----------------------Set turn---------------------
-    private void setTurn() {
-        /*
-        * set turn base on the dice value
-         */
+    public void rollDiceForTurn() {
+        for (int i = 0; i < playerList.size(); i++) {
+            int diceValue = throwDice().getDiceValue();
+            if (isDuplicateDiceValue(diceValue)) {
+                i--;
+                continue;
+            }
+            playerList.get(i).setDiceValue(diceValue);
+
+        }
     }
 
+    private boolean isDuplicateDiceValue(int diceValue) {
+        for (int i = 0; i < playerList.size(); i++) {
+            if (diceValue == playerList.get(i).getDiceValue()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int findMaximumDiceValue() {
+        int max = 0;
+        for (Player player : playerList) {
+            if (player.getDiceValue() > max) {
+                max = player.getDiceValue();
+            }
+        }
+        return max;
+    }
+
+    private int findPlayerWithHighestDice(int max) {
+        for (int i = 0; i < playerList.size(); i++) {
+            if (playerList.get(i).getDiceValue() == max) {
+                return i;
+            }
+        }
+        return -1;
+    }
     //--------------------Game play methods---------------------
     private void displayDiceValue(int dicevalue1, int diceValue2) {
         /*
@@ -323,9 +376,9 @@ public class GameController {
 
 
 
-//    private void summonHorse(GameView view, int index) {
-//        view.summonHorse(index);
-//    }
+    private void summonHorse(GameView view, int index) {
+        view.summonHorse(index);
+    }
 
     public void playGame() {
 
