@@ -1,6 +1,8 @@
 package view;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,33 +12,42 @@ import javafx.util.Duration;
 import model.Dice;
 
 public class RollDices extends GridPane {
-    int dice = 0;
+    private int seconds;
     private ImageView imageDice = new ImageView();
+    private Timeline timer;
+    private Dice dice;
 
-    public RollDices(int dice) {
+    public RollDices(Dice dice) {
         this.dice = dice;
-        setOnMouseClicked(event -> setAnimation());
-        getNewValue();
-        addRow(0, imageDice);
+
+        this.dice.throwDice();
+        imageDice.setImage(new Image("file:src/view/diceImage/" + this.dice.getDiceValue() + ".png",
+                100, 100, true, true));
+        getChildren().add(imageDice);
         setAlignment(Pos.CENTER);
+
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> setTimeline()));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
     }
 
-    private void setAnimation () {
-        RotateTransition rt = new RotateTransition(Duration.seconds(4), imageDice);
-        rt.setAxis(Rotate.Y_AXIS);
+    private void setTimeline() {
+        seconds++;
+        if (seconds == 1) {
+            dice.throwDice();
+            setAnimation(dice.getDiceValue());
+        }
+        else if (seconds == 3) {
+            timer.stop();
+        }
+    }
+
+    private void setAnimation (int diceValue) {
+        RotateTransition rt = new RotateTransition(Duration.seconds(1), imageDice);
         rt.setFromAngle(0);
         rt.setToAngle(360);
+        rt.setOnFinished(event -> imageDice.setImage(new Image("file:src/santa_claus/Images/" + diceValue + ".png",
+                100, 100, true, true)));
         rt.play();
-
-//        RotateTransition newRt = new RotateTransition(Duration.seconds(1), imageDice2);
-//        newRt.setFromAngle(0);
-//        newRt.setToAngle(360);
-//        newRt.setOnFinished(event -> getNewValue());
-//        newRt.play();
-    }
-
-    private void getNewValue() {
-        imageDice.setImage(new Image("file:src/view/image/" + dice + ".png",
-                100, 100, true, true));
     }
 }

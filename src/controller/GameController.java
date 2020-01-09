@@ -1,13 +1,22 @@
 package controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.*;
 import view.*;
 
@@ -24,7 +33,12 @@ public class GameController {
     ArrayList<ImageView> horseOnTrack = new ArrayList<>();
 
     private ArrayList<Player> playerList = new ArrayList<>();
-//    private ArrayList<ArrayList <Player>> playerLists = new ArrayList<>();;
+//    private ArrayList<ArrayList <Player>> playerLists = new ArrayList<>();
+
+    private int seconds;
+    private Stage subStage;
+    private Timeline timer;
+    private boolean[] clicked = {false, false, false}; // To know if btDice1, btDice2 and btBoth were clicked.
 
     private GameController() throws IOException {
         Board board1 = new Board(playerList);
@@ -44,10 +58,6 @@ public class GameController {
         stage.setTitle("Settings");
 
         //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
-        setPlayer("1", PlayerType.HUMAN, Color.BLUE);
-        setPlayer("2", PlayerType.MACHINE, Color.YELLOW);
-        setPlayer("3", PlayerType.HUMAN, Color.GREEN);
-        setPlayer("4", PlayerType.MACHINE, Color.RED);
 //        int horseId = board1.summon(playerList.get(3).getPlayerSide());
 //        gameView.summonHorse(convertPlayerSideToView(playerList.get(3).getPlayerSide()));
 
@@ -221,38 +231,7 @@ public class GameController {
             }
         }
 
-    //Test Dice
-//    public void displayDice(int diceValue) {
-//        RollDices rollDices = new RollDices(4);
-//        StackPane secondaryLayout = new StackPane();
-//        secondaryLayout.getChildren().add(rollDices);
-//
-//        Scene secondScene = new Scene(secondaryLayout, 300, 300);
-//        Stage newWindow = new Stage();
-//        newWindow.setTitle("Dice");
-//        newWindow.setScene(secondScene);
-//        newWindow.show();
-//    }
-
 //-------------------------GAME PLAY------------------------------
-
-    private void displayDiceValue(int dicevalue) {
-    /*
-    * Create a new window which popup to show the dice animation
-    *
-     */
-        RollDices rollDices = new RollDices(dicevalue);
-    }
-    /*
-     * get dice value
-     * Display dice (Roll animation)
-     * @return Dice obj
-     */
-    private Dice throwDice() {
-        Dice dice = new Dice();
-        dice.throwDice();
-        return dice;
-    }
 
     public boolean isSummon(int dice1, int dice2) {
         return dice1 == 6 || dice2 == 6;
@@ -284,7 +263,7 @@ public class GameController {
 
             setPlayer(name.get(i), playerType, list[i]);
         }
-
+        //Testing function
         for (Player p: playerList) {
             System.out.println(p.getName() + " " + p.getPlayerType());
         }
@@ -293,12 +272,13 @@ public class GameController {
     //-----------------------Set turn---------------------
     public void rollDiceForTurn() {
         for (int i = 0; i < playerList.size(); i++) {
-            int diceValue = throwDice().getDiceValue();
-            if (isDuplicateDiceValue(diceValue)) {
+            Dice dice = throwDice();
+            displayDice(dice);
+            if (isDuplicateDiceValue(dice.getDiceValue())) {
                 i--;
                 continue;
             }
-            playerList.get(i).setDiceValue(diceValue);
+            playerList.get(i).setDiceValue(dice.getDiceValue());
 
         }
     }
@@ -330,14 +310,104 @@ public class GameController {
         }
         return -1;
     }
-    //--------------------Game play methods---------------------
-    private void displayDiceValue(int dicevalue1, int diceValue2) {
-        /*
-         * Create a new window which popup to show the dice animation
-         * Have the button to choose dice
-         */
+
+    //--------------------Roll Dice Animation-----------------------------
+    //TODO: move displayDice methods to roll dice class or game view?
+
+    private Dice throwDice() {
+        Dice dice = new Dice();
+        dice.throwDice();
+        return dice;
     }
 
+    private void displayDice(Dice dice) {
+        subStage = new Stage();
+        seconds = 0;
+        RollDices rollDice = new RollDices(dice);
+
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            seconds++;
+            if (seconds == 2) {
+                subStage.close();
+                timer.stop();
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+
+        subStage.setScene(new Scene(rollDice, 420, 420));
+        subStage.setTitle("Roll a dice");
+        subStage.show();
+    }
+
+    private void displayDice(Dice dice1, Dice dice2) {
+        subStage = new Stage();
+        seconds = 0;
+        //boolean[] clicked = {false, false, false};
+        VBox pane = new VBox();
+        HBox[] boxes = new HBox[2]; // imageBox, btBox respectively
+        RollDices rollDices1 = new RollDices(dice1);
+        RollDices rollDices2 = new RollDices(dice2);
+        Button[] buttons = new Button[3]; // Dice 1, Dice 2, Both dices respectively
+        String[] btName = {"Dice 1", "Dice 2", "Both"};
+
+        for (int i = 0; i < boxes.length; i++) { // Set imageBox and btBox
+            boxes[i] = new HBox();
+            boxes[i].setSpacing(10);
+            boxes[i].setAlignment(Pos.CENTER);
+        }
+
+        boxes[0].getChildren().addAll(rollDices1, rollDices2);
+        for (int i = 0; i < buttons.length; i++) {// set each bts and add them to btBox
+            buttons[i] = new Button(btName[i]);
+            boxes[1].getChildren().add(i, buttons[i]);
+        }
+
+        pane.getChildren().addAll(boxes[0], boxes[1]);// add 2 boxes to another vbox
+        pane.setSpacing(10);
+        pane.setAlignment(Pos.CENTER);
+
+        buttons[0].setOnMouseClicked(event -> {
+            if (seconds == 2) {
+                buttons[0].setCancelButton(true);
+                dice1.setPickedDice(true);
+                stage.close();
+                clicked[0] = true;
+            }
+        }); // Set btDice1
+        buttons[1].setOnMouseClicked(event -> {
+            if (seconds == 2) {
+                buttons[1].setCancelButton(true);
+                dice2.setPickedDice(true);
+                stage.close();
+                clicked[1] = true;
+            }
+        }); // Set btDice2 when clicked
+        buttons[2].setOnMouseClicked(event -> {
+            if (seconds == 2) {
+                buttons[2].setCancelButton(true);
+                dice1.setPickedDice(true);
+                dice2.setPickedDice(true);
+                stage.close();
+                clicked[2] = true;
+            }
+        }); // Set btDice3 when clicked
+
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            seconds++;
+            if (seconds == 2) { // When dice rolling animation ended
+                timer.stop();
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+
+        subStage.setScene(new Scene(pane, 400, 200));
+        subStage.setTitle("Roll 2 dices");
+        subStage.show();
+    }
+
+    //--------------------Game play methods---------------------
     /*
      * receive the dice value user choose
      * @return finalDiceValue
@@ -439,9 +509,7 @@ public class GameController {
     }
 
     public void playGame() {
-//        setPlayer();
         Board board = new Board(playerList);
-        GameView gameView = null;
 
         while(!board.getIsEndGame()) {
             for (int i = findPlayerWithHighestDice(findMaximumDiceValue()); i < playerList.size(); i++) {
@@ -449,10 +517,13 @@ public class GameController {
                     boolean bonusTurn = false;
                     ArrayList<Horse> horseList;
 
+                    //thrown dice and pick dice
                     Dice dice1 = throwDice();
                     Dice dice2 = throwDice();
-                    displayDiceValue(dice1.getDiceValue(), dice2.getDiceValue());
+                    displayDice(dice1, dice2);
 
+                    //TODO After summon, do we need to move ?
+                    //TODO want to summon algo?
                     if (isSummon(dice1.getDiceValue(), dice2.getDiceValue())) {
                         if (wantToSummon()) {
                             int horseId = board.summon(playerList.get(i).getPlayerSide());
@@ -463,11 +534,15 @@ public class GameController {
                         bonusTurn = true;
                     }
 
-                    int move = pickDicevalue(dice1, dice2);
-                    horseList = findAllHorse(playerList.get(i), board);
-
-                    if (horseList.size() != 0) {
-
+                    if (dice1.isPicked() && dice2.isPicked()) {
+                        continue;
+                    } else if (dice1.isPicked() || dice2.isPicked()) {
+                        int move = pickDicevalue(dice1, dice2);
+                        horseList = findAllHorse(playerList.get(i), board);
+                        if (horseList.size() != 0) {
+                            continue;
+                        }
+                        //Moving
                     }
                 }
             }

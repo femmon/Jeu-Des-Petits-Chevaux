@@ -172,6 +172,9 @@ public class GameView {
     public PathView[] getAllPaths() {
         return allPaths;
     }
+
+    //-------------------------Dice view--------------------------------
+
 }
 
 
