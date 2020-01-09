@@ -423,12 +423,6 @@ public class GameController {
         return colorStr + "_" + id;
     }
 
-
-
-    private void summonHorse(int index) {
-
-    }
-
     public void playGame() {
 //        setPlayer();
         Board board = new Board(playerList);
