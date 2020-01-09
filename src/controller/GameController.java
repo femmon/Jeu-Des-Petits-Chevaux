@@ -27,6 +27,7 @@ public class GameController {
 //    private ArrayList<ArrayList <Player>> playerLists = new ArrayList<>();;
 
     private GameController() throws IOException {
+        Board board1 = new Board(playerList);
         // Create game view
         HBox board = FXMLLoader.load(getClass().getResource("../view/pachisi.fxml"));
         gameView = new GameView(board);
@@ -43,7 +44,13 @@ public class GameController {
         stage.setTitle("Settings");
 
         //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
-        controllerDemo(gameView);
+        setPlayer("1", PlayerType.HUMAN, Color.BLUE);
+        setPlayer("2", PlayerType.MACHINE, Color.YELLOW);
+        setPlayer("3", PlayerType.HUMAN, Color.GREEN);
+        setPlayer("4", PlayerType.MACHINE, Color.RED);
+//        int horseId = board1.summon(playerList.get(3).getPlayerSide());
+//        gameView.summonHorse(convertPlayerSideToView(playerList.get(3).getPlayerSide()));
+
     }
 
     public static GameController getInstance() throws IOException {
@@ -75,7 +82,7 @@ public class GameController {
 
         String[] destinations = {"0xffa500ff_8", "0x0000ffff_2"};
         for (String destination: destinations) {
-            getHorseIDOnClick(destination);
+            horseOnClickedEvent(destination);
         }
     }
 
@@ -132,7 +139,7 @@ public class GameController {
 
     // click a horse to get ID
 
-      private void getHorseIDOnClick(String destination) {
+      private void horseOnClickedEvent(String destination) {
             for (PathView path: gameView.getAllPaths()) {
                 for (Node pathContents: path.getPathContents()) {
                     pathContents.setOnMouseClicked(e -> {
@@ -215,17 +222,17 @@ public class GameController {
         }
 
     //Test Dice
-    public void displayDice(byte diceValue) {
-        RollDices rollDices = new RollDices(4);
-        StackPane secondaryLayout = new StackPane();
-        secondaryLayout.getChildren().add(rollDices);
-
-        Scene secondScene = new Scene(secondaryLayout, 300, 300);
-        Stage newWindow = new Stage();
-        newWindow.setTitle("Dice");
-        newWindow.setScene(secondScene);
-        newWindow.show();
-    }
+//    public void displayDice(int diceValue) {
+//        RollDices rollDices = new RollDices(4);
+//        StackPane secondaryLayout = new StackPane();
+//        secondaryLayout.getChildren().add(rollDices);
+//
+//        Scene secondScene = new Scene(secondaryLayout, 300, 300);
+//        Stage newWindow = new Stage();
+//        newWindow.setTitle("Dice");
+//        newWindow.setScene(secondScene);
+//        newWindow.show();
+//    }
 
 //-------------------------GAME PLAY------------------------------
 
@@ -388,8 +395,83 @@ public class GameController {
         return false;
     }
 
+    private String convertPositionToPathID(Position position) {
+        String colorHexa ="";
+        switch (position.getColor()) {
+            case GREEN:
+                colorHexa = "0x008000ff";
+                break;
+            case BLUE:
+                colorHexa = "0x0000ffff";
+                break;
+            case RED:
+                colorHexa = "0xff0000ff";
+                break;
+            case YELLOW:
+                colorHexa = "0xffa500ff";
+                break;
+            default: colorHexa = "";
+        }
+
+        return colorHexa + "_" + position.getNumber();
+    }
+
+    private String covertHorseId(Color color, int id) {
+        String colorStr = "";
+        switch (color) {
+            case YELLOW:
+                colorStr = "yellow";
+                break;
+            case RED:
+                colorStr = "red";
+                break;
+            case GREEN:
+                colorStr = "green";
+                break;
+            case BLUE:
+                colorStr = "blue";
+                break;
+            default:
+                colorStr = " ";
+                break;
+        }
+        return colorStr + "_" + id;
+    }
 
     public void playGame() {
+//        setPlayer();
+        Board board = new Board(playerList);
+        GameView gameView = null;
+
+        while(!board.getIsEndGame()) {
+            for (int i = findPlayerWithHighestDice(findMaximumDiceValue()); i < playerList.size(); i++) {
+                if (playerList.get(i).getPlayerType() == PlayerType.HUMAN) {
+                    boolean bonusTurn = false;
+                    ArrayList<Horse> horseList;
+
+                    Dice dice1 = throwDice();
+                    Dice dice2 = throwDice();
+                    displayDiceValue(dice1.getDiceValue(), dice2.getDiceValue());
+
+                    if (isSummon(dice1.getDiceValue(), dice2.getDiceValue())) {
+                        if (wantToSummon()) {
+                            int horseId = board.summon(playerList.get(i).getPlayerSide());
+                        }
+                    }
+
+                    if (isBonusTurn(dice1.getDiceValue(), dice2.getDiceValue())) {
+                        bonusTurn = true;
+                    }
+
+                    int move = pickDicevalue(dice1, dice2);
+                    horseList = findAllHorse(playerList.get(i), board);
+
+                    if (horseList.size() != 0) {
+
+                    }
+                }
+            }
+        }
 
     }
 
