@@ -6,6 +6,7 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 /**
  * This function fetches UI templates from FXML board + sets up the board + updates the board accordingly in correspondence with GameController
@@ -41,7 +42,7 @@ public class GameView {
     Color[] COLOR_LIST = {Color.RED, Color.GREEN, Color.BLUE, Color.ORANGE};
 
     // 1. obtains empty components from the fxml
-    public GameView(HBox pachisi) throws FileNotFoundException {
+    public GameView(HBox pachisi) throws IOException {
         this.pachisi = pachisi;
         fetchingNests(pachisi);
         fetchingHomePath(pachisi);
@@ -53,7 +54,7 @@ public class GameView {
         return pachisi;
     }
 
-    public void fetchingNests(HBox pachisi) throws FileNotFoundException {
+    public void fetchingNests(HBox pachisi) throws IOException {
         blueNest = (StackPane) pachisi.lookup("#blueNest");
         yellowNest = (StackPane) pachisi.lookup("#yellowNest");
         redNest = (StackPane) pachisi.lookup("#redNest");
@@ -137,13 +138,12 @@ public class GameView {
         for (int index = 0; index <= 7; index++) {
             allPaths[index].highlightCircle();
         }
-
     }
 
     // 2. updates components as per request from Controller (e.g adding horse to path, home path or nest )
 
     // adding horses to the nest
-    private void nestInit(StackPane[] nests) throws FileNotFoundException {
+    private void nestInit(StackPane[] nests) throws IOException {
         int order = 0;
 
         for (StackPane nest: nests) {
