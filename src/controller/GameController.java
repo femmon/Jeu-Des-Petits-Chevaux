@@ -1,12 +1,9 @@
 package controller;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -17,7 +14,6 @@ import view.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class GameController {
 
@@ -33,13 +29,13 @@ public class GameController {
     private GameController() throws IOException {
         Board board1 = new Board(playerList);
         // Create game view
-        HBox board = (HBox) FXMLLoader.load(getClass().getResource("../view/pachisi.fxml"));
+        HBox board = FXMLLoader.load(getClass().getResource("../view/pachisi.fxml"));
         gameView = new GameView(board);
 
         // Create setting controller and pass in board to display after setting
         FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/LanguageSettingView.fxml")));
         Parent root = loader.load();
-        settingController controller = (settingController) loader.getController();
+        settingController controller = loader.getController();
         controller.initData(this, board);
 
         stage = new Stage();
@@ -75,66 +71,47 @@ public class GameController {
      * 3 : Yellow nest/horse/homePath
      * @param view
      */
+
+    //-------------------------VIEW DEMO------------------------------
     private void controllerDemo(GameView view) {
         view.pathEvents();
         view.homePathEvent(2);
         view.homePathEvent(1);
-        summonHorse(3);
+        summonHorseFromNest(3);
 
+
+        String[] destinations = {"0xffa500ff_8", "0x0000ffff_2"};
+        for (String destination: destinations) {
+            horseOnClickedEvent(destination);
+        }
     }
 
     public ArrayList<ImageView> getHorsesOnTrack(ImageView horse) {
         horseOnTrack.add(horse);
-        getHorseColorIndex(horseOnTrack.get(0).getId());
         return horseOnTrack;
     }
 
-//    private String getHorseID(String id) {
-//        getHorseColorIndex(id);
-//        return id;
-//    }
-
-    private int getHorseColorIndex(String id) {
-        int realID = 0;
-        String trimmedID = id.substring(0, id.length() - 2);
-        switch (trimmedID) {
-            case "red":
-                realID = 0;
-                break;
-            case "green":
-                realID = 1;
-                break;
-            case "blue":
-                realID = 2;
-                break;
-            case "yellow":
-                realID = 3;
-                break;
-        }
-        return realID;
-    }
-
-    // cho ngựa xuất chuồng
-    public void horseOutOfCage(ImageView horseImage, int index) {
-        System.out.println(horseImage + " is standing at " + gameView.getAllPaths()[index].getPathContents().get(0).getId());
-        StackPane startingStep = (StackPane) gameView.getAllPaths()[index].getPathContents().get(0); // one horse is added at starting point
-        startingStep.getChildren().add(horseImage);
-        getHorsesOnTrack(horseImage);
-
-    }
+    //-------------------------SUMMONING HORSE------------------------------
 
     // calling horse to summon
-    public void summonHorse(int index) {
+    public void summonHorseFromNest(int index) {
         gameView.getNest(index).getHorseStable().setOnMouseClicked(e -> {
             Node chosenHorse = e.getPickResult().getIntersectedNode();
             if (chosenHorse instanceof ImageView) {
-                horseOutOfCage((ImageView) chosenHorse, index * 2);
-                moveAsDemand("0xffa500ff_4", "yellow_1");
+                standOnStartingPoint((ImageView) chosenHorse, index * 2);
             }
         });
     }
 
-//      int[] pathRoute = {0, 2, 3, 1};
+    // cho ngựa xuất chuồng
+    public void standOnStartingPoint(ImageView horseImage, int index) {
+        System.out.println(horseImage + " is standing at " + gameView.getAllPaths()[index].getPathContents().get(0).getId());
+        StackPane startingStep = (StackPane) gameView.getAllPaths()[index].getPathContents().get(0);
+        startingStep.getChildren().add(horseImage); // one horse is added at starting point
+        getHorsesOnTrack(horseImage);
+    }
+
+    //-------------------------MOVING HORSE ON DEMAND------------------------------
     /**
      * Every ID has the following convention: colorCode + "_" + positionCode
      *
@@ -148,14 +125,58 @@ public class GameController {
      * */
 
     /**
-     * Horse ID format ex: red_1 -> red_4, yellow_1 -> yellow_4
+     * Horse ID format ex: red_0 -> red_3, yellow_0 -> yellow_3
      * */
+
+    //      int[] pathRoute = {0, 2, 3, 1};
+
 
     private String[] processingID(String wholeCode) {
         String colorCode = wholeCode.substring(0, wholeCode.length() - 2);
         String positionCode = wholeCode.substring(wholeCode.length() - 1);
         return new String[]{colorCode, positionCode};
     }
+
+    // click a horse to get ID
+
+      private void horseOnClickedEvent(String destination) {
+            for (PathView path: gameView.getAllPaths()) {
+                for (Node pathContents: path.getPathContents()) {
+                    pathContents.setOnMouseClicked(e -> {
+                        Node chosenItem = e.getPickResult().getIntersectedNode();
+                        if (chosenItem instanceof ImageView) {
+                            moveAsDemand(destination, chosenItem.getId());
+                        }
+                        else {
+                            System.out.println("No horse shown on the path");
+                        }
+                    });
+                }
+            }
+      }
+      
+      private int convertPathIDtoPPathIndex(String[] pathID) {
+        int pathIndex = 0;
+          switch (pathID[0]) {
+              case "0xff0000ff":
+                  break;
+              case "0x008000ff":
+                  pathIndex = 2;
+                  break;
+              case "0x0000ffff":
+                  pathIndex = 4;
+                  break;
+              case "0xffa500ff":
+                  pathIndex = 6;
+                  break;
+          }
+          if (Integer.parseInt(pathID[1]) > 5) {
+              pathIndex++;
+          }
+          return pathIndex;
+      }
+
+      
 
       private void moveAsDemand(String pathID, String horseID) {
             if (!horseOnTrack.isEmpty()) {
@@ -164,25 +185,9 @@ public class GameController {
                 // processing horse ID
                 String[] horseIDPackage = processingID(horseID); // same as above
                  // 1, 2, 3, 4
-                int pathIndex = 0;
+                int pathIndex = convertPathIDtoPPathIndex(pathIDPackage);
                 int nestIndex = 0;
-                switch (pathIDPackage[0]) {
-                    case "0xff0000ff":
-                        pathIndex = 0;
-                        break;
-                    case "0x008000ff":
-                        pathIndex = 2;
-                        break;
-                    case "0x0000ffff":
-                        pathIndex = 4;
-                        break;
-                    case "0xffa500ff":
-                        pathIndex = 6;
-                        break;
-                }
-                if (Integer.parseInt(pathIDPackage[1]) > 5) {
-                    pathIndex++;
-                }
+
                 int horseOrder = Integer.parseInt(horseIDPackage[1]);
 
                 switch (horseIDPackage[0]) {
@@ -200,11 +205,21 @@ public class GameController {
                     default:
                         throw new IllegalStateException("Unexpected value: " + horseIDPackage[0]);
                 }
-                ImageView selectedHorse = (ImageView) gameView.getNest(nestIndex).getHorseStable().getChildren().get(horseOrder);
-                gameView.getAllPaths()[pathIndex].setHorse(pathID, selectedHorse); // the yellow_1 horse is set
+                String oldPathID = "";
+                // if I get the parent of the horse I will reveal its position 
+                for (ImageView horse: horseOnTrack) {
+                    if (horse.getId().equals(horseID)) {
+                        oldPathID = horse.getParent().getId(); 
+                    }
+                }
+                ImageView selectedHorse = gameView.getNest(nestIndex).getHorseList().get(horseOrder);
+                String[] oldPosPackage = processingID(oldPathID);
+                int oldPathIndex = convertPathIDtoPPathIndex(oldPosPackage);
+
+                gameView.getAllPaths()[oldPathIndex].removeHorse(oldPathID);
+                gameView.getAllPaths()[pathIndex].setHorse(pathID, selectedHorse);
             }
         }
-
 
     //Test Dice
 //    public void displayDice(int diceValue) {
@@ -259,9 +274,9 @@ public class GameController {
 
         for (int i = 0; i < 4; i++) {
             PlayerType playerType;
-            if (human.get(i) == false && com.get(i) == false) {
+            if (!human.get(i) && !com.get(i)) {
                 playerType = PlayerType.NONE;
-            } else if (human.get(i) == true) {
+            } else if (human.get(i)) {
                 playerType = PlayerType.HUMAN;
             } else {
                 playerType = PlayerType.MACHINE;

@@ -77,14 +77,14 @@ public class PathView {
         path.getChildren().add(horse);
     }
 
-    public void removeHorse(String id, ImageView horse) {
+    public void removeHorse(String id) {
         String strID = id.substring(id.length() - 1);
         int realID = Integer.parseInt(strID);
         if (realID > 5) {
             realID -= 5;
         }
         StackPane path = (StackPane) getPathContents().get(realID);
-        path.getChildren().remove(horse);
+        path.getChildren().remove(1);
     }
 
 }
