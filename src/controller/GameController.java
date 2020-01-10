@@ -2,6 +2,7 @@ package controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -613,7 +614,8 @@ public class GameController {
     }
 
     public void exit() {
-
+        Platform.exit();
+        System.exit(0);
     }
 
 }
