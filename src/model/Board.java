@@ -283,6 +283,18 @@ public class Board {
     }
 
     /**
+     * check whether the horse in the homepath or not
+     * @param currentPosition
+     * @return
+     */
+
+    public boolean isInHomePath(Move currentPosition) {
+        return currentPosition.getStart().getNumber() >= 12
+                && currentPosition.getStart().getNumber() <= 17;
+    }
+
+
+    /**
      * Find the destination without moving. Use this when horse move around path (instead of moving up home path)
      * @param nodeWithHorse
      * @param moves

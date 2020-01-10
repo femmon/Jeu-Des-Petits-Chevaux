@@ -423,8 +423,10 @@ public class GameController {
         return false;
     }
 
-    /*
+    /**
      * receive the dice value user choose
+     * @param dice1
+     * @param dice2
      * @return finalDiceValue
      */
     private int pickDicevalue(Dice dice1, Dice dice2) {
@@ -452,16 +454,6 @@ public class GameController {
             }
         }
         return horseInBoardList;
-    }
-
-    /*
-     * Let user pick horse to move
-     * set eventListener to all horse that is able to move
-     * @return hourseID
-     */
-    private int pickHorse() {
-
-        return 0;
     }
 
     private int convertPlayerSideToView(Color color) {
@@ -523,6 +515,26 @@ public class GameController {
         return colorStr + "_" + id;
     }
 
+
+    private int calculatePointInHomePath(Move destination) {
+        switch (destination.getFinish().getNumber()) {
+            case 12:
+                return 1;
+            case 13:
+                return 2;
+            case 14:
+                return 3;
+            case 15:
+                return 4;
+            case 16:
+                return 5;
+            case 17:
+                return 6;
+            default:
+                return 0;
+        }
+    }
+
     public void playGame() {
         Board board = new Board(playerList);
 
@@ -573,13 +585,13 @@ public class GameController {
                             }
                         }
                         //score in home path
-//                        if (board.isMoveInHomePath(currentPosition)) {
-//                            playerList.get(i).addScore(calculatePointInHomePath(destination));
-//                        }
-//
-//                        if (isInHomePath(currentPosition)) {
-//                            playerList.get(i).addScore(1);
-//                        }
+                        if (board.isMoveInMovePath(destination)) {
+                            playerList.get(i).addScore(calculatePointInHomePath(destination));
+                        }
+
+                        if (board.isInHomePath(destination)) {
+                            playerList.get(i).addScore(1);
+                        }
 
                         if (board.getIsEndGame()) {
                             break;
