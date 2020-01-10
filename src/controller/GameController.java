@@ -8,18 +8,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.*;
-import view.*;
-
+import view.GameView;
+import view.PathView;
+import view.RollDices;
+import view.settingController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ public class GameController {
     private Stage subStage;
     private Timeline timer;
     private boolean[] clicked = {false, false, false}; // To know if btDice1, btDice2 and btBoth were clicked.
+    private String clickedHorsePathViewId;
 
     private GameController() throws IOException {
         Board board1 = new Board(playerList);
@@ -408,6 +408,21 @@ public class GameController {
     }
 
     //--------------------Game play methods---------------------
+    public void setClickedHorsePathViewId(String clickedHorsePathViewId) {
+        this.clickedHorsePathViewId = clickedHorsePathViewId;
+
+        if (hasDiceChosen()) {
+//            move();
+        }
+    }
+
+    private boolean hasDiceChosen() {
+        for (boolean isDiceClicked: clicked) {
+            if (isDiceClicked) return true;
+        }
+        return false;
+    }
+
     /*
      * receive the dice value user choose
      * @return finalDiceValue
