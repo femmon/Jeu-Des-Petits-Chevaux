@@ -521,6 +521,7 @@ public class GameController {
                     Dice dice1 = throwDice();
                     Dice dice2 = throwDice();
                     displayDice(dice1, dice2);
+                    horseList = findAllHorse(playerList.get(i), board);
 
                     //TODO After summon, do we need to move ?
                     //TODO want to summon algo?
@@ -534,15 +535,41 @@ public class GameController {
                         bonusTurn = true;
                     }
 
+                    if (horseList.size() == 0) {
+                        continue;
+                    }
+
                     if (dice1.isPicked() && dice2.isPicked()) {
                         continue;
                     } else if (dice1.isPicked() || dice2.isPicked()) {
+                        int pickedHorseID = 0;
                         int move = pickDicevalue(dice1, dice2);
-                        horseList = findAllHorse(playerList.get(i), board);
-                        if (horseList.size() != 0) {
-                            continue;
-                        }
                         //Moving
+                        Move destination = board.move(playerList.get(i).getPlayerSide(), pickedHorseID, move);
+                        horseOnClickedEvent(convertPositionToPathID(destination.getFinish()));
+
+                        //score for kicked horse
+                        if (destination.getKickedHorse() != null) {
+                            for (int j = 0; j < playerList.size(); j++) {
+                                if (playerList.get(j).getPlayerSide() == destination.getKickedHorse().getColor()) {
+                                    playerList.get(j).minusScore(2);
+                                    playerList.get(i).addScore(2);
+                                }
+                            }
+                        }
+                        //score in home path
+//                        if (board.isMoveInHomePath(currentPosition)) {
+//                            playerList.get(i).addScore(calculatePointInHomePath(destination));
+//                        }
+//
+//                        if (isInHomePath(currentPosition)) {
+//                            playerList.get(i).addScore(1);
+//                        }
+
+                        if (board.getIsEndGame()) {
+                            break;
+                        }
+
                     }
                 }
             }

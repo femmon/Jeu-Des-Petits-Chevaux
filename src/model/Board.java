@@ -145,7 +145,6 @@ public class Board {
         return current;
     }
 
-    //TODO: need to separate to smaller methods (check end game and kickhorse)
     /**
      * Move the horse with the specified color and id. Update isEndGame if necessary
      * @param color
