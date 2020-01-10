@@ -265,10 +265,17 @@ public class Board {
      * @return
      */
     private boolean isMoveInMovePath(PathNode nodeWithHorse) {
-        Position position = nodeWithHorse.getPosition();
-        if (position.getNumber() < 11) return true;
-        else if (position.getNumber() == 11) {
-            if (position.getColor() == nodeWithHorse.getHorse().getColor()) return false;
+        return isMoveInMovePath(nodeWithHorse.getPosition(), nodeWithHorse.getHorse().getColor());
+    }
+
+    public boolean isMoveInMovePath(Move move) {
+        return isMoveInMovePath(move.getStart(), move.getMovingHorse().getColor());
+    }
+
+    private boolean isMoveInMovePath(Position startPosition, Color horseColor) {
+        if (startPosition.getNumber() < 11) return true;
+        else if (startPosition.getNumber() == 11) {
+            if (startPosition.getColor() == horseColor) return false;
             return true;
         } else {
             return false;
