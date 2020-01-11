@@ -177,6 +177,13 @@ public class Board {
         return move;
     }
 
+    public Move move(Position postion, int moves) {
+        PathNode start = findPathNodeFromPosition(postion);
+        Horse horseAtStart = start.getHorse();
+        if (horseAtStart == null) throw new IllegalArgumentException("This position doesn't contain horse");
+
+        return move(horseAtStart.getColor(), horseAtStart.getId(), moves);
+    }
     /**
      * Find the new position without actually moving
      * @param start
@@ -252,6 +259,21 @@ public class Board {
                         return homePath;
                     }
                 }
+                homePath = homePath.getHomePositionNode();
+            }
+            current = current.getNextAroundNode();
+        } while (current != path);
+        return null;
+    }
+
+    public PathNode findPathNodeFromPosition(Position position) {
+        PathNode current = path;
+        do {
+            if (current.getPosition().equals(position)) return current;
+
+            PathNode homePath = current.getHomePositionNode();
+            while (homePath != null) {
+                if (homePath.getPosition().equals(position)) return homePath;
                 homePath = homePath.getHomePositionNode();
             }
             current = current.getNextAroundNode();
