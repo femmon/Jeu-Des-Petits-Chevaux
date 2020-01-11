@@ -418,6 +418,10 @@ public class Board {
         return findMoveDestination(start, moves) != null;
     }
 
+    public Horse getHorseInPosition(Position position) {
+        return findPathNodeFromPosition(position).getHorse();
+    }
+
     // For debugging
 
     /**

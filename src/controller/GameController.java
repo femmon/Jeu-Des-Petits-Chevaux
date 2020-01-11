@@ -1,22 +1,19 @@
 package controller;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import model.*;
-import view.*;
+import view.DisplayDice;
+import view.GameView;
+import view.PathView;
+import view.settingController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,8 +36,12 @@ public class GameController {
     GameModel gameModel = new GameModel();
     ArrayList<ImageView> horseOnTrack = new ArrayList<>();
     private ArrayList<Player> playerList = new ArrayList<>();
+    Board board;
+    int turn;
+    Dice dice1;
+    Dice dice2;
     private boolean[] clicked = {false, false, false}; // To know if btDice1, btDice2 and btBoth were clicked.
-    private String clickedHorsePathViewId;
+    private String clickedHorsePathViewId = "";
 
     private GameController() throws IOException {
         Board board1 = new Board(playerList);
@@ -327,7 +328,7 @@ public class GameController {
     public void setClickedHorsePathViewId(String clickedHorsePathViewId) {
         this.clickedHorsePathViewId = clickedHorsePathViewId;
         if (hasDiceChosen()) {
-//            move();
+            humanMove();
         }
     }
 
@@ -341,7 +342,10 @@ public class GameController {
     public void setClickedDice(int option) {
         clicked = new boolean[]{false, false, false};
         clicked[option] = true;
-        System.out.println(clicked[0] + " " + clicked[1] + " " + clicked[2]);
+
+        if (clickedHorsePathViewId.compareTo("") != 0) {
+            humanMove();
+        }
     }
 
     /**
@@ -456,7 +460,7 @@ public class GameController {
     }
 
     //FIXME infinyty loop
-    public void playGame() {
+    public void playGameOld() {
         Board board = new Board(playerList);
 
         while(!board.getIsEndGame()) {
@@ -519,6 +523,178 @@ public class GameController {
                 }
             }
         }
+
+    }
+
+    public void playGame() {
+        board = new Board(playerList);
+        board.summon(Color.RED);
+        rollDiceForTurn();
+        turn = findPlayerWithHighestDice(findMaximumDiceValue());
+
+        // While instead of if to avoid recursion
+        while (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
+            // AI
+            break;
+        }
+
+        throwNewDiceAndGetInput();
+    }
+
+    private void throwNewDiceAndGetInput() {
+        dice1 = throwDice();
+        dice2 = throwDice();
+        DisplayDice displayDice = new DisplayDice();
+        displayDice.displayDice(dice1, dice2);
+    }
+
+    private Position pathViewIdToPosition(String pathViewId) {
+        String colorCode = pathViewId.substring(0, pathViewId.length() - 2);
+        String positionCode = pathViewId.substring(pathViewId.length() - 1);
+        Color color;
+        switch (colorCode) {
+            case "0xff0000ff":
+                color = Color.RED;
+                break;
+            case "0x008000ff":
+                color = Color.GREEN;
+                break;
+            case "0x0000ffff":
+                color = Color.BLUE;
+                break;
+            case "0xffa500ff":
+                color = Color.YELLOW;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + pathViewId);
+        }
+
+        return new Position(color, Integer.parseInt(positionCode));
+    }
+
+    private int pickDicevalue() {
+        if (clicked[0]) {
+            return dice1.getDiceValue();
+        } else if (clicked[1]) {
+            return dice2.getDiceValue();
+        } else {
+            return dice1.getDiceValue() + dice2.getDiceValue();
+        }
+    }
+
+    // TODO: Refactor so that can use 2 dices for 2 horses
+    private void humanMove() {
+        // Reset
+        clickedHorsePathViewId = "";
+        clicked = new boolean[]{false, false, false};
+
+        if (isNestViewId(clickedHorsePathViewId)) {
+            summon();
+            return;
+        }
+
+        Position starting = pathViewIdToPosition(clickedHorsePathViewId);
+        Horse horseAtStarting = board.getHorseInPosition(starting);
+        // Not the right piece
+        if (horseAtStarting == null ||
+                horseAtStarting.getColor() != playerList.get(turn).getPlayerSide()) {
+            DisplayDice displayDice = new DisplayDice();
+            displayDice.displayDice(dice1, dice2);
+            return;
+        }
+
+        Move destination = board.move(starting, pickDicevalue());
+
+        // Invalid move. Prompt user to choose dice again
+        if (destination.getFinish() == null) {
+            DisplayDice displayDice = new DisplayDice();
+            displayDice.displayDice(dice1, dice2);
+            return;
+        }
+
+        // Move view
+
+        updateScore(destination);
+
+        if (board.getIsEndGame()) {
+            stopGame();
+        }
+
+        if (dice1.getDiceValue() != dice2.getDiceValue()) {
+            turn = (turn + 1) % 4;
+        }
+
+        while (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
+            // AI
+            break;
+        }
+
+        throwNewDiceAndGetInput();
+    }
+
+    private void updateScore(Move destination) {
+        Player player = playerList.get(turn);
+        //score for kicked horse
+        if (destination.getKickedHorse() != null) {
+            for (int i = 0; i < playerList.size(); i++) {
+                if (playerList.get(i).getPlayerSide() == destination.getKickedHorse().getColor()) {
+                    playerList.get(i).minusScore(2);
+                    player.addScore(2);
+                }
+            }
+        }
+
+        //score in home path
+        if (board.isMoveInMovePath(destination)) {
+            player.addScore(calculatePointInHomePath(destination));
+        }
+        if (board.isInHomePath(destination)) {
+            player.addScore(1);
+        }
+    }
+
+    // TODO: Refactor so that can use 2 dices for 2 horses
+    private void summon() {
+        Color color = convertNestViewIdToColor(clickedHorsePathViewId);
+
+        // Not the right color
+        if (color != playerList.get(turn).getPlayerSide()) {
+            DisplayDice displayDice = new DisplayDice();
+            displayDice.displayDice(dice1, dice2);
+            return;
+        }
+
+        // Summon in view
+
+        // Reroll when summon is success
+        if (board.summon(color) != -1) {
+            dice1 = throwDice();
+            dice2 = throwDice();
+        }
+
+        DisplayDice displayDice = new DisplayDice();
+        displayDice.displayDice(dice1, dice2);
+    }
+
+    private Color convertNestViewIdToColor(String clickedHorsePathViewId) {
+        // Need naming rule from Hong
+        return Color.RED;
+    }
+
+    private boolean isNestViewId(String clickedHorsePathViewId) {
+        // Need naming rule from Hong
+        return false;
+    }
+
+    // AI
+        // Roll Dice
+        // Display dice
+        // Calculate move
+        // Move
+        // Check for end game
+        // Increase turn
+
+    public void stopGame() {
 
     }
 
