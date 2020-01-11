@@ -73,7 +73,6 @@ public class DisplayDice {
         buttons[0].setOnMouseClicked(event -> {
             if (seconds == 2) {
                 buttons[0].setCancelButton(true);
-                dice1.setPickedDice(true);
                 diceWindow.close();
                 gameController.setClickedDice(0);
             }
@@ -81,7 +80,6 @@ public class DisplayDice {
         buttons[1].setOnMouseClicked(event -> {
             if (seconds == 2) {
                 buttons[1].setCancelButton(true);
-                dice2.setPickedDice(true);
                 diceWindow.close();
                 gameController.setClickedDice(1);
             }
@@ -89,8 +87,6 @@ public class DisplayDice {
         buttons[2].setOnMouseClicked(event -> {
             if (seconds == 2) {
                 buttons[2].setCancelButton(true);
-                dice1.setPickedDice(true);
-                dice2.setPickedDice(true);
                 diceWindow.close();
                 gameController.setClickedDice(2);
             }
