@@ -26,6 +26,16 @@ import java.util.ArrayList;
 
 public class GameController {
 
+    //TODO: display score board
+    // playGame function
+    // Machine
+    // Set label for game play (button)
+    // Pause game
+    // Play again
+    // Play new game
+    // Unit test for demo
+    // Network
+
     Stage stage;
     static GameController controller;
     GameView gameView;
@@ -411,7 +421,6 @@ public class GameController {
     //--------------------Game play methods---------------------
     public void setClickedHorsePathViewId(String clickedHorsePathViewId) {
         this.clickedHorsePathViewId = clickedHorsePathViewId;
-
         if (hasDiceChosen()) {
 //            move();
         }
@@ -466,7 +475,6 @@ public class GameController {
             default: return -1;
         }
     }
-
 
     private boolean wantToSummon() {
         //check if the user want to summon or not
@@ -536,6 +544,7 @@ public class GameController {
         }
     }
 
+    //FIXME infinyty loop
     public void playGame() {
         Board board = new Board(playerList);
 
@@ -551,12 +560,10 @@ public class GameController {
                     displayDice(dice1, dice2);
                     horseList = findAllHorse(playerList.get(i), board);
 
-                    //TODO After summon, do we need to move ?
                     //TODO want to summon algo?
                     if (isSummon(dice1.getDiceValue(), dice2.getDiceValue())) {
-                        if (wantToSummon()) {
-                            int horseId = board.summon(playerList.get(i).getPlayerSide());
-                        }
+                        int horseId = board.summon(playerList.get(i).getPlayerSide());
+                        summonHorseFromNest(convertPlayerSideToView(playerList.get(i).getPlayerSide()));
                     }
 
                     if (isBonusTurn(dice1.getDiceValue(), dice2.getDiceValue())) {
@@ -589,11 +596,9 @@ public class GameController {
                         if (board.isMoveInMovePath(destination)) {
                             playerList.get(i).addScore(calculatePointInHomePath(destination));
                         }
-
                         if (board.isInHomePath(destination)) {
                             playerList.get(i).addScore(1);
                         }
-
                         if (board.getIsEndGame()) {
                             break;
                         }
@@ -610,7 +615,6 @@ public class GameController {
     }
 
     public void playNewGame() {
-
     }
 
     public void exit() {

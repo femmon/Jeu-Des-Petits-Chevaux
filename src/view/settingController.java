@@ -43,6 +43,8 @@ public class settingController {
             stage.show();
 
             getPlayerInfo();
+//            gameController.playGame();
+
         });
 
         for (int i = 1; i < 5; i++) {
