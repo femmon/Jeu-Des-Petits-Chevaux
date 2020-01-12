@@ -17,6 +17,10 @@ public class Board {
      * @param playerList
      */
     public Board(ArrayList<Player> playerList) {
+        if (notEnoughPlayer(playerList)) {
+            throw new IllegalArgumentException("Need at least 2 people/machine to play");
+        }
+
         nests = new Nest[4];
         Color[] colors = {RED, GREEN, BLUE, YELLOW};
         for (int i = 0; i < 4; i++) {
@@ -28,6 +32,19 @@ public class Board {
         path = makePath();
 
         isEndGame = false;
+    }
+
+    private boolean notEnoughPlayer(ArrayList<Player> playerList) {
+        int noneCount = 0;
+        for (Player player: playerList) {
+            if (player.getPlayerType() == PlayerType.NONE) {
+                noneCount++;
+            }
+
+            if (noneCount == 3) return true;
+        }
+
+        return false;
     }
 
     /**
