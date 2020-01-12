@@ -412,6 +412,9 @@ public class Board {
      * @return
      */
     public boolean canMove(Color color, int id, int moves) {
+        if (isHorseInNest(color, id) == true) {
+            return false;
+        }
         PathNode start = findHorseInPath(color, id);
         return findMoveDestination(start, moves) != null;
     }

@@ -543,8 +543,41 @@ public class GameController {
     private void throwNewDiceAndGetInput() {
         dice1 = throwDice();
         dice2 = throwDice();
+        printTurnDiceDebug();
+
+        while (!isMovePossible()) {
+            if (dice1.getDiceValue() != dice2.getDiceValue()) {
+                turn = (turn + 1) % 4;
+            }
+            dice1 = throwDice();
+            dice2 = throwDice();
+            printTurnDiceDebug();
+        }
 
         displayOldDiceAndGetInput();
+    }
+
+    void printTurnDiceDebug() {
+        Player player = playerList.get(turn);
+        System.out.println(player.getPlayerSide() + " - " + player.getName() + ": " +
+                dice1.getDiceValue() + " " + dice2.getDiceValue());
+    }
+
+    private boolean isMovePossible() {
+        boolean hasASix = dice1.getDiceValue() == 6 || dice2.getDiceValue() == 6;
+        Color playerColor = playerList.get(turn).getPlayerSide();
+        if (hasASix && board.canSummon(playerColor)) {
+            return true;
+        }
+
+        int[] diceValues = {dice1.getDiceValue(), dice2.getDiceValue()};
+        for (int diceValue: diceValues) {
+            for (int horseId = 0; horseId < 4; horseId++) {
+                if (board.canMove(playerColor, horseId, diceValue) == true) return true;
+            }
+        }
+
+        return false;
     }
 
     private void displayOldDiceAndGetInput() {
