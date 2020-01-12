@@ -97,6 +97,7 @@ public class settingController {
     private void updateLanguagePlayerSetting() {
         Language language = Language.getInstance();
         ((Label) playerSettingView.lookup("#teamColor")).setText(language.getString("teamColor"));
+
     }
 
     public void initData(GameController gameController, HBox board) {

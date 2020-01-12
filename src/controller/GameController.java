@@ -8,7 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -20,6 +20,7 @@ import view.PathView;
 import view.RollDices;
 import view.settingController;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -29,7 +30,6 @@ public class GameController {
     static GameController controller;
     GameView gameView;
     GameModel gameModel = new GameModel();
-    ArrayList<ImageView> horseOnTrack = new ArrayList<>();
 
     private ArrayList<Player> playerList = new ArrayList<>();
 //    private ArrayList<ArrayList <Player>> playerLists = new ArrayList<>();
@@ -56,10 +56,7 @@ public class GameController {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Settings");
-
-        //primaryScene.getStylesheets().add(getClass().getResource("/view/debug.css").toExternalForm());
-//        int horseId = board1.summon(playerList.get(3).getPlayerSide());
-//        gameView.summonHorse(convertPlayerSideToView(playerList.get(3).getPlayerSide()));
+        controllerDemo(gameView);
 
     }
 
@@ -87,149 +84,8 @@ public class GameController {
         view.pathEvents();
         view.homePathEvent(2);
         view.homePathEvent(1);
-        summonHorseFromNest(3);
-
-
-        String[] destinations = {"0xffa500ff_8", "0x0000ffff_2"};
-        for (String destination: destinations) {
-            horseOnClickedEvent(destination);
-        }
+        playGame();
     }
-
-    public ArrayList<ImageView> getHorsesOnTrack(ImageView horse) {
-        horseOnTrack.add(horse);
-        return horseOnTrack;
-    }
-
-    //-------------------------SUMMONING HORSE------------------------------
-
-    // calling horse to summon
-    public void summonHorseFromNest(int index) {
-        gameView.getNest(index).getHorseStable().setOnMouseClicked(e -> {
-            Node chosenHorse = e.getPickResult().getIntersectedNode();
-            if (chosenHorse instanceof ImageView) {
-                standOnStartingPoint((ImageView) chosenHorse, index * 2);
-            }
-        });
-    }
-
-    // cho ngựa xuất chuồng
-    public void standOnStartingPoint(ImageView horseImage, int index) {
-        System.out.println(horseImage + " is standing at " + gameView.getAllPaths()[index].getPathContents().get(0).getId());
-        StackPane startingStep = (StackPane) gameView.getAllPaths()[index].getPathContents().get(0);
-        startingStep.getChildren().add(horseImage); // one horse is added at starting point
-        getHorsesOnTrack(horseImage);
-    }
-
-    //-------------------------MOVING HORSE ON DEMAND------------------------------
-    /**
-     * Every ID has the following convention: colorCode + "_" + positionCode
-     *
-     * Path ID format
-     * 0xff0000ff - red
-     * 0x008000ff - green
-     * 0x0000ffff - blue
-     * 0xffa500ff - orange
-     *
-     * For ex: The id of each home path is: 0xffa500ff_11 -> 0xffa500ff_17
-     * */
-
-    /**
-     * Horse ID format ex: red_0 -> red_3, yellow_0 -> yellow_3
-     * */
-
-    //      int[] pathRoute = {0, 2, 3, 1};
-
-
-    private String[] processingID(String wholeCode) {
-        String colorCode = wholeCode.substring(0, wholeCode.length() - 2);
-        String positionCode = wholeCode.substring(wholeCode.length() - 1);
-        return new String[]{colorCode, positionCode};
-    }
-
-    // click a horse to get ID
-
-      private void horseOnClickedEvent(String destination) {
-            for (PathView path: gameView.getAllPaths()) {
-                for (Node pathContents: path.getPathContents()) {
-                    pathContents.setOnMouseClicked(e -> {
-                        Node chosenItem = e.getPickResult().getIntersectedNode();
-                        if (chosenItem instanceof ImageView) {
-                            moveAsDemand(destination, chosenItem.getId());
-                        }
-                        else {
-                            System.out.println("No horse shown on the path");
-                        }
-                    });
-                }
-            }
-      }
-      
-      private int convertPathIDtoPPathIndex(String[] pathID) {
-        int pathIndex = 0;
-          switch (pathID[0]) {
-              case "0xff0000ff":
-                  break;
-              case "0x008000ff":
-                  pathIndex = 2;
-                  break;
-              case "0x0000ffff":
-                  pathIndex = 4;
-                  break;
-              case "0xffa500ff":
-                  pathIndex = 6;
-                  break;
-          }
-          if (Integer.parseInt(pathID[1]) > 5) {
-              pathIndex++;
-          }
-          return pathIndex;
-      }
-
-      
-
-      private void moveAsDemand(String pathID, String horseID) {
-            if (!horseOnTrack.isEmpty()) {
-                // processing path ID
-                String[] pathIDPackage = processingID(pathID);  // 0 is colorCode and 1 is positionCode
-                // processing horse ID
-                String[] horseIDPackage = processingID(horseID); // same as above
-                 // 1, 2, 3, 4
-                int pathIndex = convertPathIDtoPPathIndex(pathIDPackage);
-                int nestIndex = 0;
-
-                int horseOrder = Integer.parseInt(horseIDPackage[1]);
-
-                switch (horseIDPackage[0]) {
-                    case "red":
-                        break;
-                    case "green":
-                        nestIndex = 1;
-                        break;
-                    case "blue":
-                        nestIndex = 2;
-                        break;
-                    case "yellow":
-                        nestIndex = 3;
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + horseIDPackage[0]);
-                }
-                String oldPathID = "";
-                // if I get the parent of the horse I will reveal its position 
-                for (ImageView horse: horseOnTrack) {
-                    if (horse.getId().equals(horseID)) {
-                        oldPathID = horse.getParent().getId(); 
-                    }
-                }
-                ImageView selectedHorse = gameView.getNest(nestIndex).getHorseList().get(horseOrder);
-                String[] oldPosPackage = processingID(oldPathID);
-                int oldPathIndex = convertPathIDtoPPathIndex(oldPosPackage);
-
-                gameView.getAllPaths()[oldPathIndex].removeHorse(oldPathID);
-                gameView.getAllPaths()[pathIndex].setHorse(pathID, selectedHorse);
-            }
-        }
 
 //-------------------------GAME PLAY------------------------------
 
@@ -529,7 +385,6 @@ public class GameController {
         while(!board.getIsEndGame()) {
             for (int i = findPlayerWithHighestDice(findMaximumDiceValue()); i < playerList.size(); i++) {
                 if (playerList.get(i).getPlayerType() == PlayerType.HUMAN) {
-                    boolean bonusTurn = false;
                     ArrayList<Horse> horseList;
 
                     //thrown dice and pick dice
@@ -546,9 +401,7 @@ public class GameController {
                         }
                     }
 
-                    if (isBonusTurn(dice1.getDiceValue(), dice2.getDiceValue())) {
-                        bonusTurn = true;
-                    }
+                    isBonusTurn(dice1.getDiceValue(), dice2.getDiceValue());
 
                     if (horseList.size() == 0) {
                         continue;
@@ -561,7 +414,7 @@ public class GameController {
                         int move = pickDicevalue(dice1, dice2);
                         //Moving
                         Move destination = board.move(playerList.get(i).getPlayerSide(), pickedHorseID, move);
-                        horseOnClickedEvent(convertPositionToPathID(destination.getFinish()));
+                        gameView.setHorseOnClickAtPathId(convertPositionToPathID(destination.getFinish()));
 
                         //score for kicked horse
                         if (destination.getKickedHorse() != null) {
