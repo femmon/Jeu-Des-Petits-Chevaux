@@ -573,7 +573,7 @@ public class GameController {
         int[] diceValues = {dice1.getDiceValue(), dice2.getDiceValue()};
         for (int diceValue: diceValues) {
             for (int horseId = 0; horseId < 4; horseId++) {
-                if (board.canMove(playerColor, horseId, diceValue) == true) return true;
+                if (board.canMove(playerColor, horseId, diceValue)) return true;
             }
         }
 
