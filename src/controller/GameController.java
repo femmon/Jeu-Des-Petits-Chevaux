@@ -622,6 +622,10 @@ public class GameController {
             stopGame();
         }
 
+        afterSuccessfulMove();
+    }
+
+    private void afterSuccessfulMove() {
         if (dice1.getDiceValue() != dice2.getDiceValue()) {
             turn = (turn + 1) % 4;
         }
@@ -669,7 +673,7 @@ public class GameController {
 
         // Reroll when summon is success
         if (board.summon(color) != -1) {
-            throwNewDiceAndGetInput();
+            afterSuccessfulMove();
         } else {
             displayOldDiceAndGetInput();
         }
