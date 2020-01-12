@@ -401,7 +401,7 @@ public class GameController {
 
         while (!isMovePossible()) {
             if (dice1.getDiceValue() != dice2.getDiceValue()) {
-                turn = (turn + 1) % 4;
+                turn = (turn + 1) % playerList.size();
             }
             dice1 = throwDice();
             dice2 = throwDice();
@@ -514,7 +514,7 @@ public class GameController {
 
     private void afterSuccessfulMove() {
         if (dice1.getDiceValue() != dice2.getDiceValue()) {
-            turn = (turn + 1) % 4;
+            turn = (turn + 1) % playerList.size();
         }
 
         while (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
