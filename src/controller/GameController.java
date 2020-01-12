@@ -30,6 +30,7 @@ public class GameController {
     // Unit test for demo
     // Network
 
+    //FIXME to much global ???
     Stage stage;
     static GameController controller;
     GameView gameView;
@@ -40,6 +41,9 @@ public class GameController {
     int turn;
     Dice dice1;
     Dice dice2;
+
+
+
     private boolean[] clicked = {false, false, false}; // To know if btDice1, btDice2 and btBoth were clicked.
     private String clickedHorsePathViewId = "";
 
@@ -315,8 +319,6 @@ public class GameController {
     }
 
     //--------------------Roll Dice Animation-----------------------------
-    //TODO: move displayDice methods to roll dice class or game view?
-
     private Dice throwDice() {
         Dice dice = new Dice();
         dice.throwDice();

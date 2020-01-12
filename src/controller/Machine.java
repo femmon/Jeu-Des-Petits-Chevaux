@@ -1,5 +1,9 @@
 package controller;
 
+import model.*;
+
+import java.util.ArrayList;
+
 public class Machine {
     //Consider extends gameController
 
@@ -28,9 +32,27 @@ public class Machine {
     }
 
     /*
-    * detect valiable move
+    *
+    *   for each horse on board
+    *       if canSummon
+    *           horsePrecedencePoint += 5
+    *       if canMove
+    *       horsePrecedencePoint +=4
+    *           Move destination = findDestination
+    *           if move.getKickedHorse != null
+    *               horsePrecedencePoint += 4
+    *           if moveInHomePath
+    *               horsePrecedencePoint += 3
+    *
+    *
      */
-    //TODO not sure
+    private void analyzeHorseMove(Board board, GameController gameController, Dice dice1, Dice dice2, ArrayList<Horse> horseArrayList) {
+        for (int i = 0; i < horseArrayList.size(); i++) {
+            if (gameController.isSummon(dice1.getDiceValue(), dice2.getDiceValue())) {
+
+            }
+        }
+    }
 
     /*
     * movePrecedence
@@ -39,16 +61,16 @@ public class Machine {
         /*
         if can summonhorse
                 point += 5
-            if can move
+        if can move
+            point += 1
+            if canKicked
+                point += 4
+            if MoveInHomePath
+                point += 3
+            if MoveInHomePath (distance to homepath <= 20)
+                point += 2
+            if MoveForward (distance to homepath > 20)
                 point += 1
-                if canKicked
-                    point += 4
-                if MoveInHomePath
-                    point += 3
-                if MoveInHomePath (distance to homepath <= 20)
-                    point += 2
-                if MoveForward (distance to homepath > 20)
-                    point += 1
          */
     }
 
