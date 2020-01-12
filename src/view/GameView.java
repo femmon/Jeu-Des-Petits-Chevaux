@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import controller.GameController;
 /**
  * This function fetches UI templates from FXML board + sets up the board + updates the board accordingly in correspondence with GameController
  * */
@@ -107,20 +108,6 @@ public class GameView {
 
     private void initPaths(HBox[] paths, HBox[] secPaths, PathView[] allPaths) {
 
-//        int index = 0, index2 = 0;
-//        for (HBox path: paths) {
-//            PathView pathDrawer = new PathView(path, COLOR_LIST[index]);
-//            pathDrawer.fillPath();
-//            allPaths[index] = pathDrawer;
-//            index++;
-//        }
-//
-//        for (HBox secPath: secPaths) {
-//            PathView pathDrawer = new PathView(secPath, COLOR_LIST[index2]);
-//            pathDrawer.fillSecPath();
-//            allPaths[index2 + 4] = pathDrawer;
-//            index2++;
-//        }
          for (int index = 0; index <= 6; index += 2) {
            PathView pathDrawer = new PathView(paths[index / 2], COLOR_LIST[index / 2]);
            pathDrawer.fillPath();
@@ -152,17 +139,9 @@ public class GameView {
         }
     }
 
-    private String chosenHorseID;
-    private void getChosenHorseID(String id) {
-        chosenHorseID = id;
-    }
 
     public NestView getNest(int index) {
         return nestInstances[index];
-    }
-
-    public String exportChosenHorseID() {
-        return chosenHorseID;
     }
 
     public HomePathView getHomePath(int index) {
@@ -173,9 +152,138 @@ public class GameView {
         return allPaths;
     }
 
-    //-------------------------Dice view--------------------------------
+    //-------------------------SUMMONING HORSE------------------------------
+    public void summonHorseFromNest(int index) {
+        getNest(index).getHorseStable().setOnMouseClicked(e -> {
+            Node chosenHorse = e.getPickResult().getIntersectedNode();
+            if (chosenHorse instanceof ImageView) {
+                standOnStartingPoint((ImageView) chosenHorse, index * 2);
+            }
+        });
+    }
+
+    private String[] processingID(String wholeCode) {
+        String colorCode = wholeCode.substring(0, wholeCode.length() - 2);
+        String positionCode = wholeCode.substring(wholeCode.length() - 1);
+        return new String[]{colorCode, positionCode};
+    }
+
+    // cho ngựa xuất chuồng
+    public void standOnStartingPoint(ImageView horseImage, int index) {
+        System.out.println(horseImage + " is standing at " + getAllPaths()[index].getPathContents().get(0).getId());
+        StackPane startingStep = (StackPane) getAllPaths()[index].getPathContents().get(0);
+        startingStep.getChildren().add(horseImage); // one horse is added at starting point
+    }
+
+    //-------------------------MOVING HORSE ON DEMAND------------------------------
+    /**
+     * Every ID has the following convention: colorCode + "_" + positionCode
+     *
+     * Path ID format
+     * 0xff0000ff - red
+     * 0x008000ff - green
+     * 0x0000ffff - blue
+     * 0xffa500ff - orange
+     *
+     * For ex: The id of each home path is: 0xffa500ff_11 -> 0xffa500ff_17
+     * */
+
+    /**
+     * Horse ID format ex: red_0 -> red_3, yellow_0 -> yellow_3
+     * */
+
+    //      int[] pathRoute = {0, 2, 3, 1};
+
+
+
+    private int convertnewPathIdtoPathIndex(String[] newPathId) {
+        int pathIndex = 0;
+        switch (newPathId[0]) {
+            case "0xff0000ff":
+                break;
+            case "0x008000ff":
+                pathIndex = 2;
+                break;
+            case "0x0000ffff":
+                pathIndex = 4;
+                break;
+            case "0xffa500ff":
+                pathIndex = 6;
+                break;
+        }
+        if (Integer.parseInt(newPathId[1]) > 5) {
+            pathIndex++;
+        }
+        return pathIndex;
+    }
+
+    public void removeHorse(String oldPathId) {
+        int oldPathIndex = convertnewPathIdtoPathIndex(processingID(oldPathId));
+        getAllPaths()[oldPathIndex].removeHorse(oldPathId);
+    }
+
+    public void moveHorse(String oldPathId, String newPathId, String horseID) {
+            // processing path ID
+            String[] newPathIdPackage = processingID(newPathId);  // 0 is colorCode and 1 is positionCode
+            // processing horse ID
+            String[] horseIDPackage = processingID(horseID); // same as above
+            // 1, 2, 3, 4
+            int pathIndex = convertnewPathIdtoPathIndex(newPathIdPackage);
+            int nestIndex = 0;
+
+            int horseOrder = Integer.parseInt(horseIDPackage[1]);
+
+            switch (horseIDPackage[0]) {
+                case "red":
+                    break;
+                case "green":
+                    nestIndex = 1;
+                    break;
+                case "blue":
+                    nestIndex = 2;
+                    break;
+                case "yellow":
+                    nestIndex = 3;
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + horseIDPackage[0]);
+            }
+            // if I get the parent of the horse I will reveal its position
+
+            ImageView selectedHorse = getNest(nestIndex).getHorseList().get(horseOrder);
+
+            removeHorse(oldPathId);
+            getAllPaths()[pathIndex].setHorse(newPathId, selectedHorse);
+        }
+
+
+    public void setHorseOnClickAtPathId(String pathId) {
+        for (PathView path: getAllPaths()) {
+            for (Node pathContents: path.getPathContents()) {
+                if (pathContents.getId().equals(pathId)) {
+                    pathContents.setOnMouseClicked(e -> {
+                        Node chosenItem = e.getPickResult().getIntersectedNode();
+                        if (chosenItem instanceof ImageView) {
+                            try { GameController.getInstance().setClickedHorsePathViewId(chosenItem.getId()); }
+                            catch (IOException ex) { ex.printStackTrace(); }
+                        }
+                    });
+                }
+                else {
+                    System.out.println("No horse shown on the path");
+                }
+            }
+        }
+    }
+
+
 
 }
+
+
+
+    //-------------------------Dice view--------------------------------
+
 
 
 // des refs: https://stackoverflow.com/questions/12201712/how-to-find-an-element-with-an-id-in-javafx

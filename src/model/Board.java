@@ -224,6 +224,7 @@ public class Board {
         Move move = new Move(start.getHorse(), start.getPosition(),
                 finish == null ? null : finish.getPosition(), null);
 
+        assert finish != null;
         if (finish.getHorse() != null) move.setKickedHorse(finish.getHorse());
         return move;
     }
