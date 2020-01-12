@@ -44,7 +44,6 @@ public class GameController {
     private String clickedHorsePathViewId = "";
 
     private GameController() throws IOException {
-        Board board1 = new Board(playerList);
         // Create game view
         HBox board = FXMLLoader.load(getClass().getResource("../view/pachisi.fxml"));
         gameView = new GameView(board);
@@ -544,6 +543,15 @@ public class GameController {
     private void throwNewDiceAndGetInput() {
         dice1 = throwDice();
         dice2 = throwDice();
+
+        displayOldDiceAndGetInput();
+    }
+
+    private void displayOldDiceAndGetInput() {
+        // Reset
+        clickedHorsePathViewId = "";
+        clicked = new boolean[]{false, false, false};
+
         DisplayDice displayDice = new DisplayDice();
         displayDice.displayDice(dice1, dice2);
     }
@@ -584,10 +592,6 @@ public class GameController {
 
     // TODO: Refactor so that can use 2 dices for 2 horses
     private void humanMove() {
-        // Reset
-        clickedHorsePathViewId = "";
-        clicked = new boolean[]{false, false, false};
-
         if (isNestViewId(clickedHorsePathViewId)) {
             summon();
             return;
@@ -598,8 +602,7 @@ public class GameController {
         // Not the right piece
         if (horseAtStarting == null ||
                 horseAtStarting.getColor() != playerList.get(turn).getPlayerSide()) {
-            DisplayDice displayDice = new DisplayDice();
-            displayDice.displayDice(dice1, dice2);
+            displayOldDiceAndGetInput();
             return;
         }
 
@@ -607,8 +610,7 @@ public class GameController {
 
         // Invalid move. Prompt user to choose dice again
         if (destination.getFinish() == null) {
-            DisplayDice displayDice = new DisplayDice();
-            displayDice.displayDice(dice1, dice2);
+            displayOldDiceAndGetInput();
             return;
         }
 
@@ -659,8 +661,7 @@ public class GameController {
 
         // Not the right color
         if (color != playerList.get(turn).getPlayerSide()) {
-            DisplayDice displayDice = new DisplayDice();
-            displayDice.displayDice(dice1, dice2);
+            displayOldDiceAndGetInput();
             return;
         }
 
@@ -668,12 +669,10 @@ public class GameController {
 
         // Reroll when summon is success
         if (board.summon(color) != -1) {
-            dice1 = throwDice();
-            dice2 = throwDice();
+            throwNewDiceAndGetInput();
+        } else {
+            displayOldDiceAndGetInput();
         }
-
-        DisplayDice displayDice = new DisplayDice();
-        displayDice.displayDice(dice1, dice2);
     }
 
     private Color convertNestViewIdToColor(String clickedHorsePathViewId) {
