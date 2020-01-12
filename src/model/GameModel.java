@@ -98,24 +98,24 @@ public class GameModel {
         return horseArrayList.get(id);
     }
 
-    public int calculatePointInHomePath(PathNode destination) {
-        switch (destination.getPosition().getNumber()) {
-            case 12:
-                return 1;
-            case 13:
-                return 2;
-            case 14:
-                return 3;
-            case 15:
-                return 4;
-            case 16:
-                return 5;
-            case 17:
-                return 6;
-            default:
-                return 0;
-        }
-    }
+//    private int calculatePointInHomePath(PathNode destination) {
+//        switch (destination.getPosition().getNumber()) {
+//            case 12:
+//                return 1;
+//            case 13:
+//                return 2;
+//            case 14:
+//                return 3;
+//            case 15:
+//                return 4;
+//            case 16:
+//                return 5;
+//            case 17:
+//                return 6;
+//            default:
+//                return 0;
+//        }
+//    }
 
     public boolean isInHomePath(PathNode currentPosition) {
         return currentPosition.getPosition().getNumber() >= 12

@@ -20,8 +20,9 @@ public class RollDices extends GridPane {
     public RollDices(Dice dice) {
         this.dice = dice;
 
-        this.dice.throwDice();
-        imageDice.setImage(new Image("file:src/view/diceImage/" + this.dice.getDiceValue() + ".png",
+        Dice randomDice = new Dice();
+        randomDice.throwDice();
+        imageDice.setImage(new Image("file:src/view/diceImage/" + randomDice.getDiceValue() + ".png",
                 100, 100, true, true));
         getChildren().add(imageDice);
         setAlignment(Pos.CENTER);
@@ -34,7 +35,6 @@ public class RollDices extends GridPane {
     private void setTimeline() {
         seconds++;
         if (seconds == 1) {
-            dice.throwDice();
             setAnimation(dice.getDiceValue());
         }
         else if (seconds == 3) {
@@ -46,7 +46,7 @@ public class RollDices extends GridPane {
         RotateTransition rt = new RotateTransition(Duration.seconds(1), imageDice);
         rt.setFromAngle(0);
         rt.setToAngle(360);
-        rt.setOnFinished(event -> imageDice.setImage(new Image("file:src/santa_claus/Images/" + diceValue + ".png",
+        rt.setOnFinished(event -> imageDice.setImage(new Image("file:src/view/diceImage/" + dice.getDiceValue() + ".png",
                 100, 100, true, true)));
         rt.play();
     }

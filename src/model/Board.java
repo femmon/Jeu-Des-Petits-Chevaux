@@ -17,6 +17,10 @@ public class Board {
      * @param playerList
      */
     public Board(ArrayList<Player> playerList) {
+        if (notEnoughPlayer(playerList)) {
+            throw new IllegalArgumentException("Need at least 2 people/machine to play");
+        }
+
         nests = new Nest[4];
         Color[] colors = {RED, GREEN, BLUE, YELLOW};
         for (int i = 0; i < 4; i++) {
@@ -28,6 +32,19 @@ public class Board {
         path = makePath();
 
         isEndGame = false;
+    }
+
+    private boolean notEnoughPlayer(ArrayList<Player> playerList) {
+        int noneCount = 0;
+        for (Player player: playerList) {
+            if (player.getPlayerType() == PlayerType.NONE) {
+                noneCount++;
+            }
+
+            if (noneCount == 3) return true;
+        }
+
+        return false;
     }
 
     /**
@@ -124,8 +141,6 @@ public class Board {
                 if (nest.isEmpty()) return false;
                 PathNode startingSpace = getStartingSpace(color);
                 if (startingSpace.getHorse() != null) return false;
-                Horse summoned = nest.getHorseInNest().remove(0);
-                startingSpace.setHorse(summoned);
                 return true;
             }
         }
@@ -177,6 +192,13 @@ public class Board {
         return move;
     }
 
+    public Move move(Position postion, int moves) {
+        PathNode start = findPathNodeFromPosition(postion);
+        Horse horseAtStart = start.getHorse();
+        if (horseAtStart == null) throw new IllegalArgumentException("This position doesn't contain horse");
+
+        return move(horseAtStart.getColor(), horseAtStart.getId(), moves);
+    }
     /**
      * Find the new position without actually moving
      * @param start
@@ -260,6 +282,21 @@ public class Board {
         return null;
     }
 
+    public PathNode findPathNodeFromPosition(Position position) {
+        PathNode current = path;
+        do {
+            if (current.getPosition().equals(position)) return current;
+
+            PathNode homePath = current.getHomePositionNode();
+            while (homePath != null) {
+                if (homePath.getPosition().equals(position)) return homePath;
+                homePath = homePath.getHomePositionNode();
+            }
+            current = current.getNextAroundNode();
+        } while (current != path);
+        return null;
+    }
+
     /**
      * Check to see if a horse is moving around the path or going up home path
      * @param nodeWithHorse
@@ -282,6 +319,18 @@ public class Board {
             return false;
         }
     }
+
+    /**
+     * check whether the horse in the homepath or not
+     * @param currentPosition
+     * @return
+     */
+
+    public boolean isInHomePath(Move currentPosition) {
+        return currentPosition.getStart().getNumber() >= 12
+                && currentPosition.getStart().getNumber() <= 17;
+    }
+
 
     /**
      * Find the destination without moving. Use this when horse move around path (instead of moving up home path)
@@ -381,8 +430,15 @@ public class Board {
      * @return
      */
     public boolean canMove(Color color, int id, int moves) {
+        if (isHorseInNest(color, id) == true) {
+            return false;
+        }
         PathNode start = findHorseInPath(color, id);
         return findMoveDestination(start, moves) != null;
+    }
+
+    public Horse getHorseInPosition(Position position) {
+        return findPathNodeFromPosition(position).getHorse();
     }
 
     // For debugging

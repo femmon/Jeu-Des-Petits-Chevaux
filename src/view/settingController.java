@@ -43,6 +43,8 @@ public class settingController {
             stage.show();
 
             getPlayerInfo();
+            gameController.playGame();
+
         });
 
         for (int i = 1; i < 5; i++) {
@@ -97,7 +99,14 @@ public class settingController {
     private void updateLanguagePlayerSetting() {
         Language language = Language.getInstance();
         ((Label) playerSettingView.lookup("#teamColor")).setText(language.getString("teamColor"));
-
+       ((Label) playerSettingView.lookup("#name")).setText(language.getString("name"));
+       ((Label) playerSettingView.lookup("#player")).setText(language.getString("player"));
+       ((Label) playerSettingView.lookup("#com")).setText(language.getString("com"));
+       ((Label) playerSettingView.lookup("#rED")).setText(language.getString("rED"));
+       ((Label) playerSettingView.lookup("#bLUE")).setText(language.getString("bLUE"));
+       ((Label) playerSettingView.lookup("#yELLOW")).setText(language.getString("yELLOW"));
+       ((Label) playerSettingView.lookup("#gREEN")).setText(language.getString("gREEN"));
+        
     }
 
     public void initData(GameController gameController, HBox board) {
