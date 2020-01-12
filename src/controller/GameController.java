@@ -256,7 +256,7 @@ public class GameController {
         for (int i = 0; i < 4; i++) {
             PlayerType playerType;
             if (!human.get(i) && !com.get(i)) {
-                playerType = PlayerType.NONE;
+                continue;
             } else if (human.get(i)) {
                 playerType = PlayerType.HUMAN;
             } else {
