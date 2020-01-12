@@ -527,7 +527,6 @@ public class GameController {
 
     public void playGame() {
         board = new Board(playerList);
-        board.summon(Color.RED);
         rollDiceForTurn();
         turn = findPlayerWithHighestDice(findMaximumDiceValue());
 
