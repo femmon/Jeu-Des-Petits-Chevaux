@@ -124,8 +124,6 @@ public class Board {
                 if (nest.isEmpty()) return false;
                 PathNode startingSpace = getStartingSpace(color);
                 if (startingSpace.getHorse() != null) return false;
-                Horse summoned = nest.getHorseInNest().remove(0);
-                startingSpace.setHorse(summoned);
                 return true;
             }
         }
