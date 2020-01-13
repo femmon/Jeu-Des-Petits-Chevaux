@@ -2,19 +2,14 @@ package controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.*;
 import view.DisplayDice;
 import view.GameView;
-import view.PathView;
 import view.settingController;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,7 +57,7 @@ public class GameController {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Settings");
-        controllerDemo(gameView);
+//        controllerDemo(gameView);
 
     }
 
@@ -374,30 +369,52 @@ public class GameController {
         rollDiceForTurn();
         turn = findPlayerWithHighestDice(findMaximumDiceValue());
 
-        // While instead of if to avoid recursion
-        while (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
-            // AI
-            break;
-        }
-
         throwNewDiceAndGetInput();
     }
 
+    /**
+     * Throw dice, move AI until reach human player
+     */
     private void throwNewDiceAndGetInput() {
+        throwDiceUntilMoveAvailable();
+
+        // While instead of if to avoid recursion
+        while (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
+            // Display dice without button
+            // Calculate move
+            // Move
+            // updateScore();
+
+            increaseTurn();
+            throwDiceUntilMoveAvailable();
+
+            // TODO: end game properly
+            if (board.getIsEndGame()) {
+                stopGame();
+            }
+        }
+
+        displayOldDiceAndGetInput();
+    }
+
+    private void increaseTurn() {
+        if (dice1.getDiceValue() != dice2.getDiceValue()) {
+            turn = (turn + 1) % playerList.size();
+        }
+    }
+
+    private void throwDiceUntilMoveAvailable() {
         dice1 = throwDice();
         dice2 = throwDice();
         printTurnDiceDebug();
 
         while (!isMovePossible()) {
-            if (dice1.getDiceValue() != dice2.getDiceValue()) {
-                turn = (turn + 1) % 4;
-            }
+            // TODO display dice without button
+            increaseTurn();
             dice1 = throwDice();
             dice2 = throwDice();
             printTurnDiceDebug();
         }
-
-        displayOldDiceAndGetInput();
     }
 
     void printTurnDiceDebug() {
@@ -502,15 +519,7 @@ public class GameController {
     }
 
     private void afterSuccessfulMove() {
-        if (dice1.getDiceValue() != dice2.getDiceValue()) {
-            turn = (turn + 1) % 4;
-        }
-
-        while (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
-            // AI
-            break;
-        }
-
+        increaseTurn();
         throwNewDiceAndGetInput();
     }
 
@@ -564,14 +573,6 @@ public class GameController {
         // Need naming rule from Hong
         return false;
     }
-
-    // AI
-        // Roll Dice
-        // Display dice
-        // Calculate move
-        // Move
-        // Check for end game
-        // Increase turn
 
     public void stopGame() {
 
