@@ -61,7 +61,7 @@ public class GameController {
         stage.setScene(scene);
         stage.setTitle("Settings");
 
-//        controllerDemo(gameView);
+        controllerDemo(gameView);
 
     }
 
@@ -87,8 +87,10 @@ public class GameController {
     //-------------------------VIEW DEMO------------------------------
     private void controllerDemo(GameView view) {
         view.pathEvents();
-        view.homePathEvent(2);
+        view.homePathEvent(0);
         view.homePathEvent(1);
+        view.homePathEvent(2);
+        view.homePathEvent(3);
 //        playGame();
     }
 
@@ -263,25 +265,85 @@ public class GameController {
         return false;
     }
 
+    private int converIndexNumberForGreenSide(int number) {
+        switch (number) {
+            case 5:
+                return 10;
+            case 6:
+                return 9;
+            case 7:
+                return 8;
+            case 8:
+                return 7;
+            case 9:
+                return 6;
+            case 10:
+                return 5;
+            default:
+                return -1;
+        }
+    }
+
     private String convertPositionToPathID(Position position) {
         String colorHexa ="";
+        int num = 0;
         switch (position.getColor()) {
             case GREEN:
                 colorHexa = "0x008000ff";
-                break;
+                if (position.getNumber() >= 0 && position.getNumber() <= 4) {
+                    num = position.getNumber();
+                } else {
+                    num = converIndexNumberForGreenSide(position.getNumber());
+                }
+                return colorHexa + "_" + num;
             case BLUE:
                 colorHexa = "0x0000ffff";
-                break;
+                return colorHexa + "_" + position.getNumber();
             case RED:
                 colorHexa = "0xff0000ff";
-                break;
+                if (position.getNumber() >= 0 && position.getNumber() <= 5) {
+                    num = position.getNumber() - 5;
+                } else {
+                    num = 10 - position.getNumber();
+                }
+                return colorHexa + "_" + num;
             case YELLOW:
                 colorHexa = "0xffa500ff";
-                break;
-            default: colorHexa = "";
+                num =  10 - position.getNumber();
+                return colorHexa + "_" + num;
+            default:
+                colorHexa = "";
         }
+        return "";
+    }
 
-        return colorHexa + "_" + position.getNumber();
+    private Position convertPathIDtoPosition( String pathID) {
+        String[] arrOfStr = pathID.split("_", 2);
+        int num =  Integer.parseInt( arrOfStr[1]);
+        switch (arrOfStr[0]) {
+            case "0x0000ffff":
+                return new Position(Color.BLUE, num);
+            case "0xffa500ff":
+                return new Position(Color.YELLOW, 10 - num);
+            case "0xff0000ff":
+                int index = 0;
+                if (num >= 0 && num <= 5) {
+                    index = num - 5;
+                } else {
+                    index = 10 - num;
+                }
+                return new Position(Color.RED, index);
+            case "0x008000ff":
+                int i = 0;
+                if (num >= 0 && num <= 4) {
+                    i = num;
+                } else {
+                    i = converIndexNumberForGreenSide(num);
+                }
+                return new Position(Color.GREEN, i);
+            default:
+                return null;
+        }
     }
 
     private String covertHorseId(Color color, int id) {
@@ -305,7 +367,6 @@ public class GameController {
         }
         return colorStr + "_" + id;
     }
-
 
     private int calculatePointInHomePath(Move destination) {
         switch (destination.getFinish().getNumber()) {
