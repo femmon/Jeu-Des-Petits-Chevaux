@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameController;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -7,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+
+import java.io.IOException;
 
 public class HomePathView {
 
@@ -94,16 +97,22 @@ public class HomePathView {
         if (isHorizontal) {
             for (Node path: getPathContents(0)) {
                 path.setOnMouseClicked(event -> {
-                    path.setOpacity(0.7);
-                    System.out.println(path.getId());
+                    try {
+                        GameController.getInstance().setClickedHorsePathViewId(path.getId());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
             }
         }
         else {
             for (Node path: getPathContents(1)) {
                 path.setOnMouseClicked(event -> {
-                    path.setOpacity(0.7);
-                    System.out.println(path.getId());
+                    try {
+                        GameController.getInstance().setClickedHorsePathViewId(path.getId());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
             }
         }
