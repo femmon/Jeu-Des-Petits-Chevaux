@@ -301,68 +301,68 @@ public class GameController {
     }
 
     //FIXME infinyty loop
-//    public void playGameOld() {
-//        Board board = new Board(playerList);
-//
-//        while(!board.getIsEndGame()) {
-//            for (int i = findPlayerWithHighestDice(findMaximumDiceValue()); i < playerList.size(); i++) {
-//                if (playerList.get(i).getPlayerType() == PlayerType.HUMAN) {
-//                    ArrayList<Horse> horseList;
-//
-//                    //thrown dice and pick dice
-//                    Dice dice1 = throwDice();
-//                    Dice dice2 = throwDice();
-//                    DisplayDice displayDice = new DisplayDice();
-//                    displayDice.displayDice(dice1, dice2);
-//                    horseList = findAllHorse(playerList.get(i), board);
-//
-//                    //TODO want to summon algo?
-//                    if (isSummon(dice1.getDiceValue(), dice2.getDiceValue())) {
-//                        int horseId = board.summon(playerList.get(i).getPlayerSide());
-//                        summonHorseFromNest(convertPlayerSideToView(playerList.get(i).getPlayerSide()));
-//                    }
-//
-//                    isBonusTurn(dice1.getDiceValue(), dice2.getDiceValue());
-//
-//                    if (horseList.size() == 0) {
-//                        continue;
-//                    }
-//
-//                    if (dice1.isPicked() && dice2.isPicked()) {
-//                        continue;
-//                    } else if (dice1.isPicked() || dice2.isPicked()) {
-//                        int pickedHorseID = 0;
-//                        int move = pickDicevalue(dice1, dice2);
-//                        //Moving
-//                        Move destination = board.move(playerList.get(i).getPlayerSide(), pickedHorseID, move);
-//                        gameView.setHorseOnClickAtPathId(convertPositionToPathID(destination.getFinish()));
-//
-//                        //score for kicked horse
-//                        if (destination.getKickedHorse() != null) {
-//                            for (int j = 0; j < playerList.size(); j++) {
-//                                if (playerList.get(j).getPlayerSide() == destination.getKickedHorse().getColor()) {
-//                                    playerList.get(j).minusScore(2);
-//                                    playerList.get(i).addScore(2);
-//                                }
-//                            }
-//                        }
-//                        //score in home path
-//                        if (board.isMoveInMovePath(destination)) {
-//                            playerList.get(i).addScore(calculatePointInHomePath(destination));
-//                        }
-//                        if (board.isInHomePath(destination)) {
-//                            playerList.get(i).addScore(1);
-//                        }
-//                        if (board.getIsEndGame()) {
-//                            break;
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
+    public void playGameOld() {
+        Board board = new Board(playerList);
+
+        while(!board.getIsEndGame()) {
+            for (int i = findPlayerWithHighestDice(findMaximumDiceValue()); i < playerList.size(); i++) {
+                if (playerList.get(i).getPlayerType() == PlayerType.HUMAN) {
+                    ArrayList<Horse> horseList;
+
+                    //thrown dice and pick dice
+                    Dice dice1 = throwDice();
+                    Dice dice2 = throwDice();
+                    DisplayDice displayDice = new DisplayDice();
+                    displayDice.displayDice(dice1, dice2);
+                    horseList = findAllHorse(playerList.get(i), board);
+
+                    //TODO want to summon algo?
+                    if (isSummon(dice1.getDiceValue(), dice2.getDiceValue())) {
+                        int horseId = board.summon(playerList.get(i).getPlayerSide());
+                        gameView.summonHorseFromNest(convertPlayerSideToView(playerList.get(i).getPlayerSide()));
+                    }
+
+                    isBonusTurn(dice1.getDiceValue(), dice2.getDiceValue());
+
+                    if (horseList.size() == 0) {
+                        continue;
+                    }
+
+                    if (dice1.isPicked() && dice2.isPicked()) {
+                        continue;
+                    } else if (dice1.isPicked() || dice2.isPicked()) {
+                        int pickedHorseID = 0;
+                        int move = pickDicevalue(dice1, dice2);
+                        //Moving
+                        Move destination = board.move(playerList.get(i).getPlayerSide(), pickedHorseID, move);
+                        setClickedHorsePathViewId(convertPositionToPathID(destination.getFinish()));
+
+                        //score for kicked horse
+                        if (destination.getKickedHorse() != null) {
+                            for (int j = 0; j < playerList.size(); j++) {
+                                if (playerList.get(j).getPlayerSide() == destination.getKickedHorse().getColor()) {
+                                    playerList.get(j).minusScore(2);
+                                    playerList.get(i).addScore(2);
+                                }
+                            }
+                        }
+                        //score in home path
+                        if (board.isMoveInMovePath(destination)) {
+                            playerList.get(i).addScore(calculatePointInHomePath(destination));
+                        }
+                        if (board.isInHomePath(destination)) {
+                            playerList.get(i).addScore(1);
+                        }
+                        if (board.getIsEndGame()) {
+                            break;
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
 
     public void playGame() {
         board = new Board(playerList);

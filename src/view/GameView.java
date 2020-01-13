@@ -8,6 +8,8 @@ import javafx.scene.paint.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
+
 import controller.GameController;
 /**
  * This function fetches UI templates from FXML board + sets up the board + updates the board accordingly in correspondence with GameController
@@ -41,6 +43,7 @@ public class GameView {
     private HomePathView[] homePathInstances = new HomePathView[4];
     private PathView[] allPaths = new PathView[8];
     Color[] COLOR_LIST = {Color.RED, Color.GREEN, Color.BLUE, Color.ORANGE};
+    private StackPane chosenPath;
 
     // 1. obtains empty components from the fxml
     public GameView(HBox pachisi) throws IOException {
@@ -48,7 +51,7 @@ public class GameView {
         fetchingNests(pachisi);
         fetchingHomePath(pachisi);
         fetchingPaths(pachisi);
-
+        setHorseOnClickAtPathId();
     }
 
     public HBox getPachisi() {
@@ -152,27 +155,21 @@ public class GameView {
         return allPaths;
     }
 
-    //-------------------------SUMMONING HORSE------------------------------
-    public void summonHorseFromNest(int index) {
-        getNest(index).getHorseStable().setOnMouseClicked(e -> {
-            Node chosenHorse = e.getPickResult().getIntersectedNode();
-            if (chosenHorse instanceof ImageView) {
-                standOnStartingPoint((ImageView) chosenHorse, index * 2);
-            }
-        });
-    }
-
+    //------------------------PROCESSING ID TOOL----------------------------
     private String[] processingID(String wholeCode) {
         String colorCode = wholeCode.substring(0, wholeCode.length() - 2);
         String positionCode = wholeCode.substring(wholeCode.length() - 1);
         return new String[]{colorCode, positionCode};
     }
 
+    //-------------------------SUMMONING HORSE FROM NEST------------------------------
     // cho ngựa xuất chuồng
-    public void standOnStartingPoint(ImageView horseImage, int index) {
-        System.out.println(horseImage + " is standing at " + getAllPaths()[index].getPathContents().get(0).getId());
-        StackPane startingStep = (StackPane) getAllPaths()[index].getPathContents().get(0);
-        startingStep.getChildren().add(horseImage); // one horse is added at starting point
+    public void summonHorseFromNest(int index) {
+        GridPane horseStable = getNest(index).getHorseStable();
+        horseStable.setOnMouseClicked(e -> {
+            StackPane startingStep = (StackPane) getAllPaths()[index * 2].getPathContents().get(0); // get starting position
+            startingStep.getChildren().add(horseStable.getChildren().get(0)); // one horse is added at starting point
+        });
     }
 
     //-------------------------MOVING HORSE ON DEMAND------------------------------
@@ -222,63 +219,38 @@ public class GameView {
         getAllPaths()[oldPathIndex].removeHorse(oldPathId);
     }
 
-    public void moveHorse(String oldPathId, String newPathId, String horseID) {
+    public void moveHorse(String oldPathId, String newPathId) {
             // processing path ID
             String[] newPathIdPackage = processingID(newPathId);  // 0 is colorCode and 1 is positionCode
-            // processing horse ID
-            String[] horseIDPackage = processingID(horseID); // same as above
             // 1, 2, 3, 4
             int pathIndex = convertnewPathIdtoPathIndex(newPathIdPackage);
-            int nestIndex = 0;
-
-            int horseOrder = Integer.parseInt(horseIDPackage[1]);
-
-            switch (horseIDPackage[0]) {
-                case "red":
-                    break;
-                case "green":
-                    nestIndex = 1;
-                    break;
-                case "blue":
-                    nestIndex = 2;
-                    break;
-                case "yellow":
-                    nestIndex = 3;
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + horseIDPackage[0]);
-            }
             // if I get the parent of the horse I will reveal its position
-
-            ImageView selectedHorse = getNest(nestIndex).getHorseList().get(horseOrder);
-
             removeHorse(oldPathId);
-            getAllPaths()[pathIndex].setHorse(newPathId, selectedHorse);
-        }
-
-
-    public void setHorseOnClickAtPathId(String pathId) {
-        for (PathView path: getAllPaths()) {
-            for (Node pathContents: path.getPathContents()) {
-                if (pathContents.getId().equals(pathId)) {
-                    pathContents.setOnMouseClicked(e -> {
-                        Node chosenItem = e.getPickResult().getIntersectedNode();
-                        if (chosenItem instanceof ImageView) {
-                            try { GameController.getInstance().setClickedHorsePathViewId(chosenItem.getId()); }
-                            catch (IOException ex) { ex.printStackTrace(); }
-                        }
-                    });
-                }
-                else {
-                    System.out.println("No horse shown on the path");
-                }
-            }
-        }
+            getAllPaths()[pathIndex].setHorse(newPathId, (ImageView) chosenPath.getChildren().get(1));
     }
 
 
+    private void setHorseOnClickAtPathId() {
+        for (PathView path: getAllPaths()) {
+            for (Node pathContents: path.getPathContents()) {
+                    pathContents.setOnMouseClicked(e -> {
+                            try {
+                                GameController.getInstance().setClickedHorsePathViewId(pathContents.getId());
+                                setChosenPath((StackPane) pathContents);
+                            }
+                            catch (IOException ex) { ex.printStackTrace(); }
+                    });
+                }
+            }
+        }
 
+    private void setChosenPath(StackPane chosenPath) {
+        this.chosenPath = chosenPath;
+    }
 }
+
+
+
 
 
 
