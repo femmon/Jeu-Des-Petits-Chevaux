@@ -79,7 +79,7 @@ public class GameController {
      * 1 : Green nest/horse/homePath
      * 2 : Blue nest/horse/homePath
      * 3 : Yellow nest/horse/homePath
-     * @param view
+     * @param
      */
 
 //-------------------------GAME PLAY------------------------------
@@ -333,7 +333,7 @@ public class GameController {
                 } else if (num >= 11 && num <= 17) {
                     index = num;
                 } else {
-                    index = 10 - num;
+                    index = num - 5;
                 }
                 return new Position(Color.RED, index);
             case "0x008000ff":
