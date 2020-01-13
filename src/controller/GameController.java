@@ -442,7 +442,11 @@ public class GameController {
             return;
         }
 
-        // Move view
+        String destinationViewPathId = convertPositionToPathID(destination.getFinish());
+        if (destination.getKickedHorse() != null) {
+            gameView.removeHorse(destinationViewPathId);
+        }
+        gameView.moveHorse(convertPositionToPathID(destination.getStart()), destinationViewPathId);
 
         updateScore(destination);
 
@@ -489,7 +493,7 @@ public class GameController {
             return;
         }
 
-        // Summon in view
+        gameView.summonHorseFromNest(convertPlayerSideToView(color));
 
         // Reroll when summon is success
         if (board.summon(color) != -1) {
