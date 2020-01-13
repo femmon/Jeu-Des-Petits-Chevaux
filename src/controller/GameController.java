@@ -456,7 +456,7 @@ public class GameController {
         dice1 = throwDice();
         dice2 = throwDice();
         DisplayDice displayDice = new DisplayDice();
-        displayDice.displayDice(dice1, dice2);
+        displayDice.displayDiceWithoutBtn(dice1, dice2);
     }
 
     void printTurnDiceDebug() {
