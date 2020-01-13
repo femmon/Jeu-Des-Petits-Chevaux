@@ -256,6 +256,9 @@ public class GameView {
 
     //-------------------------Dice view--------------------------------
 
+//-------------------------message --------------------------------
+
+
 
 
 // des refs: https://stackoverflow.com/questions/12201712/how-to-find-an-element-with-an-id-in-javafx

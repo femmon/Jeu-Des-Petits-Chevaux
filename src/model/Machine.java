@@ -10,8 +10,9 @@ public class Machine {
         DICE1, DICE2, BOTHDICE, SUMMON, REMAINDICE
     }
 
-    private PickedDice pickedDice;
     private Board board;
+
+    private PickedDice pickedDice;
     private Horse horse;
 
     //Constructor for 2 dice
