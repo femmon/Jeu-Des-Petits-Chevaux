@@ -44,6 +44,7 @@ public class GameController {
     boolean isAnimationFinishedRollDiceForTurn;
     Timeline timerThrowDiceUntilMoveAvailable;
     boolean isAnimationFinishedThrowDiceUntilMoveAvailable;
+    Timeline timerThrowNewDiceAndGetInput;
 
     private GameController() throws IOException {
         // Create game view
@@ -413,23 +414,35 @@ public class GameController {
     private void throwNewDiceAndGetInput() {
         throwDiceUntilMoveAvailable();
 
-        // While instead of if to avoid recursion
-        while (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
-            // Display dice without button
-            // Calculate move
-            // Move
-            // updateScore();
+        timerThrowNewDiceAndGetInput = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            if (!isAnimationFinishedThrowDiceUntilMoveAvailable) return;
 
-            increaseTurn();
-            throwDiceUntilMoveAvailable();
+            System.out.println("Start");
+            isAnimationFinishedThrowDiceUntilMoveAvailable = false;
+            if (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
+                System.out.println("Mac");
+                // Display dice without button
+                // Calculate move
+                // Move
+                // updateScore();
 
-            // TODO: end game properly
-            if (board.getIsEndGame()) {
-                stopGame();
+                // TODO: end game properly
+                if (board.getIsEndGame()) {
+                    timerThrowNewDiceAndGetInput.stop();
+                    stopGame();
+                    return;
+                }
+
+                increaseTurn();
+                throwDiceUntilMoveAvailable();
+            } else {
+                System.out.println("Here");
+                displayOldDiceAndGetInput();
+                timerThrowNewDiceAndGetInput.stop();
             }
-        }
-
-        displayOldDiceAndGetInput();
+        }));
+        timerThrowNewDiceAndGetInput.setCycleCount(Timeline.INDEFINITE);
+        timerThrowNewDiceAndGetInput.play();
     }
 
     private void increaseTurn() {
