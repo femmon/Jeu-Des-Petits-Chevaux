@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -55,6 +56,25 @@ public class GameView {
     HBox yellowPath2;
     HBox greenPath1;
     HBox greenPath2;
+
+
+    // text label
+    @FXML
+    Label redScore = new Label();
+    @FXML
+    Label greenScore = new Label();
+    @FXML
+    Label blueScore = new Label();
+    @FXML
+    Label yellowScore = new Label();
+    @FXML
+    Label redName = new Label();
+    @FXML
+    Label greenName = new Label();
+    @FXML
+    Label blueName = new Label();
+    @FXML
+    Label yellowName = new Label();
 
 
     private NestView[] nestInstances = new NestView[4];
@@ -197,8 +217,9 @@ public class GameView {
             horseStable.setOnMouseClicked(e -> {
                 try {
                     GameController.getInstance().setClickedHorsePathViewId(colors[finalI]);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-                catch (IOException ex) { ex.printStackTrace(); }
             });
         }
     }
@@ -248,29 +269,30 @@ public class GameView {
     }
 
     public void moveHorse(String oldPathId, String newPathId) {
-            // processing path ID
-            String[] newPathIdPackage = processingID(newPathId);  // 0 is colorCode and 1 is positionCode
-            // 1, 2, 3, 4
-            int pathIndex = convertnewPathIdtoPathIndex(newPathIdPackage);
-            // if I get the parent of the horse I will reveal its position
-            removeHorse(oldPathId);
-            getAllPaths()[pathIndex].setHorse(newPathId, (ImageView) chosenPath.getChildren().get(1));
+        // processing path ID
+        String[] newPathIdPackage = processingID(newPathId);  // 0 is colorCode and 1 is positionCode
+        // 1, 2, 3, 4
+        int pathIndex = convertnewPathIdtoPathIndex(newPathIdPackage);
+        // if I get the parent of the horse I will reveal its position
+        removeHorse(oldPathId);
+        getAllPaths()[pathIndex].setHorse(newPathId, (ImageView) chosenPath.getChildren().get(1));
     }
 
 
     private void setHorseOnClickAtPathId() {
-        for (PathView path: getAllPaths()) {
-            for (Node pathContents: path.getPathContents()) {
-                    pathContents.setOnMouseClicked(e -> {
-                            try {
-                                GameController.getInstance().setClickedHorsePathViewId(pathContents.getId());
-                                setChosenPath((StackPane) pathContents);
-                            }
-                            catch (IOException ex) { ex.printStackTrace(); }
-                    });
-                }
+        for (PathView path : getAllPaths()) {
+            for (Node pathContents : path.getPathContents()) {
+                pathContents.setOnMouseClicked(e -> {
+                    try {
+                        GameController.getInstance().setClickedHorsePathViewId(pathContents.getId());
+                        setChosenPath((StackPane) pathContents);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
             }
         }
+    }
 
     private void setChosenPath(StackPane chosenPath) {
         this.chosenPath = chosenPath;
@@ -283,7 +305,7 @@ public class GameView {
         Text text = new Text();
         text.setText(playerSide + Language.getInstance().getString("playerTurn"));
 
-        switch (playerSide){
+        switch (playerSide) {
             case "RED":
                 text.setText(Language.getInstance().getString("rED") + Language.getInstance().getString("playerTurn"));
                 break;
@@ -300,14 +322,52 @@ public class GameView {
         }
 
         GridPane gridPane = new GridPane();
-        gridPane.add(text,0, 0);
+        gridPane.add(text, 0, 0);
         gridPane.setAlignment(Pos.CENTER);
-        stage.setScene(new Scene(gridPane,600, 600));
+        stage.setScene(new Scene(gridPane, 600, 600));
         stage.show();
 
     }
-}
+
 
     //-------------------------Dice view--------------------------------
+
+    //------------------------Set score and name-----------------------
+    public void setRedScore(Color color, int score) {
+        redScore.setText(Integer.toString(score));
+    }
+
+
+    public void setBlueScore(int score) {
+        blueScore.setText(Integer.toString(score));
+    }
+
+
+    public void setGreenScore(int score) {
+        greenScore.setText(Integer.toString(score));
+    }
+
+
+    public void setYellowScore(int score) {
+        yellowScore.setText(Integer.toString(score));
+    }
+
+    public void setRedName(String name) {
+        redName.setText(name);
+    }
+
+    public void setBlueName(String name) {
+        blueName.setText(name);
+    }
+
+    public void setGreenName(String name) {
+        greenName.setText(name);
+    }
+
+    public void setYellowName(String name) {
+        yellowName.setText(name);
+    }
+
+}
 
 // des refs: https://stackoverflow.com/questions/12201712/how-to-find-an-element-with-an-id-in-javafx

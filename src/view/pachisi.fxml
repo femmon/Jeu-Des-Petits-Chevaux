@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
@@ -27,6 +25,11 @@
                      <Font size="18.0" />
                   </font>
                </Label>
+               <Label fx:id="blueScore1" alignment="TOP_CENTER" prefHeight="27.0" prefWidth="110.0" text="PlayerName" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="TOP_CENTER">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
                 </StackPane>
                 <HBox fx:id="bluePath1" layoutX="163.0" layoutY="115.0" prefHeight="38.0" prefWidth="239.0" rotate="90.0" spacing="10.0">
                 </HBox>
@@ -39,7 +42,12 @@
                 <StackPane fx:id="yellowNest" layoutY="73.0" prefHeight="217.0" prefWidth="200.0">
                     <Rectangle fill="ORANGE" height="240.0" width="240.0" />
                     <Circle fill="aliceblue" radius="80.0" />
-               <Label fx:id="yellowScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score: " textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+               <Label fx:id="yellowScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="PlayerName" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <Label fx:id="yellowScore1" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score: " textFill="WHITE" StackPane.alignment="TOP_CENTER">
                   <font>
                      <Font size="18.0" />
                   </font>
@@ -54,7 +62,14 @@
         <VBox prefHeight="800.0" prefWidth="150.0">
             <VBox fx:id="home_path_blue" prefHeight="305.0" prefWidth="158.0" spacing="8.0">
             </VBox>
-            <Pane prefHeight="400.0" prefWidth="200.0" />
+            <Pane prefHeight="400.0" prefWidth="200.0">
+            <children>
+               <Button layoutX="28.0" layoutY="52.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="99.0" text="Pause" textAlignment="CENTER" textFill="#131313">
+                  <font>
+                     <Font size="14.0" />
+                  </font>
+               </Button>
+            </children></Pane>
             <VBox fx:id="home_path_green" prefHeight="400.0" prefWidth="200.0" rotate="180.0" spacing="8.0">
             </VBox>
         </VBox>
@@ -64,6 +79,11 @@
                     <Rectangle fill="red" height="240.0" width="240.0" />
                     <Circle fill="aliceblue" radius="80.0" StackPane.alignment="CENTER" />
                <Label fx:id="redScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score:  0" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <Label fx:id="redScore1" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="PlayerName" textFill="WHITE" StackPane.alignment="TOP_CENTER">
                   <font>
                      <Font size="18.0" />
                   </font>
@@ -82,7 +102,12 @@
                 <StackPane fx:id="greenNest" layoutX="99.0" layoutY="77.0" prefWidth="210.0">
                     <Rectangle fill="green" height="240.0" width="240.0" />
                     <Circle fill="aliceblue" radius="80.0" />
-               <Label fx:id="greenScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score:  0" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+               <Label fx:id="greenScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="PlayerName" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <Label fx:id="greenScore1" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score:  0" textFill="WHITE" StackPane.alignment="TOP_CENTER">
                   <font>
                      <Font size="18.0" />
                   </font>
