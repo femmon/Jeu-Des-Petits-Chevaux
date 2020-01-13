@@ -59,6 +59,7 @@ public class GameController {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Settings");
+
 //        controllerDemo(gameView);
 
     }
@@ -484,6 +485,7 @@ public class GameController {
         increaseTurn();
         throwNewDiceAndGetInput();
     }
+
 
     private void updateScore(Move destination) {
         Player player = playerList.get(turn);

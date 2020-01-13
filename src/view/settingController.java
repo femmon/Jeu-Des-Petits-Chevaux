@@ -34,6 +34,27 @@ public class settingController {
         StrtButton = (Button) playerSettingView.lookup("#StrtButton");
 
         StrtButton.setOnMouseClicked(e -> {
+            int playerCounter = 0;
+
+            for (int i = 1; i < 5; i++) {
+                if (((CheckBox) playerCheckBox.getChildren().get(i)).isSelected() ||
+                        ((CheckBox) comCheckBox.getChildren().get(i)).isSelected()) {
+                    playerCounter++;
+
+                }
+            }
+            if (playerCounter < 2){
+                Stage stage = new Stage();
+                Text text = new Text(Language.getInstance().getString("playerCount"));
+                GridPane gridPane = new GridPane();
+                gridPane.add(text,0, 0);
+                gridPane.setAlignment(Pos.CENTER);
+                stage.setScene(new Scene(gridPane,200, 200));
+                stage.show();
+
+                return;
+            }
+            
             // Get current stage
             Stage stage = (Stage) StrtButton.getScene().getWindow();
 
