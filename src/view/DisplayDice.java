@@ -28,6 +28,7 @@ public class DisplayDice {
         }
     }
 
+    //
     public void displayDice(Dice dice) {
         diceWindow = new Stage();
         RollDices rollDice = new RollDices(dice);
