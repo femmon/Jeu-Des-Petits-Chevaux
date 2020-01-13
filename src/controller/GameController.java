@@ -600,8 +600,9 @@ public class GameController {
     private void summon() {
         Color color = convertNestViewIdToColor(clickedHorsePathViewId);
 
-        // Not the right color
-        if (color != playerList.get(turn).getPlayerSide()) {
+        // Not the right color or not a six
+        if (color != playerList.get(turn).getPlayerSide() ||
+                pickDicevalue() != 6) {
             displayOldDiceAndGetInput();
             return;
         }
