@@ -156,7 +156,7 @@ public class GameController {
         Dice dice = throwDice();
         DisplayDice displayDice = new DisplayDice();
         displayDice.displayDice(dice);
-
+        System.out.println(playerList.get(playerIndex).getPlayerSide() + " " + dice.getDiceValue());
         if (!isDuplicateDiceValue(dice.getDiceValue())) {
             playerList.get(playerIndex).setDiceValue(dice.getDiceValue());
         }
@@ -433,10 +433,8 @@ public class GameController {
         timerThrowNewDiceAndGetInput = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if (!isAnimationFinishedThrowDiceUntilMoveAvailable) return;
 
-            System.out.println("Start");
             isAnimationFinishedThrowDiceUntilMoveAvailable = false;
             if (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
-                System.out.println("Mac");
                 // Display dice without button
                 // Calculate move
                 // Move
@@ -452,7 +450,6 @@ public class GameController {
                 increaseTurn();
                 throwDiceUntilMoveAvailable();
             } else {
-                System.out.println("Here");
                 displayOldDiceAndGetInput();
                 timerThrowNewDiceAndGetInput.stop();
             }
@@ -488,6 +485,7 @@ public class GameController {
         dice2 = throwDice();
         DisplayDice displayDice = new DisplayDice();
         displayDice.displayDiceWithoutBtn(dice1, dice2);
+        printTurnDiceDebug();
     }
 
     void printTurnDiceDebug() {
