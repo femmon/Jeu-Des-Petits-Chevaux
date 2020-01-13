@@ -475,6 +475,7 @@ public class GameController {
                 isAnimationFinishedThrowDiceUntilMoveAvailable = true;
                 timerThrowDiceUntilMoveAvailable.stop();
             } else {
+                increaseTurn();
                 oneThrowDiceUntilMoveAvailable();
             }
         }));
