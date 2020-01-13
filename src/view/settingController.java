@@ -58,7 +58,6 @@ public class settingController {
                 stage.show();
 
                 return;
-
             }
 
             // Get current stage
@@ -134,7 +133,7 @@ public class settingController {
         ((Label) playerSettingView.lookup("#yELLOW")).setText(language.getString("yELLOW"));
         ((Label) playerSettingView.lookup("#gREEN")).setText(language.getString("gREEN"));
         ((Button) playerSettingView.lookup("#StrtButton")).setText(language.getString("StrtButton"));
-        
+
     }
 
     public void initData(GameController gameController, HBox board) {

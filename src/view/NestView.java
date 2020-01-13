@@ -26,6 +26,7 @@ public class NestView {
     private String horseColor = "";
     private ArrayList<ImageView> horseList = new ArrayList<>();
 
+
 //    private Node[] horsePairs = new Node[2];
 
      public NestView(StackPane nest, int sideEnum) throws IOException {
@@ -48,22 +49,22 @@ public class NestView {
         switch (sideEnum) {
             case 0:
                 horsePath += "RedHorse.png";
-                horseStable.setId("redNest");
+                horseStable.setId("red_nest");
                 horseColor = "red";
                 break;
             case 1:
                 horsePath += "GreenHorse.png";
-                horseStable.setId("greenNest");
+                horseStable.setId("greem_nest");
                 horseColor = "green";
                 break;
             case 2:
                 horsePath += "BlueHorse.png";
-                horseStable.setId("blueNest");
+                horseStable.setId("blue_nest");
                 horseColor = "blue";
                 break;
             case 3:
                 horsePath += "YellowHorse.png";
-                horseStable.setId("yellowNest");
+                horseStable.setId("yellow_nest");
                 horseColor = "yellow";
                 break;
         }
@@ -99,12 +100,5 @@ public class NestView {
     public void addHorse(ImageView horse) {
          horseStable.getChildren().add(horse);
     }
-
-    public ArrayList<ImageView> getHorseList() {
-         return horseList;
-    }
-
-    // this method keeps track of horses in the nest
-
 
 }
