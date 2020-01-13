@@ -293,8 +293,10 @@ public class GameController {
                 colorHexa = "0x008000ff";
                 if (position.getNumber() >= 0 && position.getNumber() <= 4) {
                     num = position.getNumber();
-                } else {
+                } else if (position.getNumber() >= 5 && position.getNumber() <= 10) {
                     num = converIndexNumberForGreenSide(position.getNumber());
+                } else {
+                    num = position.getNumber();
                 }
                 return colorHexa + "_" + num;
             case BLUE:
@@ -304,13 +306,19 @@ public class GameController {
                 colorHexa = "0xff0000ff";
                 if (position.getNumber() >= 0 && position.getNumber() <= 5) {
                     num = position.getNumber() - 5;
-                } else {
+                } else if (position.getNumber() >= 5 && position.getNumber() <= 10) {
                     num = 10 - position.getNumber();
+                } else {
+                    num = position.getNumber();
                 }
                 return colorHexa + "_" + num;
             case YELLOW:
                 colorHexa = "0xffa500ff";
-                num =  10 - position.getNumber();
+                if (position.getNumber() >= 11 && position.getNumber() <= 17) {
+                    num = position.getNumber();
+                } else {
+                    num =  10 - position.getNumber();
+                }
                 return colorHexa + "_" + num;
             default:
                 colorHexa = "";
@@ -325,11 +333,17 @@ public class GameController {
             case "0x0000ffff":
                 return new Position(Color.BLUE, num);
             case "0xffa500ff":
-                return new Position(Color.YELLOW, 10 - num);
+                if (num >= 11 && num <= 17) {
+                    return new Position(Color.YELLOW, num);
+                } else {
+                    return new Position(Color.YELLOW, 10 - num);
+                }
             case "0xff0000ff":
                 int index = 0;
                 if (num >= 0 && num <= 5) {
                     index = num - 5;
+                } else if (num >= 11 && num <= 17) {
+                    index = num;
                 } else {
                     index = 10 - num;
                 }
@@ -337,6 +351,8 @@ public class GameController {
             case "0x008000ff":
                 int i = 0;
                 if (num >= 0 && num <= 4) {
+                    i = num;
+                } else if (num >= 11 && num <= 17) {
                     i = num;
                 } else {
                     i = converIndexNumberForGreenSide(num);
