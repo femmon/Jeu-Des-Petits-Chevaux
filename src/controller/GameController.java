@@ -41,7 +41,6 @@ public class GameController {
     private boolean[] clicked = {false, false, false}; // To know if btDice1, btDice2 and btBoth were clicked.
     private String clickedHorsePathViewId = "";
     Timeline timerRollDiceForTurn;
-    int timePassedRollDiceForTurn;
     boolean isAnimationFinishedRollDiceForTurn;
 
     private GameController() throws IOException {
@@ -133,29 +132,31 @@ public class GameController {
 
     //-----------------------Set turn---------------------
     public void rollDiceForTurn() {
-        timePassedRollDiceForTurn = 0;
         isAnimationFinishedRollDiceForTurn = false;
 
-        timerRollDiceForTurn = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            if (timePassedRollDiceForTurn % 3 == 0) {
-                Dice dice = throwDice();
-                DisplayDice displayDice = new DisplayDice();
-                displayDice.displayDice(dice);
-
-                if (!isDuplicateDiceValue(dice.getDiceValue())) {
-                    int playerIndex = getCurrentRollDiceForTurnPlayer();
-                    playerList.get(playerIndex).setDiceValue(dice.getDiceValue());
-
-                    if (playerIndex == playerList.size() - 1) {
-                        isAnimationFinishedRollDiceForTurn = true;
-                        timerRollDiceForTurn.stop();
-                    }
-                }
-            }
-            timePassedRollDiceForTurn++;
+        oneRollDiceForTurn();
+        timerRollDiceForTurn = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+            oneRollDiceForTurn();
         }));
         timerRollDiceForTurn.setCycleCount(Timeline.INDEFINITE);
         timerRollDiceForTurn.play();
+    }
+
+    private void oneRollDiceForTurn() {
+        int playerIndex = getCurrentRollDiceForTurnPlayer();
+        if (playerIndex == -1) {
+            isAnimationFinishedRollDiceForTurn = true;
+            timerRollDiceForTurn.stop();
+            return;
+        }
+
+        Dice dice = throwDice();
+        DisplayDice displayDice = new DisplayDice();
+        displayDice.displayDice(dice);
+
+        if (!isDuplicateDiceValue(dice.getDiceValue())) {
+            playerList.get(playerIndex).setDiceValue(dice.getDiceValue());
+        }
     }
 
     private int getCurrentRollDiceForTurnPlayer() {
@@ -163,7 +164,7 @@ public class GameController {
             if (playerList.get(i).getDiceValue() == 0) return i;
         }
 
-        throw new IllegalStateException();
+        return -1;
     }
 
     private boolean isDuplicateDiceValue(int diceValue) {
@@ -387,9 +388,20 @@ public class GameController {
     public void playGame() {
         board = new Board(playerList);
         rollDiceForTurn();
-        turn = findPlayerWithHighestDice(findMaximumDiceValue());
 
-        throwNewDiceAndGetInput();
+        Timeline timerPlayGame = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            if (isAnimationFinishedRollDiceForTurn) {
+                // Reset
+                isAnimationFinishedRollDiceForTurn = false;
+                // TODO: How to kill TimeLine from
+//                timerPlayGame
+                turn = findPlayerWithHighestDice(findMaximumDiceValue());
+
+                throwNewDiceAndGetInput();
+            }
+        }));
+        timerPlayGame.setCycleCount(Timeline.INDEFINITE);
+        timerPlayGame.play();
     }
 
     /**
