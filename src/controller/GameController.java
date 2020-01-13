@@ -42,6 +42,8 @@ public class GameController {
     private String clickedHorsePathViewId = "";
     Timeline timerRollDiceForTurn;
     boolean isAnimationFinishedRollDiceForTurn;
+    Timeline timerThrowDiceUntilMoveAvailable;
+    boolean isAnimationFinishedThrowDiceUntilMoveAvailable;
 
     private GameController() throws IOException {
         // Create game view
@@ -375,17 +377,25 @@ public class GameController {
     }
 
     private void throwDiceUntilMoveAvailable() {
+        isAnimationFinishedThrowDiceUntilMoveAvailable = false;
+        oneThrowDiceUntilMoveAvailable();
+        timerThrowDiceUntilMoveAvailable = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+            if (isMovePossible()) {
+                isAnimationFinishedThrowDiceUntilMoveAvailable = true;
+                timerThrowDiceUntilMoveAvailable.stop();
+            } else {
+                oneThrowDiceUntilMoveAvailable();
+            }
+        }));
+        timerThrowDiceUntilMoveAvailable.setCycleCount(Timeline.INDEFINITE);
+        timerThrowDiceUntilMoveAvailable.play();
+    }
+
+    private void oneThrowDiceUntilMoveAvailable() {
         dice1 = throwDice();
         dice2 = throwDice();
-        printTurnDiceDebug();
-
-        while (!isMovePossible()) {
-            // TODO display dice without button
-            increaseTurn();
-            dice1 = throwDice();
-            dice2 = throwDice();
-            printTurnDiceDebug();
-        }
+        DisplayDice displayDice = new DisplayDice();
+        displayDice.displayDice(dice1, dice2);
     }
 
     void printTurnDiceDebug() {
