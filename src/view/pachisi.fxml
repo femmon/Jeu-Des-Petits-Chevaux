@@ -25,7 +25,7 @@
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Label fx:id="blueScore1" alignment="TOP_CENTER" prefHeight="27.0" prefWidth="110.0" text="PlayerName" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="TOP_CENTER">
+               <Label fx:id="blueName" alignment="TOP_CENTER" prefHeight="27.0" prefWidth="110.0" text="PlayerName" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="TOP_CENTER">
                   <font>
                      <Font size="18.0" />
                   </font>
@@ -42,12 +42,12 @@
                 <StackPane fx:id="yellowNest" layoutY="73.0" prefHeight="217.0" prefWidth="200.0">
                     <Rectangle fill="ORANGE" height="240.0" width="240.0" />
                     <Circle fill="aliceblue" radius="80.0" />
-               <Label fx:id="yellowScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="PlayerName" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+               <Label fx:id="yellowName" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="PlayerName" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
                   <font>
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Label fx:id="yellowScore1" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score: " textFill="WHITE" StackPane.alignment="TOP_CENTER">
+               <Label fx:id="yellowScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score: " textFill="WHITE" StackPane.alignment="TOP_CENTER">
                   <font>
                      <Font size="18.0" />
                   </font>
@@ -64,7 +64,7 @@
             </VBox>
             <Pane prefHeight="400.0" prefWidth="200.0">
             <children>
-               <Button layoutX="28.0" layoutY="52.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="99.0" text="Pause" textAlignment="CENTER" textFill="#131313">
+               <Button fx:id="pauseBtn" layoutX="28.0" layoutY="52.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="99.0" text="Pause" textAlignment="CENTER" textFill="#131313">
                   <font>
                      <Font size="14.0" />
                   </font>
@@ -83,7 +83,7 @@
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Label fx:id="redScore1" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="PlayerName" textFill="WHITE" StackPane.alignment="TOP_CENTER">
+               <Label fx:id="redName" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="PlayerName" textFill="WHITE" StackPane.alignment="TOP_CENTER">
                   <font>
                      <Font size="18.0" />
                   </font>
@@ -102,12 +102,12 @@
                 <StackPane fx:id="greenNest" layoutX="99.0" layoutY="77.0" prefWidth="210.0">
                     <Rectangle fill="green" height="240.0" width="240.0" />
                     <Circle fill="aliceblue" radius="80.0" />
-               <Label fx:id="greenScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="PlayerName" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
+               <Label fx:id="greenName" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="PlayerName" textFill="WHITE" StackPane.alignment="BOTTOM_CENTER">
                   <font>
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Label fx:id="greenScore1" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score:  0" textFill="WHITE" StackPane.alignment="TOP_CENTER">
+               <Label fx:id="greenScore" alignment="TOP_CENTER" prefHeight="23.0" prefWidth="105.0" text="Score:  0" textFill="WHITE" StackPane.alignment="TOP_CENTER">
                   <font>
                      <Font size="18.0" />
                   </font>
