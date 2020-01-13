@@ -255,7 +255,36 @@ public class GameView {
 
 
     //-------------------------Dice view--------------------------------
+ //-------------------------Display turn--------------------------------
 
+    public void displayTurn(String playerSide) {
+        Stage stage = new Stage();
+        Text text = new Text();
+        text.setText(playerSide + Language.getInstance().getString("playerTurn"));
+
+        switch (playerSide){
+            case "RED":
+                text.setText(Language.getInstance().getString("rED") + Language.getInstance().getString("playerTurn"));
+                break;
+            case "BLUE":
+                text.setText(Language.getInstance().getString("bLUE") + Language.getInstance().getString("playerTurn"));
+                break;
+            case "YELLOW":
+                text.setText(Language.getInstance().getString("yELLOW") + Language.getInstance().getString("playerTurn"));
+                break;
+            case "GREEN":
+                text.setText(Language.getInstance().getString("gREEN") + Language.getInstance().getString("playerTurn"));
+                break;
+
+        }
+
+        GridPane gridPane = new GridPane();
+        gridPane.add(text,0, 0);
+        gridPane.setAlignment(Pos.CENTER);
+        stage.setScene(new Scene(gridPane,600, 600));
+        stage.show();
+
+    }
 
 
 // des refs: https://stackoverflow.com/questions/12201712/how-to-find-an-element-with-an-id-in-javafx
