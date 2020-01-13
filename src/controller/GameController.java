@@ -601,10 +601,9 @@ public class GameController {
             return;
         }
 
-        gameView.summonHorseFromNest(convertPlayerSideToView(color));
-
         // Reroll when summon is success
         if (board.summon(color) != -1) {
+            gameView.summonHorseFromNest(convertPlayerSideToView(color));
             afterSuccessfulMove();
         } else {
             displayOldDiceAndGetInput();
