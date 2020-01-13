@@ -611,8 +611,18 @@ public class GameController {
     }
 
     private Color convertNestViewIdToColor(String clickedHorsePathViewId) {
-        // Need naming rule from Hong
-        return Color.RED;
+        switch (clickedHorsePathViewId) {
+            case "red":
+                return Color.RED;
+            case "green":
+                return Color.GREEN;
+            case "blue":
+                return Color.BLUE;
+            case "yellow":
+                return Color.YELLOW;
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     private boolean isNestViewId(String clickedHorsePathViewId) {

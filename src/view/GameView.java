@@ -1,19 +1,20 @@
 package view;
 
+import controller.GameController;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.*;
-import javafx.scene.image.*;
-import javafx.scene.layout.*;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Random;
-
-import controller.GameController;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * This function fetches UI templates from FXML board + sets up the board + updates the board accordingly in correspondence with GameController
@@ -69,6 +70,7 @@ public class GameView {
         fetchingHomePath(pachisi);
         fetchingPaths(pachisi);
         setHorseOnClickAtPathId();
+        setNestOnClick();
     }
 
     public HBox getPachisi() {
@@ -183,10 +185,22 @@ public class GameView {
     // cho ngựa xuất chuồng
     public void summonHorseFromNest(int index) {
         GridPane horseStable = getNest(index).getHorseStable();
-        horseStable.setOnMouseClicked(e -> {
-            StackPane startingStep = (StackPane) getAllPaths()[index * 2].getPathContents().get(0); // get starting position
-            startingStep.getChildren().add(horseStable.getChildren().get(0)); // one horse is added at starting point
-        });
+        StackPane startingStep = (StackPane) getAllPaths()[index * 2].getPathContents().get(0); // get starting position
+        startingStep.getChildren().add(horseStable.getChildren().get(0)); // one horse is added at starting point
+    }
+
+    private void setNestOnClick() {
+        String[] colors = {"red", "green", "blue", "yellow"};
+        for (int i = 0; i < colors.length; i++) {
+            GridPane horseStable = getNest(i).getHorseStable();
+            int finalI = i;
+            horseStable.setOnMouseClicked(e -> {
+                try {
+                    GameController.getInstance().setClickedHorsePathViewId(colors[finalI]);
+                }
+                catch (IOException ex) { ex.printStackTrace(); }
+            });
+        }
     }
 
     //-------------------------MOVING HORSE ON DEMAND------------------------------
