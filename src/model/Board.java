@@ -199,6 +199,7 @@ public class Board {
 
         return move(horseAtStart.getColor(), horseAtStart.getId(), moves);
     }
+
     /**
      * Find the new position without actually moving
      * @param start
@@ -220,6 +221,7 @@ public class Board {
      * @param finish
      * @return
      */
+
     private Move buildMove(PathNode start, PathNode finish) {
         Move move = new Move(start.getHorse(), start.getPosition(),
                 finish == null ? null : finish.getPosition(), null);
@@ -282,6 +284,23 @@ public class Board {
         return null;
     }
 
+    /**
+     * find all horse in the board of a player
+     * @param player
+     * @return horseList
+     */
+    public ArrayList<Horse> findAllHorse(Player player) {
+        ArrayList<Horse> horseInBoardList = new ArrayList<Horse>();
+        for (int i = 0; i < 4; i++) {
+            PathNode NodeWithHorse = findHorseInPath(player.getPlayerSide(), i);
+            if (NodeWithHorse != null){
+                horseInBoardList.add(NodeWithHorse.getHorse());
+            }
+        }
+        return horseInBoardList;
+    }
+
+
     public PathNode findPathNodeFromPosition(Position position) {
         PathNode current = path;
         do {
@@ -338,7 +357,7 @@ public class Board {
      * @param moves
      * @return
      */
-    private PathNode movePathDryRun(PathNode nodeWithHorse, int moves) {
+     PathNode movePathDryRun(PathNode nodeWithHorse, int moves) {
         Horse horseToMove = nodeWithHorse.getHorse();
         PathNode current = nodeWithHorse;
         // Go moves - 1 steps
@@ -373,7 +392,7 @@ public class Board {
      * @param moves
      * @return
      */
-    private PathNode moveHomePathDryRun(PathNode nodeWithHorse, int moves) {
+     PathNode moveHomePathDryRun(PathNode nodeWithHorse, int moves) {
         Position position = nodeWithHorse.getPosition();
         Horse horse = nodeWithHorse.getHorse();
         // If standing at home arrival
@@ -422,6 +441,24 @@ public class Board {
         return buildMove(start, destination);
     }
 
+
+    /**
+     * Calculate the distance remain of the horse to its homeposition
+     * @param currentPosition
+     * @param color
+     * @return numberOfStep
+     */
+    public int calculateDistanceToHomePosition(PathNode currentPosition, Color color) {
+        int numberOfStep = 1;
+        while (true) {
+            PathNode nextNode = currentPosition.getNextAroundNode();
+            if (nextNode.getPosition().getNumber() == 11 && nextNode.getPosition().getColor() == color) {
+                return numberOfStep;
+            }
+            numberOfStep++;
+        }
+    }
+
     /**
      * Check if a move is possible
      * @param color
@@ -430,7 +467,7 @@ public class Board {
      * @return
      */
     public boolean canMove(Color color, int id, int moves) {
-        if (isHorseInNest(color, id) == true) {
+        if (isHorseInNest(color, id)) {
             return false;
         }
         PathNode start = findHorseInPath(color, id);
