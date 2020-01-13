@@ -61,9 +61,6 @@ public class GameController {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Settings");
-
-//        controllerDemo(gameView);
-
     }
 
     public static GameController getInstance() throws IOException {
@@ -84,16 +81,6 @@ public class GameController {
      * 3 : Yellow nest/horse/homePath
      * @param view
      */
-
-    //-------------------------VIEW DEMO------------------------------
-    private void controllerDemo(GameView view) {
-        view.pathEvents();
-        view.homePathEvent(0);
-        view.homePathEvent(1);
-        view.homePathEvent(2);
-        view.homePathEvent(3);
-//        playGame();
-    }
 
 //-------------------------GAME PLAY------------------------------
 

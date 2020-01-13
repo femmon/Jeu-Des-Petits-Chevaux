@@ -96,6 +96,13 @@ public class GameView {
         fetchingPaths(pachisi);
         setHorseOnClickAtPathId();
         setNestOnClick();
+        setHomePathOnClick();
+    }
+
+    private void setHomePathOnClick() {
+        for (int i = 0; i < 4; i++) {
+            homePathEvent(i);
+        }
     }
 
     public HBox getPachisi() {
@@ -148,7 +155,7 @@ public class GameView {
     }
 
     // event handler of Home Path
-    public void homePathEvent(int index) {
+    private void homePathEvent(int index) {
         homePathInstances[index].onClickedEvent();
     }
 
