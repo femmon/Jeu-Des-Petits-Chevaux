@@ -44,6 +44,7 @@ public class GameController {
     boolean isAnimationFinishedRollDiceForTurn;
     Timeline timerThrowDiceUntilMoveAvailable;
     boolean isAnimationFinishedThrowDiceUntilMoveAvailable;
+    Timeline timerThrowNewDiceAndGetInput;
 
     private GameController() throws IOException {
         // Create game view
@@ -155,7 +156,7 @@ public class GameController {
         Dice dice = throwDice();
         DisplayDice displayDice = new DisplayDice();
         displayDice.displayDice(dice);
-
+        System.out.println(playerList.get(playerIndex).getPlayerSide() + " " + dice.getDiceValue());
         if (!isDuplicateDiceValue(dice.getDiceValue())) {
             playerList.get(playerIndex).setDiceValue(dice.getDiceValue());
         }
@@ -429,23 +430,32 @@ public class GameController {
     private void throwNewDiceAndGetInput() {
         throwDiceUntilMoveAvailable();
 
-        // While instead of if to avoid recursion
-        while (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
-            // Display dice without button
-            // Calculate move
-            // Move
-            // updateScore();
+        timerThrowNewDiceAndGetInput = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            if (!isAnimationFinishedThrowDiceUntilMoveAvailable) return;
 
-            increaseTurn();
-            throwDiceUntilMoveAvailable();
+            isAnimationFinishedThrowDiceUntilMoveAvailable = false;
+            if (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
+                // Display dice without button
+                // Calculate move
+                // Move
+                // updateScore();
 
-            // TODO: end game properly
-            if (board.getIsEndGame()) {
-                stopGame();
+                // TODO: end game properly
+                if (board.getIsEndGame()) {
+                    timerThrowNewDiceAndGetInput.stop();
+                    stopGame();
+                    return;
+                }
+
+                increaseTurn();
+                throwDiceUntilMoveAvailable();
+            } else {
+                displayOldDiceAndGetInput();
+                timerThrowNewDiceAndGetInput.stop();
             }
-        }
-
-        displayOldDiceAndGetInput();
+        }));
+        timerThrowNewDiceAndGetInput.setCycleCount(Timeline.INDEFINITE);
+        timerThrowNewDiceAndGetInput.play();
     }
 
     private void increaseTurn() {
@@ -462,6 +472,7 @@ public class GameController {
                 isAnimationFinishedThrowDiceUntilMoveAvailable = true;
                 timerThrowDiceUntilMoveAvailable.stop();
             } else {
+                increaseTurn();
                 oneThrowDiceUntilMoveAvailable();
             }
         }));
@@ -474,6 +485,7 @@ public class GameController {
         dice2 = throwDice();
         DisplayDice displayDice = new DisplayDice();
         displayDice.displayDiceWithoutBtn(dice1, dice2);
+        printTurnDiceDebug();
     }
 
     void printTurnDiceDebug() {
