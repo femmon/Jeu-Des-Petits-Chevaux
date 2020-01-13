@@ -1,6 +1,7 @@
 package view;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
@@ -11,6 +12,9 @@ import java.util.Arrays;
 import java.util.Random;
 
 import controller.GameController;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
 /**
  * This function fetches UI templates from FXML board + sets up the board + updates the board accordingly in correspondence with GameController
  * */
@@ -247,15 +251,8 @@ public class GameView {
     private void setChosenPath(StackPane chosenPath) {
         this.chosenPath = chosenPath;
     }
-}
 
-
-
-
-
-
-    //-------------------------Dice view--------------------------------
- //-------------------------Display turn--------------------------------
+    //-------------------------Display turn--------------------------------
 
     public void displayTurn(String playerSide) {
         Stage stage = new Stage();
@@ -285,6 +282,8 @@ public class GameView {
         stage.show();
 
     }
+}
 
+    //-------------------------Dice view--------------------------------
 
 // des refs: https://stackoverflow.com/questions/12201712/how-to-find-an-element-with-an-id-in-javafx
