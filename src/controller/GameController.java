@@ -626,8 +626,15 @@ public class GameController {
     }
 
     private boolean isNestViewId(String clickedHorsePathViewId) {
-        // Need naming rule from Hong
-        return false;
+        switch (clickedHorsePathViewId) {
+            case "red":
+            case "blue":
+            case "green":
+            case "yellow":
+                return true;
+            default:
+                return false;
+        }
     }
 
     public void stopGame() {
