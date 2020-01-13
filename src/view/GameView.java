@@ -1,6 +1,7 @@
 package view;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
@@ -9,6 +10,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import controller.GameController;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
 /**
  * This function fetches UI templates from FXML board + sets up the board + updates the board accordingly in correspondence with GameController
  * */
@@ -16,25 +20,38 @@ import controller.GameController;
 
 public class GameView {
 
-    @FXML HBox pachisi;
+    @FXML
+    HBox pachisi;
     // 4 nests
-    @FXML StackPane blueNest;
-    @FXML StackPane yellowNest;
-    @FXML StackPane redNest;
-    @FXML StackPane greenNest;
+    @FXML
+    StackPane blueNest;
+    @FXML
+    StackPane yellowNest;
+    @FXML
+    StackPane redNest;
+    @FXML
+    StackPane greenNest;
 
     // 4 home paths
-    @FXML VBox home_path_blue;
-    @FXML VBox home_path_green;
-    @FXML HBox home_path_yellow;
-    @FXML HBox home_path_red;
+    @FXML
+    VBox home_path_blue;
+    @FXML
+    VBox home_path_green;
+    @FXML
+    HBox home_path_yellow;
+    @FXML
+    HBox home_path_red;
 
     // 8 paths
     @FXML
-    HBox bluePath1; HBox bluePath2;
-    HBox redPath1; HBox redPath2;
-    HBox yellowPath1; HBox yellowPath2;
-    HBox greenPath1; HBox greenPath2;
+    HBox bluePath1;
+    HBox bluePath2;
+    HBox redPath1;
+    HBox redPath2;
+    HBox yellowPath1;
+    HBox yellowPath2;
+    HBox greenPath1;
+    HBox greenPath2;
 
 
     private NestView[] nestInstances = new NestView[4];
@@ -84,8 +101,8 @@ public class GameView {
         redPath2 = (HBox) pachisi.lookup("#redPath2");
         yellowPath2 = (HBox) pachisi.lookup("#yellowPath2");
         greenPath2 = (HBox) pachisi.lookup("#greenPath2");
-        HBox[] paths = {redPath1, greenPath1, bluePath1 , yellowPath1};  // 0, 1, 2, 3     // path codes
-        HBox[] secPaths = {redPath2, greenPath2, bluePath2 , yellowPath2}; // 4, 5, 6, 7
+        HBox[] paths = {redPath1, greenPath1, bluePath1, yellowPath1};  // 0, 1, 2, 3     // path codes
+        HBox[] secPaths = {redPath2, greenPath2, bluePath2, yellowPath2}; // 4, 5, 6, 7
         initPaths(paths, secPaths, allPaths);
     }
 
@@ -108,17 +125,17 @@ public class GameView {
 
     private void initPaths(HBox[] paths, HBox[] secPaths, PathView[] allPaths) {
 
-         for (int index = 0; index <= 6; index += 2) {
-           PathView pathDrawer = new PathView(paths[index / 2], COLOR_LIST[index / 2]);
-           pathDrawer.fillPath();
-           allPaths[index] = pathDrawer;
-         }
+        for (int index = 0; index <= 6; index += 2) {
+            PathView pathDrawer = new PathView(paths[index / 2], COLOR_LIST[index / 2]);
+            pathDrawer.fillPath();
+            allPaths[index] = pathDrawer;
+        }
 
-         for (int index = 1; index <= 7; index += 2) {
-           PathView pathDrawer = new PathView(secPaths[index / 2], COLOR_LIST[index / 2]);
-           pathDrawer.fillSecPath();
-           allPaths[index] = pathDrawer;
-         }
+        for (int index = 1; index <= 7; index += 2) {
+            PathView pathDrawer = new PathView(secPaths[index / 2], COLOR_LIST[index / 2]);
+            pathDrawer.fillSecPath();
+            allPaths[index] = pathDrawer;
+        }
     }
 
     public void pathEvents() {
@@ -133,7 +150,7 @@ public class GameView {
     private void nestInit(StackPane[] nests) throws IOException {
         int order = 0;
 
-        for (StackPane nest: nests) {
+        for (StackPane nest : nests) {
             nestInstances[order] = new NestView(nest, order);
             order++;
         }
@@ -190,12 +207,9 @@ public class GameView {
 
     /**
      * Horse ID format ex: red_0 -> red_3, yellow_0 -> yellow_3
-     * */
+     */
 
     //      int[] pathRoute = {0, 2, 3, 1};
-
-
-
     private int convertnewPathIdtoPathIndex(String[] newPathId) {
         int pathIndex = 0;
         switch (newPathId[0]) {
@@ -223,53 +237,55 @@ public class GameView {
     }
 
     public void moveHorse(String oldPathId, String newPathId, String horseID) {
-            // processing path ID
-            String[] newPathIdPackage = processingID(newPathId);  // 0 is colorCode and 1 is positionCode
-            // processing horse ID
-            String[] horseIDPackage = processingID(horseID); // same as above
-            // 1, 2, 3, 4
-            int pathIndex = convertnewPathIdtoPathIndex(newPathIdPackage);
-            int nestIndex = 0;
+        // processing path ID
+        String[] newPathIdPackage = processingID(newPathId);  // 0 is colorCode and 1 is positionCode
+        // processing horse ID
+        String[] horseIDPackage = processingID(horseID); // same as above
+        // 1, 2, 3, 4
+        int pathIndex = convertnewPathIdtoPathIndex(newPathIdPackage);
+        int nestIndex = 0;
 
-            int horseOrder = Integer.parseInt(horseIDPackage[1]);
+        int horseOrder = Integer.parseInt(horseIDPackage[1]);
 
-            switch (horseIDPackage[0]) {
-                case "red":
-                    break;
-                case "green":
-                    nestIndex = 1;
-                    break;
-                case "blue":
-                    nestIndex = 2;
-                    break;
-                case "yellow":
-                    nestIndex = 3;
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + horseIDPackage[0]);
-            }
-            // if I get the parent of the horse I will reveal its position
-
-            ImageView selectedHorse = getNest(nestIndex).getHorseList().get(horseOrder);
-
-            removeHorse(oldPathId);
-            getAllPaths()[pathIndex].setHorse(newPathId, selectedHorse);
+        switch (horseIDPackage[0]) {
+            case "red":
+                break;
+            case "green":
+                nestIndex = 1;
+                break;
+            case "blue":
+                nestIndex = 2;
+                break;
+            case "yellow":
+                nestIndex = 3;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + horseIDPackage[0]);
         }
+        // if I get the parent of the horse I will reveal its position
+
+        ImageView selectedHorse = getNest(nestIndex).getHorseList().get(horseOrder);
+
+        removeHorse(oldPathId);
+        getAllPaths()[pathIndex].setHorse(newPathId, selectedHorse);
+    }
 
 
     public void setHorseOnClickAtPathId(String pathId) {
-        for (PathView path: getAllPaths()) {
-            for (Node pathContents: path.getPathContents()) {
+        for (PathView path : getAllPaths()) {
+            for (Node pathContents : path.getPathContents()) {
                 if (pathContents.getId().equals(pathId)) {
                     pathContents.setOnMouseClicked(e -> {
                         Node chosenItem = e.getPickResult().getIntersectedNode();
                         if (chosenItem instanceof ImageView) {
-                            try { GameController.getInstance().setClickedHorsePathViewId(chosenItem.getId()); }
-                            catch (IOException ex) { ex.printStackTrace(); }
+                            try {
+                                GameController.getInstance().setClickedHorsePathViewId(chosenItem.getId());
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                     });
-                }
-                else {
+                } else {
                     System.out.println("No horse shown on the path");
                 }
             }
@@ -277,12 +293,38 @@ public class GameView {
     }
 
 
-
-}
-
-
-
     //-------------------------Dice view--------------------------------
+    //-------------------------Display turn--------------------------------
+
+    public void displayTurn(String playerSide) {
+        Stage stage = new Stage();
+        Text text = new Text();
+        text.setText(playerSide + Language.getInstance().getString("playerTurn"));
+
+        switch (playerSide){
+            case "RED":
+                text.setText(Language.getInstance().getString("rED") + Language.getInstance().getString("playerTurn"));
+                break;
+            case "BLUE":
+                text.setText(Language.getInstance().getString("bLUE") + Language.getInstance().getString("playerTurn"));
+                break;
+            case "YELLOW":
+                text.setText(Language.getInstance().getString("yELLOW") + Language.getInstance().getString("playerTurn"));
+                break;
+            case "GREEN":
+                text.setText(Language.getInstance().getString("gREEN") + Language.getInstance().getString("playerTurn"));
+                break;
+
+        }
+
+        GridPane gridPane = new GridPane();
+        gridPane.add(text,0, 0);
+        gridPane.setAlignment(Pos.CENTER);
+        stage.setScene(new Scene(gridPane,600, 600));
+        stage.show();
+
+    }
+}
 
 
 

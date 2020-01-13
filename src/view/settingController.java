@@ -4,14 +4,19 @@ import controller.GameController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -34,6 +39,28 @@ public class settingController {
         StrtButton = (Button) playerSettingView.lookup("#StrtButton");
 
         StrtButton.setOnMouseClicked(e -> {
+            int playerCounter = 0;
+
+            for (int i = 1; i < 5; i++) {
+                if (((CheckBox) playerCheckBox.getChildren().get(i)).isSelected() ||
+                        ((CheckBox) comCheckBox.getChildren().get(i)).isSelected()) {
+                    playerCounter++;
+
+                }
+            }
+            if (playerCounter < 2){
+                Stage stage = new Stage();
+                Text text = new Text(Language.getInstance().getString("playerCount"));
+                GridPane gridPane = new GridPane();
+                gridPane.add(text,0, 0);
+                gridPane.setAlignment(Pos.CENTER);
+                stage.setScene(new Scene(gridPane,200, 200));
+                stage.show();
+
+                return;
+
+            }
+
             // Get current stage
             Stage stage = (Stage) StrtButton.getScene().getWindow();
 
@@ -99,13 +126,14 @@ public class settingController {
     private void updateLanguagePlayerSetting() {
         Language language = Language.getInstance();
         ((Label) playerSettingView.lookup("#teamColor")).setText(language.getString("teamColor"));
-       ((Label) playerSettingView.lookup("#name")).setText(language.getString("name"));
-       ((Label) playerSettingView.lookup("#player")).setText(language.getString("player"));
-       ((Label) playerSettingView.lookup("#com")).setText(language.getString("com"));
-       ((Label) playerSettingView.lookup("#rED")).setText(language.getString("rED"));
-       ((Label) playerSettingView.lookup("#bLUE")).setText(language.getString("bLUE"));
-       ((Label) playerSettingView.lookup("#yELLOW")).setText(language.getString("yELLOW"));
-       ((Label) playerSettingView.lookup("#gREEN")).setText(language.getString("gREEN"));
+        ((Label) playerSettingView.lookup("#name")).setText(language.getString("name"));
+        ((Label) playerSettingView.lookup("#player")).setText(language.getString("player"));
+        ((Label) playerSettingView.lookup("#com")).setText(language.getString("com"));
+        ((Label) playerSettingView.lookup("#rED")).setText(language.getString("rED"));
+        ((Label) playerSettingView.lookup("#bLUE")).setText(language.getString("bLUE"));
+        ((Label) playerSettingView.lookup("#yELLOW")).setText(language.getString("yELLOW"));
+        ((Label) playerSettingView.lookup("#gREEN")).setText(language.getString("gREEN"));
+        ((Button) playerSettingView.lookup("#StrtButton")).setText(language.getString("StrtButton"));
         
     }
 
