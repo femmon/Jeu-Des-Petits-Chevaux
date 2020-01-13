@@ -61,7 +61,7 @@ public class GameController {
         stage.setScene(scene);
         stage.setTitle("Settings");
 
-        controllerDemo(gameView);
+//        controllerDemo(gameView);
 
     }
 
@@ -206,6 +206,7 @@ public class GameController {
 
     //--------------------Game play methods---------------------
     public void setClickedHorsePathViewId(String clickedHorsePathViewId) {
+        System.out.println(clickedHorsePathViewId);
         this.clickedHorsePathViewId = clickedHorsePathViewId;
         if (hasDiceChosen()) {
             humanMove();
@@ -491,30 +492,6 @@ public class GameController {
         displayDice.displayDice(dice1, dice2);
     }
 
-    private Position pathViewIdToPosition(String pathViewId) {
-        String colorCode = pathViewId.substring(0, pathViewId.length() - 2);
-        String positionCode = pathViewId.substring(pathViewId.length() - 1);
-        Color color;
-        switch (colorCode) {
-            case "0xff0000ff":
-                color = Color.RED;
-                break;
-            case "0x008000ff":
-                color = Color.GREEN;
-                break;
-            case "0x0000ffff":
-                color = Color.BLUE;
-                break;
-            case "0xffa500ff":
-                color = Color.YELLOW;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + pathViewId);
-        }
-
-        return new Position(color, Integer.parseInt(positionCode));
-    }
-
     private int pickDicevalue() {
         if (clicked[0]) {
             return dice1.getDiceValue();
@@ -532,7 +509,7 @@ public class GameController {
             return;
         }
 
-        Position starting = pathViewIdToPosition(clickedHorsePathViewId);
+        Position starting = convertPathIDtoPosition(clickedHorsePathViewId);
         Horse horseAtStarting = board.getHorseInPosition(starting);
         // Not the right piece
         if (horseAtStarting == null ||
@@ -626,8 +603,15 @@ public class GameController {
     }
 
     private boolean isNestViewId(String clickedHorsePathViewId) {
-        // Need naming rule from Hong
-        return false;
+        switch (clickedHorsePathViewId) {
+            case "red":
+            case "blue":
+            case "green":
+            case "yellow":
+                return true;
+            default:
+                return false;
+        }
     }
 
     public void stopGame() {
