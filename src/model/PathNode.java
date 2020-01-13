@@ -50,4 +50,8 @@ public class PathNode {
     public boolean isHorseInNode() {
         return this.horse != null;
     }
+
+    public boolean isHomePosition(Color color) {
+        return color == this.position.getColor() && this.position.getNumber() == 11;
+    }
 }
