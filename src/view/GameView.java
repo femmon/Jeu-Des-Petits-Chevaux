@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -60,21 +61,25 @@ public class GameView {
 
     // text label
     @FXML
-    Label redScore = new Label();
+    Label redScore;
     @FXML
-    Label greenScore = new Label();
+    Label greenScore;
     @FXML
-    Label blueScore = new Label();
+    Label blueScore;
     @FXML
-    Label yellowScore = new Label();
+    Label yellowScore;
     @FXML
-    Label redName = new Label();
+    Label redName;
     @FXML
-    Label greenName = new Label();
+    Label greenName;
     @FXML
-    Label blueName = new Label();
+    Label blueName;
     @FXML
-    Label yellowName = new Label();
+    Label yellowName;
+
+    //btn
+    @FXML
+    Button pauseBtn;
 
 
     private NestView[] nestInstances = new NestView[4];
