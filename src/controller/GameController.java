@@ -327,7 +327,7 @@ public class GameController {
         return "";
     }
 
-    private Position convertPathIDtoPosition( String pathID) {
+    private Position convertPathIDtoPosition(String pathID) {
         String[] arrOfStr = pathID.split("_", 2);
         int num =  Integer.parseInt( arrOfStr[1]);
         switch (arrOfStr[0]) {
@@ -342,7 +342,7 @@ public class GameController {
             case "0xff0000ff":
                 int index = 0;
                 if (num >= 0 && num <= 5) {
-                    index = num - 5;
+                    index = 10 - num;
                 } else if (num >= 11 && num <= 17) {
                     index = num;
                 } else {
