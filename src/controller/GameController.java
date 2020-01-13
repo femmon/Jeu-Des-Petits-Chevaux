@@ -335,7 +335,7 @@ public class GameController {
                     //TODO want to summon algo?
                     if (isSummon(dice1.getDiceValue(), dice2.getDiceValue())) {
                         int horseId = board.summon(playerList.get(i).getPlayerSide());
-                        summonHorseFromNest(convertPlayerSideToView(playerList.get(i).getPlayerSide()));
+                        gameView.summonHorseFromNest(convertPlayerSideToView(playerList.get(i).getPlayerSide()));
                     }
 
                     isBonusTurn(dice1.getDiceValue(), dice2.getDiceValue());
@@ -351,7 +351,7 @@ public class GameController {
                         int move = pickDicevalue(dice1, dice2);
                         //Moving
                         Move destination = board.move(playerList.get(i).getPlayerSide(), pickedHorseID, move);
-                        gameView.setHorseOnClickAtPathId(convertPositionToPathID(destination.getFinish()));
+                        setClickedHorsePathViewId(convertPositionToPathID(destination.getFinish()));
 
                         //score for kicked horse
                         if (destination.getKickedHorse() != null) {
