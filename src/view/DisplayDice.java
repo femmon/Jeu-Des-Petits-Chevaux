@@ -27,7 +27,7 @@ public class DisplayDice {
         }
     }
 
-    //
+
     public void displayDice(Dice dice) {
         diceWindow = new Stage();
         RollDices rollDice = new RollDices(dice);
@@ -40,6 +40,28 @@ public class DisplayDice {
         timer.play();
 
         diceWindow.setScene(new Scene(rollDice, 420, 420));
+        diceWindow.setTitle("Roll a dice");
+        diceWindow.show();
+    }
+
+    public void displayDiceWithoutBtn(Dice dice1, Dice dice2) {
+        diceWindow = new Stage();
+        RollDices rollDices1 = new RollDices(dice1);
+        RollDices rollDices2 = new RollDices(dice2);
+        HBox hBox = new HBox();
+
+        hBox.setSpacing(10);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.getChildren().addAll(rollDices1, rollDices2);
+
+        timer = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+            diceWindow.close();
+            timer.stop();
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+
+        diceWindow.setScene(new Scene(hBox, 420, 420));
         diceWindow.setTitle("Roll a dice");
         diceWindow.show();
     }
