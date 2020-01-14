@@ -413,7 +413,6 @@ public class GameController {
 
     private void throwDiceUntilMoveAvailable() {
         isAnimationFinishedThrowDiceUntilMoveAvailable = false;
-        oneThrowDiceUntilMoveAvailable();
         timerThrowDiceUntilMoveAvailable = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
             if (isMovePossible()) {
                 isAnimationFinishedThrowDiceUntilMoveAvailable = true;
@@ -423,6 +422,7 @@ public class GameController {
                 oneThrowDiceUntilMoveAvailable();
             }
         }));
+        oneThrowDiceUntilMoveAvailable();
         timerThrowDiceUntilMoveAvailable.setCycleCount(Timeline.INDEFINITE);
         timerThrowDiceUntilMoveAvailable.play();
     }
@@ -430,8 +430,13 @@ public class GameController {
     private void oneThrowDiceUntilMoveAvailable() {
         dice1 = throwDice();
         dice2 = throwDice();
-        DisplayDice displayDice = new DisplayDice();
-        displayDice.displayDiceWithoutBtn(dice1, dice2,playerList.get(turn).getPlayerSide().toString());
+        if (!isMovePossible()) {
+            DisplayDice displayDice = new DisplayDice();
+            displayDice.displayDiceWithoutBtn(dice1, dice2, playerList.get(turn).getPlayerSide().toString());
+        } else {
+            isAnimationFinishedThrowDiceUntilMoveAvailable = true;
+            timerThrowDiceUntilMoveAvailable.stop();
+        }
         printTurnDiceDebug();
     }
 
@@ -614,7 +619,7 @@ public class GameController {
 
     public void setEndGame() throws IOException{
         //Appear leaderboard
-        boardView.setLeaderBoard();
+//        boardView.setLeaderBoard();
     }
 
     public void playNewGame() {
