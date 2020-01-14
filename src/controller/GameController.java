@@ -6,15 +6,13 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.*;
 import view.DisplayDice;
 import view.BoardView;
-import view.settingController;
+import view.settingView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,7 +55,7 @@ public class GameController {
         // Create setting controller and pass in board to display after setting
         FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/LanguageSettingView.fxml")));
         Parent root = loader.load();
-        settingController controller = loader.getController();
+        settingView controller = loader.getController();
         controller.initData(this, board);
 
         stage = new Stage();

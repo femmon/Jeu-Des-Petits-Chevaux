@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class settingController {
+public class settingView {
     GameController gameController;
     @FXML
     private Button EngButton, VnButton, StrtButton;
