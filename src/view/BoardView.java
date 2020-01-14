@@ -236,7 +236,7 @@ public class BoardView {
                 }
                 Image horseImage = new Image(horseStream);
                 ImageView horseImageView = new ImageView(horseImage);
-                horseImageView.setFitWidth(30);
+                horseImageView.setFitWidth(20);
                 horseImageView.setFitHeight(30);
                 addToNest(nests[colorIndex], horseImageView);
             }
@@ -313,7 +313,13 @@ public class BoardView {
         return (GridPane) nest.getChildren().get(0);
     }
 
-    public void move(String start, int idStart, String finish, int idFinish) {
+    public void move (String start, String finish) {
+        String[] startParts = start.split("_");
+        String[] finishParts = finish.split("_");
+        move(startParts[0], Integer.parseInt(startParts[1]), finishParts[0], Integer.parseInt(finishParts[1]));
+    }
+
+    private void move(String start, int idStart, String finish, int idFinish) {
         StackPane startPath = getPath(start, idStart);
         ImageView horse = (ImageView) startPath.getChildren().remove(0);
         StackPane finishPath = getPath(finish, idFinish);

@@ -12,11 +12,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,7 +27,7 @@ public class settingController {
     @FXML
     private VBox playerCheckBox, comCheckBox;
     private Parent playerSettingView;
-    private HBox board;
+    private StackPane board;
 
     @FXML
     public void initialize() throws IOException{
@@ -63,7 +61,7 @@ public class settingController {
             // Get current stage
             Stage stage = (Stage) StrtButton.getScene().getWindow();
 
-            Scene primaryScene = new Scene(board, 820, 820);
+            Scene primaryScene = new Scene(board);
             stage.setScene(primaryScene);
             stage.setTitle("Pachisi");
             stage.show();
@@ -136,7 +134,7 @@ public class settingController {
 
     }
 
-    public void initData(GameController gameController, HBox board) {
+    public void initData(GameController gameController, StackPane board) {
         this.gameController = gameController;
         this.board = board;
     }

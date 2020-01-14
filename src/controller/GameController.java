@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.*;
 import view.DisplayDice;
-import view.GameView;
+import view.BoardView;
 import view.settingController;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class GameController {
     //FIXME to much global ???
     Stage stage;
     static GameController controller;
-    GameView gameView;
+    BoardView boardView;
     private ArrayList<Player> playerList = new ArrayList<>();
     Board board;
     int turn;
@@ -50,15 +50,9 @@ public class GameController {
 
     private GameController() throws IOException {
         // Create game view
-        StackPane boardView = FXMLLoader.load(getClass().getResource("../view/BoardView.fxml"));
-        stage = new Stage();
-        Scene boardScene = new Scene(boardView);
-        stage.setScene(boardScene);
-        stage.setResizable(false);
-        stage.show();
-
-        HBox board = FXMLLoader.load(getClass().getResource("../view/pachisi.fxml"));
-        gameView = new GameView(board);
+        FXMLLoader boardLoader = new FXMLLoader((getClass().getResource("../view/BoardView.fxml")));
+        StackPane board = boardLoader.load();
+        boardView = boardLoader.getController();
 
         // Create setting controller and pass in board to display after setting
         FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/LanguageSettingView.fxml")));
@@ -70,6 +64,7 @@ public class GameController {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Settings");
+        stage.setResizable(false);
     }
 
     public static GameController getInstance() throws IOException {
@@ -446,18 +441,15 @@ public class GameController {
         }
 
         Move destination = board.move(starting, pickDicevalue());
-        System.out.println(destination.getFinish().getNumber());
         // Invalid move. Prompt user to choose dice again
         if (destination.getFinish() == null) {
+            System.out.println(destination.getFinish().getNumber());
             displayOldDiceAndGetInput();
             return;
         }
 
         String destinationViewPathId = convertPositionToPathID(destination.getFinish());
-        if (destination.getKickedHorse() != null) {
-            gameView.removeHorse(destinationViewPathId);
-        }
-        gameView.moveHorse(convertPositionToPathID(destination.getStart()), destinationViewPathId);
+        boardView.move(convertPositionToPathID(destination.getStart()), destinationViewPathId);
 
         updateScore(destination);
 
@@ -508,7 +500,7 @@ public class GameController {
 
         // Reroll when summon is success
         if (board.summon(color) != -1) {
-//            gameView.summonHorseFromNest(convertPlayerSideToView(color));
+            boardView.summon(convertPlayerSideToView(color));
             afterSuccessfulMove();
         } else {
             displayOldDiceAndGetInput();
@@ -517,13 +509,13 @@ public class GameController {
 
     private Color convertNestViewIdToColor(String clickedHorsePathViewId) {
         switch (clickedHorsePathViewId) {
-            case "red":
+            case "RED":
                 return Color.RED;
-            case "green":
+            case "GREEN":
                 return Color.GREEN;
-            case "blue":
+            case "BLUE":
                 return Color.BLUE;
-            case "yellow":
+            case "YELLOW":
                 return Color.YELLOW;
             default:
                 throw new IllegalArgumentException();
@@ -532,10 +524,10 @@ public class GameController {
 
     private boolean isNestViewId(String clickedHorsePathViewId) {
         switch (clickedHorsePathViewId) {
-            case "red":
-            case "blue":
-            case "green":
-            case "yellow":
+            case "RED":
+            case "BLUE":
+            case "GREEN":
+            case "YELLOW":
                 return true;
             default:
                 return false;

@@ -79,7 +79,7 @@ public class Board {
      * @return
      */
     private PathNode makePath() {
-        Color[] colors = {BLUE, YELLOW, GREEN, RED};
+        Color[] colors = {RED, GREEN, YELLOW, BLUE};
         PathNode first10 = null;
         PathNode homeArrival = null;
 
@@ -100,7 +100,7 @@ public class Board {
                 slideHome.setHomePositionNode(current);
                 slideHome = current;
             }
-
+            System.out.println(startHome.getPosition().getColor() + " - " + startPath.getPosition().getColor());
             startHome.setNextAroundNode(startPath);
 
             if (homeArrival != null) slidePath.setNextAroundNode(homeArrival);
@@ -230,7 +230,7 @@ public class Board {
         Move move = new Move(start.getHorse(), start.getPosition(),
                 finish == null ? null : finish.getPosition(), null);
 
-        assert finish != null;
+        if (finish == null) return move;
         if (finish.getHorse() != null) move.setKickedHorse(finish.getHorse());
         return move;
     }
