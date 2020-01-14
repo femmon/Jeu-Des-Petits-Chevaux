@@ -2,6 +2,7 @@ package view;
 
 import controller.GameController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -174,6 +175,25 @@ public class BoardView {
     StackPane red_16;
     @FXML
     StackPane red_17;
+
+    //-------------------------------------NAME AND SCORE LABEL--------------------------------------
+    @FXML
+    Label redScore;
+    @FXML
+    Label yellowScore;
+    @FXML
+    Label greenScore;
+    @FXML
+    Label blueScore;
+
+    @FXML
+    Label redPlayer;
+    @FXML
+    Label yellowPlayer;
+    @FXML
+    Label greenPlayer;
+    @FXML
+    Label bluePlayer;
 
     private PauseScene pauseScene;
 
@@ -449,4 +469,38 @@ public class BoardView {
         mainBoard.getChildren().add(pauseScene);
         System.out.println("Game paused");
     }
+
+    public void setRedScore(int score) {
+        redScore.setText("Score: " + score);
+    }
+
+    public void setBlueScore(int score) {
+        blueScore.setText("Score: " + score);
+    }
+
+    public void setGreenScore(int score) {
+        greenScore.setText("Score: " + score);
+    }
+
+    public void setYellowScore(int score) {
+        yellowScore.setText("Score: " + score);
+    }
+
+    public void setRedName(String name) {
+        redPlayer.setText(name);
+    }
+
+    public void setGreenName(String name) {
+        greenPlayer.setText(name);
+    }
+
+    public void setBlueName(String name) {
+        bluePlayer.setText(name);
+    }
+
+    public void setYellowPlayer(String name) {
+        yellowPlayer.setText(name);
+    }
+
+
 }

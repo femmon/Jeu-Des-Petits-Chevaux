@@ -211,7 +211,7 @@ public class Board {
      * @param moves
      * @return the new position, or null if unsuccessful
      */
-    private PathNode findMoveDestination(PathNode start, int moves) {
+    PathNode findMoveDestination(PathNode start, int moves) {
         if (moves < 1 || moves > 12) {
             throw new IllegalArgumentException("A horse can move from 1 to 12 at a time");
         }
@@ -457,6 +457,7 @@ public class Board {
     }
 
 
+
     /**
      * Calculate the distance remain of the horse to its homeposition
      * @param currentPosition
@@ -465,8 +466,9 @@ public class Board {
      */
     public int calculateDistanceToHomePosition(PathNode currentPosition, Color color) {
         int numberOfStep = 1;
+        PathNode nextNode = currentPosition;
         while (true) {
-            PathNode nextNode = currentPosition.getNextAroundNode();
+            nextNode = nextNode.getNextAroundNode();
             if (nextNode.getPosition().getNumber() == 11 && nextNode.getPosition().getColor() == color) {
                 return numberOfStep;
             }
