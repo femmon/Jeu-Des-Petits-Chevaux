@@ -345,8 +345,8 @@ public class GameController {
                         diceValue += dice1.getDiceValue();
                         diceValue += dice2.getDiceValue();
                     case SUMMON:
-                        board.summon(machine.getHorse().getColor());
-                        boardView.summon(machine.getHorse().getColor().toString());
+                        board.summon(playerList.get(turn).getPlayerSide());
+                        boardView.summon(playerList.get(turn).getPlayerSide().toString());
                 }
 
                 if (diceValue != 0) {

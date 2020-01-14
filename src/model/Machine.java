@@ -121,14 +121,14 @@ public class Machine {
         ArrayList<Horse> horseArrayList = board.findAllHorse(player);
         int maxPrecedencePoint = 0;
 
+        if (dice1.getDiceValue() == 6 || dice2.getDiceValue() == 6) {
+            maxPrecedencePoint += 5;
+            this.pickedDice = PickedDice.SUMMON;
+        }
+
         for (int i = 0; i < horseArrayList.size(); i++) {
             PathNode currentPosition = board.findHorseInPath(horseArrayList.get(i).getColor(), horseArrayList.get(i).getId());
             int horsePrecedencePoint = 0;
-
-            if (dice1.getDiceValue() == 6 || dice2.getDiceValue() == 6) {
-                horsePrecedencePoint += 5;
-                this.pickedDice = PickedDice.SUMMON;
-            }
 
             //calculate precedence point based on each dice
             int dice1Point = analyzeHorseMove(dice1.getDiceValue(), player, horseArrayList.get(i), currentPosition);
