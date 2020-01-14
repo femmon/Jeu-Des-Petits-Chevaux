@@ -330,9 +330,34 @@ public class GameController {
             isAnimationFinishedThrowDiceUntilMoveAvailable = false;
             if (playerList.get(turn).getPlayerType() == PlayerType.MACHINE) {
                 // Display dice without button
-                // Calculate move
+                DisplayDice displayDice = new DisplayDice();
+                displayDice.displayDiceWithoutBtn(dice1, dice2, playerList.get(turn).getPlayerSide().toString());
+
                 // Move
-                // updateScore();
+                int diceValue = 0;
+                Machine machine = new Machine(board, playerList.get(turn), dice1, dice2);
+                switch (machine.getChooseDice()) {
+                    case DICE1:
+                        diceValue += dice1.getDiceValue();
+                    case DICE2:
+                        diceValue += dice2.getDiceValue();
+                    case BOTHDICE:
+                        diceValue += dice1.getDiceValue();
+                        diceValue += dice2.getDiceValue();
+                    case SUMMON:
+                        board.summon(machine.getHorse().getColor());
+                        boardView.summon(machine.getHorse().getColor().toString());
+                }
+
+                if (diceValue != 0) {
+                    Horse horse = machine.getHorse();
+                    Move destination = board.move(horse.getColor(), horse.getId(), pickDicevalue());
+
+                    String destinationViewPathId = convertPositionToPathID(destination.getFinish());
+                    boardView.move(convertPositionToPathID(destination.getStart()), destinationViewPathId);
+
+                    updateScore(destination);
+                }
 
                 // TODO: end game properly
                 if (board.getIsEndGame()) {

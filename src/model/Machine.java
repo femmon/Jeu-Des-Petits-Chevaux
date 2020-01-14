@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Machine {
 
-    private enum PickedDice {
+    public enum PickedDice {
         DICE1, DICE2, BOTHDICE, SUMMON, REMAINDICE
     }
 
