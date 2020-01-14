@@ -517,7 +517,7 @@ public class GameController {
             }
         }
 
-        afterSuccessfulMove();
+        ture
     }
 
     private void afterSuccessfulMove() {
