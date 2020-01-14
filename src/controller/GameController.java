@@ -362,7 +362,7 @@ public class GameController {
                 // TODO: end game properly
                 if (board.getIsEndGame()) {
                     timerThrowNewDiceAndGetInput.stop();
-                    stopGame();
+                    setEndGame();
                     return;
                 }
 
@@ -478,7 +478,7 @@ public class GameController {
         updateScore(destination);
 
         if (board.getIsEndGame()) {
-            stopGame();
+            setEndGame();
         }
 
         afterSuccessfulMove();
@@ -558,11 +558,11 @@ public class GameController {
         }
     }
 
-    public void stopGame() {
-        //Appear pauseScence
+    public void setEndGame() {
+        //Appear leaderboard
     }
 
-    public void playNextGame() {
+    public void playAgain() {
         //Reset board
         //Keep playerList and Score
     }
