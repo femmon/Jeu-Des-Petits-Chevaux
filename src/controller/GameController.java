@@ -643,7 +643,7 @@ public class GameController {
 
     public void setEndGame() throws IOException{
         //Appear leaderboard
-        boardView.setLeaderBoard();
+//        boardView.setLeaderBoard();
     }
 
     public void playNewGame() {
