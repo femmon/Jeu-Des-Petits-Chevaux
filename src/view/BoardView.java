@@ -2,12 +2,16 @@ package view;
 
 import controller.GameController;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -195,6 +199,26 @@ public class BoardView {
     @FXML
     Label bluePlayer;
 
+    //------------------------------------LEADER BOARD------------------------------------------------
+    @FXML
+    private Label player1 = new Label();
+    @FXML
+    private Label score1 = new Label();
+    @FXML
+    private Label player2 = new Label();
+    @FXML
+    private Label score2 = new Label();
+    @FXML
+    private Label player3 = new Label();
+    @FXML
+    private Label score3 = new Label();
+    @FXML
+    private Label player4 = new Label();
+    @FXML
+    private Label score4 = new Label();
+
+
+    private Stage leaderBoard = new Stage();
     private PauseScene pauseScene;
 
     public void initialize() {
@@ -523,6 +547,79 @@ public class BoardView {
 
     public void setYellowPlayer(String name) {
         yellowPlayer.setText(name);
+    }
+
+    //----------------------------------LEADER BOARD---------------------------------------
+
+    private Button[] buttons = new Button[2];
+    private String[] names = {"Play new game", "Play next game"};
+
+    public void setLeaderBoard() throws IOException {
+        System.out.println("end game?");
+        leaderBoard = new Stage();
+        VBox root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
+        HBox subPane = new HBox();
+
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new Button(names[i]);
+            buttons[i].setStyle("-fx-background-color: lightblue");
+            buttons[i].setTextFill(Color.WHITE);
+            buttons[i].setPrefSize(130, 40);
+        }
+        subPane.getChildren().addAll(buttons[0], buttons[1]);
+        subPane.setAlignment(Pos.CENTER);
+        subPane.setSpacing(15);
+        subPane.setStyle("-fx-background-color: white");
+        root.getChildren().add(subPane);
+
+        setNewGameBt(buttons[0], leaderBoard);
+        setNextGameBt(buttons[1], leaderBoard);
+
+        leaderBoard.setScene(new Scene(root, 300, 500));
+        leaderBoard.setTitle("Leader Board");
+        leaderBoard.show();
+    }
+
+    private void setNewGameBt(Button button, Stage stage) {
+        button.setOnMouseClicked(e -> {
+            try {
+                stage.close();
+                GameController.getInstance().playNewGame();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    private void setNextGameBt(Button button, Stage stage) {
+        button.setOnMouseClicked(e -> {
+            try {
+                stage.close();
+                GameController.getInstance().playGame();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    public void setPlayer1(String name, int score) {
+        player1.setText(name);
+        score1.setText(Integer.toString(score));
+    }
+
+    public void setPlayer2(String name, int score) {
+        player2.setText(name);
+        score2.setText(Integer.toString(score));
+    }
+
+    public void setPlayer3(String name, int score) {
+        player3.setText(name);
+        score3.setText(Integer.toString(score));
+    }
+
+    public void setPlayer4(String name, int score) {
+        player4.setText(name);
+        score4.setText(Integer.toString(score));
     }
 
 
