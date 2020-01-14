@@ -15,7 +15,7 @@ public class Machine {
 
     private Board board;
 
-    private PickedDice pickedDice;
+    private PickedDice pickedDice = null;
     private Horse horse;
 
     //Constructor for 2 dice
@@ -79,10 +79,10 @@ public class Machine {
     private int analyzeHorseMove(int diceValue, Player player, Horse horse, PathNode currentPosition) {
         int horsePrecedencePoint = 0;
 
-        if (board.canMove(horse.getColor(), horse.getId(), diceValue)) {
+        if (board.canMove(player.getPlayerSide(), horse.getId(), diceValue)) {
             horsePrecedencePoint++;
 
-            PathNode destination = board.movePathDryRun(currentPosition, diceValue);
+            PathNode destination = board.findMoveDestination(currentPosition, diceValue);
 
             //Move to home path case
             if (currentPosition.isHomePosition(horse.getColor())) {
@@ -121,14 +121,15 @@ public class Machine {
         ArrayList<Horse> horseArrayList = board.findAllHorse(player);
         int maxPrecedencePoint = 0;
 
-        if (dice1.getDiceValue() == 6 || dice2.getDiceValue() == 6) {
-            maxPrecedencePoint += 5;
-            this.pickedDice = PickedDice.SUMMON;
+        if (board.canSummon(player.getPlayerSide())) {
+            if (dice1.getDiceValue() == 6 || dice2.getDiceValue() == 6) {
+                maxPrecedencePoint += 5;
+                this.pickedDice = PickedDice.SUMMON;
+            }
         }
 
         for (int i = 0; i < horseArrayList.size(); i++) {
             PathNode currentPosition = board.findHorseInPath(horseArrayList.get(i).getColor(), horseArrayList.get(i).getId());
-            int horsePrecedencePoint = 0;
 
             //calculate precedence point based on each dice
             int dice1Point = analyzeHorseMove(dice1.getDiceValue(), player, horseArrayList.get(i), currentPosition);
@@ -139,13 +140,21 @@ public class Machine {
             if (dice1Point >= maxPrecedencePoint) {
                 maxPrecedencePoint = dice1Point;
                 setDiceAndHorse(PickedDice.DICE1, horseArrayList.get(i));
-            } else if (dice2Point > maxPrecedencePoint) {
+            }
+
+            if (dice2Point > maxPrecedencePoint) {
                 maxPrecedencePoint = dice1Point;
                 setDiceAndHorse(PickedDice.DICE2, horseArrayList.get(i));
-            } else if (bothDicePoint >= maxPrecedencePoint) {
+            }
+
+            if (bothDicePoint >= maxPrecedencePoint) {
                 maxPrecedencePoint = bothDicePoint;
                 setDiceAndHorse(PickedDice.BOTHDICE, horseArrayList.get(i));
             }
+
+            System.out.println(pickedDice);
+            System.out.println("horse" + i);
+            System.out.println("precedene point:" + maxPrecedencePoint);
         }
     }
 

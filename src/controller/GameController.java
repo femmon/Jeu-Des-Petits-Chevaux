@@ -127,7 +127,7 @@ public class GameController {
         isAnimationFinishedRollDiceForTurn = false;
 
         oneRollDiceForTurn();
-        timerRollDiceForTurn = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+        timerRollDiceForTurn = new Timeline(new KeyFrame(Duration.millis(3), event -> {
             oneRollDiceForTurn();
         }));
         timerRollDiceForTurn.setCycleCount(Timeline.INDEFINITE);
@@ -316,7 +316,7 @@ public class GameController {
         board = new Board(playerList);
         rollDiceForTurn();
 
-        timerPlayGame = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        timerPlayGame = new Timeline(new KeyFrame(Duration.millis(1), event -> {
             if (isAnimationFinishedRollDiceForTurn) {
                 // Reset
                 isAnimationFinishedRollDiceForTurn = false;
@@ -345,7 +345,7 @@ public class GameController {
     private void throwNewDiceAndGetInput() {
         throwDiceUntilMoveAvailable();
 
-        timerThrowNewDiceAndGetInput = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        timerThrowNewDiceAndGetInput = new Timeline(new KeyFrame(Duration.millis(1), event -> {
             if (!isAnimationFinishedThrowDiceUntilMoveAvailable) return;
 
             isAnimationFinishedThrowDiceUntilMoveAvailable = false;
@@ -360,19 +360,23 @@ public class GameController {
                 switch (machine.getChooseDice()) {
                     case DICE1:
                         diceValue += dice1.getDiceValue();
+                        break;
                     case DICE2:
                         diceValue += dice2.getDiceValue();
+                        break;
                     case BOTHDICE:
                         diceValue += dice1.getDiceValue();
                         diceValue += dice2.getDiceValue();
+                        break;
                     case SUMMON:
                         board.summon(playerList.get(turn).getPlayerSide());
                         boardView.summon(playerList.get(turn).getPlayerSide().toString());
+                        break;
                 }
 
                 if (diceValue != 0) {
                     Horse horse = machine.getHorse();
-                    Move destination = board.move(horse.getColor(), horse.getId(), pickDicevalue());
+                    Move destination = board.move(horse.getColor(), horse.getId(), diceValue);
 
                     String destinationViewPathId = convertPositionToPathID(destination.getFinish());
                     boardView.move(convertPositionToPathID(destination.getStart()), destinationViewPathId);
@@ -407,7 +411,7 @@ public class GameController {
     private void throwDiceUntilMoveAvailable() {
         isAnimationFinishedThrowDiceUntilMoveAvailable = false;
         oneThrowDiceUntilMoveAvailable();
-        timerThrowDiceUntilMoveAvailable = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+        timerThrowDiceUntilMoveAvailable = new Timeline(new KeyFrame(Duration.millis(3), event -> {
             if (isMovePossible()) {
                 isAnimationFinishedThrowDiceUntilMoveAvailable = true;
                 timerThrowDiceUntilMoveAvailable.stop();
