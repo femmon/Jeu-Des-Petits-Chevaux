@@ -1,10 +1,10 @@
 package model;
 
-/*
-* Mỗi pathnode là một vị trí của game.
-* Và quan hệ của nó vs nhau cố định. Quan hệ này chính là nextAround và nextHome.
-* Khi di chuyển mình chỉ get/setHorse. SetNextAround/nextHome chỉ dùng khi build cái graph
-* */
+/**
+ * A pathNode represent a position in the game
+ * It contain its current position and the relationship to the next position
+ * A pathNode also store a horse if there is a horse in its
+*/
 
 public class PathNode {
     private Position position;

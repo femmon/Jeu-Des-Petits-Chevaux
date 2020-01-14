@@ -5,6 +5,7 @@ import javafx.animation.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -28,67 +29,104 @@ public class DisplayDice {
     }
 
 
-    public void displayDice(Dice dice) {
-        diceWindow = new Stage();
-        RollDices rollDice = new RollDices(dice);
-
-        timer = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
-            diceWindow.close();
-            timer.stop();
-        }));
-        timer.setCycleCount(Timeline.INDEFINITE);
-        timer.play();
-
-        diceWindow.setScene(new Scene(rollDice, 420, 420));
-        diceWindow.setTitle("Roll a dice");
-        diceWindow.show();
-    }
-
-    public void displayDiceWithoutBtn(Dice dice1, Dice dice2) {
-        diceWindow = new Stage();
-        RollDices rollDices1 = new RollDices(dice1);
-        RollDices rollDices2 = new RollDices(dice2);
-        HBox hBox = new HBox();
-
-        hBox.setSpacing(10);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().addAll(rollDices1, rollDices2);
-
-        timer = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
-            diceWindow.close();
-            timer.stop();
-        }));
-        timer.setCycleCount(Timeline.INDEFINITE);
-        timer.play();
-
-        diceWindow.setScene(new Scene(hBox, 420, 420));
-        diceWindow.setTitle("Roll a dice");
-        diceWindow.show();
-    }
-
-    public void displayDice(Dice dice1, Dice dice2) {
+    public void displayDiceWithoutBtn(Dice dice, String playerSide) {
         diceWindow = new Stage();
         seconds = 0;
         VBox pane = new VBox();
-        HBox[] boxes = new HBox[2]; // imageBox, btBox respectively
+        HBox[] boxes = new HBox[2];
+        Label playerSideName = new Label(playerSide);
+        playerSideName.setAlignment(Pos.CENTER);
+        RollDices rollDices = new RollDices(dice);
+        Button[] buttons = new Button[3]; // Dice 1, Dice 2, Both dices respectively
+        String[] btName = {"Pick Dice 1", "Pick Dice 2", "Pick Both"};
+
+        for (int i = 0; i < boxes.length; i++) {
+            boxes[i] = new HBox();
+            boxes[i].setSpacing(10);
+            boxes[i].setAlignment(Pos.CENTER);
+        }
+        boxes[0].getChildren().add(playerSideName);
+        boxes[1].getChildren().addAll(rollDices);
+        pane.getChildren().addAll(boxes[0], boxes[1]);// add 2 boxes to another vbox
+        pane.setSpacing(10);
+        pane.setAlignment(Pos.CENTER);
+
+
+        timer = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+            diceWindow.close();
+            timer.stop();
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+
+        diceWindow.setScene(new Scene(pane, 200, 200));
+        diceWindow.setTitle("Roll 1 dices");
+        diceWindow.show();
+    }
+
+    public void displayDiceWithoutBtn(Dice dice1, Dice dice2, String playerSide) {
+        diceWindow = new Stage();
+        seconds = 0;
+        VBox pane = new VBox();
+        HBox[] boxes = new HBox[2];
+        Label playerSideName = new Label(playerSide);
+        playerSideName.setAlignment(Pos.CENTER);
         RollDices rollDices1 = new RollDices(dice1);
         RollDices rollDices2 = new RollDices(dice2);
         Button[] buttons = new Button[3]; // Dice 1, Dice 2, Both dices respectively
         String[] btName = {"Pick Dice 1", "Pick Dice 2", "Pick Both"};
 
-        for (int i = 0; i < boxes.length; i++) { // Set imageBox and btBox
+        for (int i = 0; i < boxes.length; i++) {
             boxes[i] = new HBox();
             boxes[i].setSpacing(10);
             boxes[i].setAlignment(Pos.CENTER);
         }
+        boxes[0].getChildren().add(playerSideName);
+        boxes[1].getChildren().addAll(rollDices1, rollDices2);
+        pane.getChildren().addAll(boxes[0], boxes[1]);// add 2 boxes to another vbox
+        pane.setSpacing(10);
+        pane.setAlignment(Pos.CENTER);
 
-        boxes[0].getChildren().addAll(rollDices1, rollDices2);
+
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            seconds++;
+            if (seconds == 2) { // When dice rolling animation ended
+                timer.stop();
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+
+        diceWindow.setScene(new Scene(pane, 400, 200));
+        diceWindow.setTitle("Roll 2 dices");
+        diceWindow.show();
+    }
+
+    public void displayDice(Dice dice1, Dice dice2, String playerSide) {
+        diceWindow = new Stage();
+        seconds = 0;
+        VBox pane = new VBox();
+        HBox[] boxes = new HBox[3];
+        Label playerSideName = new Label(playerSide);
+        playerSideName.setAlignment(Pos.CENTER);
+        RollDices rollDices1 = new RollDices(dice1);
+        RollDices rollDices2 = new RollDices(dice2);
+        Button[] buttons = new Button[3]; // Dice 1, Dice 2, Both dices respectively
+        String[] btName = {"Pick Dice 1", "Pick Dice 2", "Pick Both"};
+
+        for (int i = 0; i < boxes.length; i++) {
+            boxes[i] = new HBox();
+            boxes[i].setSpacing(10);
+            boxes[i].setAlignment(Pos.CENTER);
+        }
+        boxes[0].getChildren().add(playerSideName);
+        boxes[1].getChildren().addAll(rollDices1, rollDices2);
         for (int i = 0; i < buttons.length; i++) {// set each bts and add them to btBox
             buttons[i] = new Button(btName[i]);
-            boxes[1].getChildren().add(i, buttons[i]);
+            boxes[2].getChildren().add(i, buttons[i]);
         }
 
-        pane.getChildren().addAll(boxes[0], boxes[1]);// add 2 boxes to another vbox
+        pane.getChildren().addAll(boxes[0], boxes[1], boxes[2]);// add 2 boxes to another vbox
         pane.setSpacing(10);
         pane.setAlignment(Pos.CENTER);
 
@@ -130,13 +168,15 @@ public class DisplayDice {
         diceWindow.show();
     }
 
-    public void display1Dice(Dice dice) {
+    public void displayDice(Dice dice, String playerSide) {
         diceWindow = new Stage();
         seconds = 0;
         VBox pane = new VBox();
-        HBox[] boxes = new HBox[2]; // imageBox, btBox respectively
-        RollDices rollDices = new RollDices(dice);
+        HBox[] boxes = new HBox[3]; // imageBox, btBox respectively
 
+        RollDices rollDices = new RollDices(dice);
+        Label playerSideName = new Label(playerSide);
+        playerSideName.setAlignment(Pos.CENTER);
         Button[] buttons = new Button[2]; // Dice 1, Dice 2, Both dices respectively
         String[] btName = {"Pick Dice ",  "Forfiet turn"};
 
@@ -146,10 +186,11 @@ public class DisplayDice {
             boxes[i].setAlignment(Pos.CENTER);
         }
 
-        boxes[0].getChildren().addAll(rollDices);
+        boxes[0].getChildren().addAll(playerSideName);
+        boxes[1].getChildren().addAll(rollDices);
         for (int i = 0; i < buttons.length; i++) {// set each bts and add them to btBox
             buttons[i] = new Button(btName[i]);
-            boxes[1].getChildren().add(i, buttons[i]);
+            boxes[2].getChildren().add(i, buttons[i]);
         }
 
         pane.getChildren().addAll(boxes[0], boxes[1]);// add 2 boxes to another vbox
@@ -181,10 +222,8 @@ public class DisplayDice {
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
 
-        diceWindow.setScene(new Scene(pane, 400, 200));
+        diceWindow.setScene(new Scene(pane, 300, 300));
         diceWindow.setTitle("Roll 1 dices");
         diceWindow.show();
     }
-
-
 }

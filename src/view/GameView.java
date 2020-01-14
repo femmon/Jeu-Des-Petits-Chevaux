@@ -214,10 +214,21 @@ public class GameView {
     }
 
     //-------------------------SUMMONING HORSE FROM NEST------------------------------
-    // cho ngựa xuất chuồng
+    // summon horse in view
     public void summonHorseFromNest(int index) {
         GridPane horseStable = getNest(index).getHorseStable();
-        StackPane startingStep = (StackPane) getAllPaths()[index * 2].getPathContents().get(0); // get starting position
+        StackPane startingStep;
+        switch (index) {
+            case 0:
+                startingStep = (StackPane) getAllPaths()[index * 2].getPathContents().get(4); // get starting position
+                break;
+            case 3:
+                startingStep = (StackPane) getAllPaths()[index * 2].getPathContents().get(0); // get starting position
+                break;
+            default:
+                startingStep = (StackPane) getAllPaths()[index * 2].getPathContents().get(0);
+        }
+
         startingStep.getChildren().add(horseStable.getChildren().get(0)); // one horse is added at starting point
     }
 
@@ -287,7 +298,12 @@ public class GameView {
         int pathIndex = convertnewPathIdtoPathIndex(newPathIdPackage);
         // if I get the parent of the horse I will reveal its position
         removeHorse(oldPathId);
-        getAllPaths()[pathIndex].setHorse(newPathId, (ImageView) chosenPath.getChildren().get(1));
+        try {
+            getAllPaths()[pathIndex].setHorse(newPathId, (ImageView) chosenPath.getChildren().get(1));
+        }catch (NullPointerException e) {
+            System.out.println(e.toString());
+        }
+
     }
 
 

@@ -1,7 +1,9 @@
 package model;
 
 import java.util.Random;
-
+/**
+ * Dice class is represent the dice value and a methods to throw the function
+ */
 public class Dice {
     private int diceValue;
     private Random numberGenerator;
@@ -15,6 +17,9 @@ public class Dice {
         return diceValue;
     }
 
+    /**
+     * Throw dice methods which generate a randome number
+     */
     public void throwDice() {
         diceValue = numberGenerator.nextInt(6) + 1;
     }

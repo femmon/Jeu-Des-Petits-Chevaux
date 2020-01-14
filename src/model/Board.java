@@ -34,6 +34,11 @@ public class Board {
         isEndGame = false;
     }
 
+    /**
+     *Check player size, if not, return false
+     * @param playerList
+     * @return boolean
+     */
     private boolean notEnoughPlayer(ArrayList<Player> playerList) {
         int noneCount = 0;
         for (Player player: playerList) {
@@ -221,7 +226,6 @@ public class Board {
      * @param finish
      * @return
      */
-
     private Move buildMove(PathNode start, PathNode finish) {
         Move move = new Move(start.getHorse(), start.getPosition(),
                 finish == null ? null : finish.getPosition(), null);
@@ -300,7 +304,11 @@ public class Board {
         return horseInBoardList;
     }
 
-
+    /**
+     * Find pathNode from the position
+     * @param position
+     * @return
+     */
     public PathNode findPathNodeFromPosition(Position position) {
         PathNode current = path;
         do {
@@ -329,6 +337,12 @@ public class Board {
         return isMoveInMovePath(move.getStart(), move.getMovingHorse().getColor());
     }
 
+    /**
+     * Check whether the horse is in its home position or not
+     * @param startPosition
+     * @param horseColor
+     * @return
+     */
     private boolean isMoveInMovePath(Position startPosition, Color horseColor) {
         if (startPosition.getNumber() < 11) return true;
         else if (startPosition.getNumber() == 11) {
@@ -344,7 +358,6 @@ public class Board {
      * @param currentPosition
      * @return
      */
-
     public boolean isInHomePath(Move currentPosition) {
         return currentPosition.getStart().getNumber() >= 12
                 && currentPosition.getStart().getNumber() <= 17;

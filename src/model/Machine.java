@@ -1,8 +1,11 @@
 package model;
-import javafx.scene.shape.Path;
-import model.*;
 
+import model.*;
 import java.util.ArrayList;
+
+/**
+ * Machine class contain the algorithm of the machine
+ */
 
 public class Machine {
 
@@ -41,8 +44,11 @@ public class Machine {
         return horse;
     }
 
-
-    //calculate point base on the destination in homePath
+    /**
+     * calculate point base on the destination in homePath
+     * @param destinationID
+     * @return
+     */
     private int calculatePointForMoveToHomePath(int destinationID) {
         switch (destinationID) {
             case 17:
@@ -62,7 +68,14 @@ public class Machine {
         }
     }
 
-    //analyze horse move
+    /**
+     * analyze horse possible move with a specific dice value and calculate the precedence point
+     * @param diceValue
+     * @param player
+     * @param horse
+     * @param currentPosition
+     * @return
+     */
     private int analyzeHorseMove(int diceValue, Player player, Horse horse, PathNode currentPosition) {
         int horsePrecedencePoint = 0;
 
@@ -98,7 +111,12 @@ public class Machine {
         return horsePrecedencePoint;
     }
 
-    // Calculate Move for both dice
+    /**
+     * Calculate all the possible move of a player and decided what is the best move
+     * @param dice1
+     * @param dice2
+     * @param player
+     */
     private void calculateMovePrecedence(Dice dice1, Dice dice2, Player player) {
         ArrayList<Horse> horseArrayList = board.findAllHorse(player);
         int maxPrecedencePoint = 0;
@@ -131,7 +149,11 @@ public class Machine {
         }
     }
 
-    //Calculate move for the remain dice
+    /**
+     * Calculate all the possible move of a player and decided what is the best move (one dice case)
+     * @param dice
+     * @param player
+     */
     private void calculateMovePrecedence(Dice dice, Player player) {
         ArrayList<Horse> horseArrayList = board.findAllHorse(player);
         int maxPrecedencePoint = 0;

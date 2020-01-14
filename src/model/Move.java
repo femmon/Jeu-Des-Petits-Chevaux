@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Move class contain the start and end position of a horse and its kickes horse (optional)
+ */
 public class Move {
     private Horse movingHorse;
     private Position start;

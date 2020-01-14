@@ -142,7 +142,7 @@ public class GameController {
 
         Dice dice = throwDice();
         DisplayDice displayDice = new DisplayDice();
-        displayDice.displayDice(dice);
+        displayDice.displayDice(dice, playerList.get(playerIndex).getPlayerSide().toString());
         System.out.println(playerList.get(playerIndex).getPlayerSide() + " " + dice.getDiceValue());
         if (!isDuplicateDiceValue(dice.getDiceValue())) {
             playerList.get(playerIndex).setDiceValue(dice.getDiceValue());
@@ -471,7 +471,7 @@ public class GameController {
         dice1 = throwDice();
         dice2 = throwDice();
         DisplayDice displayDice = new DisplayDice();
-        displayDice.displayDiceWithoutBtn(dice1, dice2);
+        displayDice.displayDiceWithoutBtn(dice1, dice2,playerList.get(turn).getPlayerSide().toString());
         printTurnDiceDebug();
     }
 
@@ -504,7 +504,7 @@ public class GameController {
         clicked = new boolean[]{false, false, false};
 
         DisplayDice displayDice = new DisplayDice();
-        displayDice.displayDice(dice1, dice2);
+        displayDice.displayDice(dice1, dice2, playerList.get(turn).getPlayerSide().toString());
     }
 
     private int pickDicevalue() {
@@ -534,7 +534,7 @@ public class GameController {
         }
 
         Move destination = board.move(starting, pickDicevalue());
-
+        System.out.println(destination.getFinish().getNumber());
         // Invalid move. Prompt user to choose dice again
         if (destination.getFinish() == null) {
             displayOldDiceAndGetInput();
@@ -631,14 +631,17 @@ public class GameController {
     }
 
     public void stopGame() {
-
+        //Appear pauseScence
     }
 
     public void playNextGame() {
-
+        //Reset board
+        //Keep playerList and Score
     }
 
     public void playNewGame() {
+        //Reset Board
+        //Reset player and its score
     }
 
     public void exit() {

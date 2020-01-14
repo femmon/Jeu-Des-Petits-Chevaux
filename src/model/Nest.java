@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * represent a nest on the board
+ */
 public class Nest {
 
     private ArrayList<Horse> horseInNest = new ArrayList<>();
