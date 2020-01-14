@@ -420,6 +420,8 @@ public class Board {
             return current;
         } else {
             PathNode destination = nodeWithHorse.getHomePositionNode();
+            // Horse is at the highest position
+            if (destination == null) return null;
             if (destination.getHorse() != null) return null;
             // Need specific moves to get to next home path
             if (destination.getPosition().getNumber() - 11 == moves) {
