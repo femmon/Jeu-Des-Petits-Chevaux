@@ -17,6 +17,7 @@ public class RollDices extends GridPane {
     private Timeline timer;
     private double countTime = 0;
     private Dice dice;
+    private Sound diceSound = new Sound();
 
     public RollDices(Dice dice) {
         this.dice = dice;
@@ -28,6 +29,7 @@ public class RollDices extends GridPane {
     }
 
     private void setNewAnimation() {
+        diceSound.startSound();
         diceImage.setImage(new Image("file:src/view/dice-random/" + i + ".png", 100, 100, true, true));
         i++;
         if (i > 6) {
@@ -42,6 +44,7 @@ public class RollDices extends GridPane {
 
             setNewAnimation();
             if (countTime > 1) {
+                diceSound.stopSound();
                 timer.stop();
                 diceImage.setImage(new Image("file:src/view/dice/" + dice.getDiceValue() + ".png", 100, 100, true, true));
             }

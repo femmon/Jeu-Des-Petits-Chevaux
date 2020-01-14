@@ -3,11 +3,14 @@ package view;
 import javafx.scene.media.*;
 import javafx.util.Duration;
 
+import java.io.File;
+
 class Sound {
     private MediaPlayer mediaPlayer;
 
-    Sound(String fileName) {
-        Media media = new Media(getClass().getResource("/src/Music/" + fileName).toString());
+    Sound() {
+        String path = "src/view/music/RollDiceSound.mp3";
+        Media media = new Media(new File(path).toURI().toString() );
         mediaPlayer = new MediaPlayer(media);
 
         mediaPlayer.setVolume(1);
