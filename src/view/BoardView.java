@@ -238,6 +238,7 @@ public class BoardView {
                 ImageView horseImageView = new ImageView(horseImage);
                 horseImageView.setFitWidth(20);
                 horseImageView.setFitHeight(30);
+                horseImageView.setId(colors[colorIndex].toLowerCase());
                 addToNest(nests[colorIndex], horseImageView);
             }
         }
@@ -325,7 +326,7 @@ public class BoardView {
         StackPane finishPath = getPath(finish, idFinish);
         if (finishPath.getChildren().size() > 0) {
             ImageView kickedHorse = (ImageView) finishPath.getChildren().remove(0);
-            switch(kickedHorse.getId().split("_")[0]) {
+            switch(kickedHorse.getId()) {
                 case "blue":
                     addToNest(blueNest, kickedHorse);
                     break;

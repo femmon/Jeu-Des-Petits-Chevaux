@@ -443,7 +443,6 @@ public class GameController {
         Move destination = board.move(starting, pickDicevalue());
         // Invalid move. Prompt user to choose dice again
         if (destination.getFinish() == null) {
-            System.out.println(destination.getFinish().getNumber());
             displayOldDiceAndGetInput();
             return;
         }
