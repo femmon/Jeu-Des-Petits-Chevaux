@@ -49,6 +49,7 @@ public class DisplayDice {
             boxes[i].setSpacing(10);
             boxes[i].setAlignment(Pos.CENTER);
         }
+
         boxes[0].getChildren().add(playerSideName);
         boxes[1].getChildren().addAll(rollDices);
         pane.getChildren().addAll(boxes[0], boxes[1]);// add 2 boxes to another vbox
@@ -57,8 +58,8 @@ public class DisplayDice {
 
 
         timer = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
-            diceWindow.close();
             timer.stop();
+            diceWindow.close();
         }));
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
@@ -92,11 +93,9 @@ public class DisplayDice {
         pane.setAlignment(Pos.CENTER);
 
 
-        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-            seconds++;
-            if (seconds == 2) { // When dice rolling animation ended
-                timer.stop();
-            }
+        timer = new Timeline(new KeyFrame(Duration.seconds(3), e -> {
+            timer.stop();
+            diceWindow.close();
         }));
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();

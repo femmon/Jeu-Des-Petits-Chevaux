@@ -142,7 +142,7 @@ public class GameController {
 
         Dice dice = throwDice();
         DisplayDice displayDice = new DisplayDice();
-        displayDice.displayDice(dice, playerList.get(playerIndex).getPlayerSide().toString());
+        displayDice.displayDiceWithoutBtn(dice, playerList.get(playerIndex).getPlayerSide().toString());
         System.out.println(playerList.get(playerIndex).getPlayerSide() + " " + dice.getDiceValue());
         if (!isDuplicateDiceValue(dice.getDiceValue())) {
             playerList.get(playerIndex).setDiceValue(dice.getDiceValue());
