@@ -13,6 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class BoardView {
+    //----------------------------------BOARD-----------------------------------------
+    @FXML
+    StackPane mainBoard;
+    //----------------------------------NEST-------------------------------------------
     @FXML
     AnchorPane blueNest;
     @FXML
@@ -22,6 +26,7 @@ public class BoardView {
     @FXML
     AnchorPane redNest;
 
+    //----------------------------------Path---------------------------------------------
     @FXML
     StackPane blue_0;
     @FXML
@@ -169,6 +174,8 @@ public class BoardView {
     StackPane red_16;
     @FXML
     StackPane red_17;
+
+    private PauseScene pauseScene;
 
     public void initialize() {
         fillHorse();
@@ -434,5 +441,12 @@ public class BoardView {
         }
 
         throw new IllegalStateException();
+    }
+
+    public void pauseGame() {
+        pauseScene = new PauseScene();
+        pauseScene.getButtons()[1].setOnMouseClicked(e -> mainBoard.getChildren().remove(pauseScene));
+        mainBoard.getChildren().add(pauseScene);
+        System.out.println("Game paused");
     }
 }
