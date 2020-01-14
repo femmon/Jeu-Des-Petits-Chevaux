@@ -14,6 +14,10 @@ import model.*;
 
 import java.io.IOException;
 
+/**
+ * Display dice
+ */
+
 public class DisplayDice {
     private int seconds;
     private Stage diceWindow;
@@ -59,7 +63,7 @@ public class DisplayDice {
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
 
-        diceWindow.setScene(new Scene(pane, 200, 200));
+        diceWindow.setScene(new Scene(pane, 150, 150));
         diceWindow.setTitle("Roll 1 dices");
         diceWindow.show();
     }
@@ -97,7 +101,7 @@ public class DisplayDice {
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
 
-        diceWindow.setScene(new Scene(pane, 400, 200));
+        diceWindow.setScene(new Scene(pane, 300, 150));
         diceWindow.setTitle("Roll 2 dices");
         diceWindow.show();
     }
@@ -163,7 +167,7 @@ public class DisplayDice {
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
 
-        diceWindow.setScene(new Scene(pane, 400, 200));
+        diceWindow.setScene(new Scene(pane, 300, 200));
         diceWindow.setTitle("Roll 2 dices");
         diceWindow.show();
     }
@@ -222,7 +226,7 @@ public class DisplayDice {
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
 
-        diceWindow.setScene(new Scene(pane, 300, 300));
+        diceWindow.setScene(new Scene(pane, 200, 200));
         diceWindow.setTitle("Roll 1 dices");
         diceWindow.show();
     }
