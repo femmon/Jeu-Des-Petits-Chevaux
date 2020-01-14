@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 
-<StackPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.BoardView">
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.BoardView">
    <children>
       <ImageView fitHeight="700.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@board-view.png" />
          </image>
       </ImageView>
-      <AnchorPane prefHeight="400.0" prefWidth="600.0">
+      <AnchorPane prefHeight="680.0" prefWidth="695.0">
          <children>
             <AnchorPane fx:id="blueNest" layoutX="2.0" layoutY="2.0" prefHeight="199.0" prefWidth="198.0">
                <children>
@@ -28,9 +35,139 @@
                         <Insets top="17.0" />
                      </opaqueInsets>
                   </GridPane>
+                  <Label fx:id="blueScore" alignment="BOTTOM_CENTER" layoutX="55.0" layoutY="177.0" prefHeight="18.0" prefWidth="93.0" text="Score " textAlignment="CENTER" textFill="#fffefe" />
+                  <Label fx:id="blueName" alignment="TOP_CENTER" layoutX="53.0" layoutY="6.0" prefHeight="18.0" prefWidth="93.0" text="Score " textAlignment="CENTER" textFill="#fffefe" />
                </children></AnchorPane>
-            <StackPane fx:id="blue_0" layoutX="225.0" layoutY="16.0" prefHeight="25.0" prefWidth="25.0" />
-            <StackPane fx:id="blue_1" layoutX="225.0" layoutY="56.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_0" layoutX="225.0" layoutY="19.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_1" layoutX="225.0" layoutY="60.0" prefHeight="25.0" prefWidth="25.0" />
+            <AnchorPane fx:id="redNest" layoutX="486.0" layoutY="1.0" prefHeight="202.0" prefWidth="201.0">
+               <children>
+                  <GridPane layoutX="57.0" layoutY="61.0" prefHeight="76.0" prefWidth="90.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <opaqueInsets>
+                        <Insets top="17.0" />
+                     </opaqueInsets>
+                  </GridPane>
+                  <Label fx:id="redPlayer" alignment="TOP_CENTER" layoutX="53.0" layoutY="6.0" prefHeight="18.0" prefWidth="93.0" text="Score " textAlignment="CENTER" textFill="#fffefe" />
+                  <Label fx:id="redScore" alignment="TOP_CENTER" layoutX="55.0" layoutY="182.0" prefHeight="18.0" prefWidth="93.0" text="Score " textAlignment="CENTER" textFill="#fffefe" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="yellowNest" layoutX="1.0" layoutY="476.0" prefHeight="198.0" prefWidth="202.0">
+               <children>
+                  <GridPane layoutX="57.0" layoutY="61.0" prefHeight="76.0" prefWidth="90.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <opaqueInsets>
+                        <Insets top="17.0" />
+                     </opaqueInsets>
+                  </GridPane>
+                  <Label fx:id="yellowScore" alignment="TOP_CENTER" layoutX="53.0" layoutY="-2.0" prefHeight="18.0" prefWidth="93.0" text="Score " textAlignment="CENTER" textFill="#fffefe" />
+                  <Label fx:id="yellowName" alignment="TOP_CENTER" layoutX="49.0" layoutY="180.0" prefHeight="18.0" prefWidth="93.0" text="Score " textAlignment="CENTER" textFill="#fffefe" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="greenNest" layoutX="500.0" layoutY="477.0" prefHeight="198.0" prefWidth="199.0">
+               <children>
+                  <GridPane layoutX="57.0" layoutY="61.0" prefHeight="76.0" prefWidth="90.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <opaqueInsets>
+                        <Insets top="17.0" />
+                     </opaqueInsets>
+                  </GridPane>
+                  <Label fx:id="greenScore" alignment="TOP_CENTER" layoutX="54.0" layoutY="2.0" prefHeight="18.0" prefWidth="93.0" text="Score " textAlignment="CENTER" textFill="#fffefe" />
+                  <Label fx:id="greenName" alignment="TOP_CENTER" layoutX="55.0" layoutY="180.0" prefHeight="18.0" prefWidth="93.0" text="Score " textAlignment="CENTER" textFill="#fffefe" />
+               </children>
+            </AnchorPane>
+            <StackPane fx:id="blue_2" layoutX="225.0" layoutY="100.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_3" layoutX="225.0" layoutY="141.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_4" layoutX="225.0" layoutY="181.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_5" layoutX="225.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_6" layoutX="185.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_7" layoutX="145.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_8" layoutX="105.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_9" layoutX="64.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_10" layoutX="24.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_11" layoutX="4.0" layoutY="329.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_0" layoutX="15.0" layoutY="427.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_1" layoutX="56.0" layoutY="428.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_2" layoutX="96.0" layoutY="427.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_3" layoutX="137.0" layoutY="428.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_4" layoutX="177.0" layoutY="428.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_5" layoutX="217.0" layoutY="428.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_6" layoutX="218.0" layoutY="477.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_7" layoutX="218.0" layoutY="517.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_8" layoutX="218.0" layoutY="557.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_9" layoutX="218.0" layoutY="598.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="yellow_10" layoutX="218.0" layoutY="638.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_11" layoutX="337.0" layoutY="649.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_0" layoutX="449.0" layoutY="638.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_1" layoutX="449.0" layoutY="598.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_2" layoutX="449.0" layoutY="558.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_3" layoutX="449.0" layoutY="517.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_4" layoutX="449.0" layoutY="477.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_5" layoutX="449.0" layoutY="427.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_6" layoutX="489.0" layoutY="427.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_7" layoutX="529.0" layoutY="427.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_8" layoutX="570.0" layoutY="427.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_9" layoutX="610.0" layoutY="427.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="green_10" layoutX="651.0" layoutY="427.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_11" layoutX="672.0" layoutY="329.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_0" layoutX="643.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_1" layoutX="603.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_2" layoutX="563.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_3" layoutX="522.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_4" layoutX="482.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_5" layoutX="441.0" layoutY="222.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_6" layoutX="441.0" layoutY="181.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_7" layoutX="441.0" layoutY="141.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_8" layoutX="441.0" layoutY="100.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_9" layoutX="441.0" layoutY="60.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="red_10" layoutX="441.0" layoutY="20.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_11" layoutX="337.0" layoutY="8.0" prefHeight="25.0" prefWidth="25.0" />
+            <StackPane fx:id="blue_12" layoutX="281.0" layoutY="45.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="blue_13" layoutX="282.0" layoutY="87.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="blue_14" layoutX="282.0" layoutY="129.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="blue_15" layoutX="282.0" layoutY="170.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="blue_16" layoutX="282.0" layoutY="212.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="blue_17" layoutX="283.0" layoutY="254.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="green_17" layoutX="280.0" layoutY="397.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="green_16" layoutX="282.0" layoutY="439.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="green_15" layoutX="281.0" layoutY="481.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="green_14" layoutX="282.0" layoutY="522.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="green_13" layoutX="282.0" layoutY="564.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="green_12" layoutX="283.0" layoutY="607.0" prefHeight="30.0" prefWidth="136.0" />
+            <StackPane fx:id="yellow_17" layoutX="250.0" layoutY="275.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="yellow_16" layoutX="207.0" layoutY="276.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="yellow_15" layoutX="166.0" layoutY="276.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="yellow_14" layoutX="124.0" layoutY="276.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="yellow_13" layoutX="82.0" layoutY="275.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="yellow_12" layoutX="41.0" layoutY="276.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="red_17" layoutX="420.0" layoutY="276.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="red_16" layoutX="461.0" layoutY="274.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="red_15" layoutX="503.0" layoutY="276.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="red_14" layoutX="545.0" layoutY="276.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="red_13" layoutX="587.0" layoutY="276.0" prefHeight="132.0" prefWidth="32.0" />
+            <StackPane fx:id="red_12" layoutX="629.0" layoutY="275.0" prefHeight="132.0" prefWidth="32.0" />
+            <Button layoutX="314.0" layoutY="326.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="72.0" text="Pause" />
          </children>
       </AnchorPane>
    </children>
