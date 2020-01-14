@@ -363,6 +363,10 @@ public class Board {
                 && currentPosition.getStart().getNumber() <= 17;
     }
 
+    public boolean isInHomePath(PathNode currentPosition) {
+        return currentPosition.getPosition().getNumber() >= 12
+                && currentPosition.getPosition().getNumber() <= 17;
+    }
 
     /**
      * Find the destination without moving. Use this when horse move around path (instead of moving up home path)

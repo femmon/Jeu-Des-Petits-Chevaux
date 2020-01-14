@@ -122,12 +122,35 @@ public class GameController {
         }
     }
 
+    public void setPlayerInforInBoard() {
+        for (Player player : playerList) {
+            switch (player.getPlayerSide()) {
+                case BLUE:
+                    boardView.setBlueName(player.getName());
+                    boardView.setBlueScore(player.getScore());
+                    break;
+                case GREEN:
+                    boardView.setGreenName(player.getName());
+                    boardView.setGreenScore(player.getScore());
+                    break;
+                case RED:
+                    boardView.setRedName(player.getName());
+                    boardView.setRedScore(player.getScore());
+                    break;
+                case YELLOW:
+                    boardView.setYellowPlayer(player.getName());
+                    boardView.setYellowScore(player.getScore());
+                    break;
+            }
+        }
+    }
+
     //-----------------------Set turn---------------------
     public void rollDiceForTurn() {
         isAnimationFinishedRollDiceForTurn = false;
 
         oneRollDiceForTurn();
-        timerRollDiceForTurn = new Timeline(new KeyFrame(Duration.millis(3), event -> {
+        timerRollDiceForTurn = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
             oneRollDiceForTurn();
         }));
         timerRollDiceForTurn.setCycleCount(Timeline.INDEFINITE);
@@ -314,9 +337,10 @@ public class GameController {
         stage.setTitle("Playing");
 
         board = new Board(playerList);
+        setPlayerInforInBoard();
         rollDiceForTurn();
 
-        timerPlayGame = new Timeline(new KeyFrame(Duration.millis(1), event -> {
+        timerPlayGame = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if (isAnimationFinishedRollDiceForTurn) {
                 // Reset
                 isAnimationFinishedRollDiceForTurn = false;
@@ -345,7 +369,7 @@ public class GameController {
     private void throwNewDiceAndGetInput() {
         throwDiceUntilMoveAvailable();
 
-        timerThrowNewDiceAndGetInput = new Timeline(new KeyFrame(Duration.millis(1), event -> {
+        timerThrowNewDiceAndGetInput = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if (!isAnimationFinishedThrowDiceUntilMoveAvailable) return;
 
             isAnimationFinishedThrowDiceUntilMoveAvailable = false;
@@ -411,7 +435,7 @@ public class GameController {
     private void throwDiceUntilMoveAvailable() {
         isAnimationFinishedThrowDiceUntilMoveAvailable = false;
         oneThrowDiceUntilMoveAvailable();
-        timerThrowDiceUntilMoveAvailable = new Timeline(new KeyFrame(Duration.millis(3), event -> {
+        timerThrowDiceUntilMoveAvailable = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
             if (isMovePossible()) {
                 isAnimationFinishedThrowDiceUntilMoveAvailable = true;
                 timerThrowDiceUntilMoveAvailable.stop();
@@ -474,7 +498,6 @@ public class GameController {
         }
     }
 
-    // TODO: Refactor so that can use 2 dices for 2 horses
     private void humanMove() {
         if (isNestViewId(clickedHorsePathViewId)) {
             summon();
@@ -528,11 +551,34 @@ public class GameController {
         }
 
         //score in home path
-        if (board.isMoveInMovePath(destination)) {
+        if (destination.getStart().getColor() == player.getPlayerSide()
+                && destination.getStart().getNumber() == 11) {
             player.addScore(calculatePointInHomePath(destination));
         }
+
         if (board.isInHomePath(destination)) {
             player.addScore(1);
+        }
+
+        updateScore();
+    }
+
+    public void updateScore() {
+        for (Player player : playerList) {
+            switch (player.getPlayerSide()) {
+                case BLUE:
+                    boardView.setBlueScore(player.getScore());
+                    break;
+                case GREEN:
+                    boardView.setGreenScore(player.getScore());
+                    break;
+                case RED:
+                    boardView.setRedScore(player.getScore());
+                    break;
+                case YELLOW:
+                    boardView.setYellowScore(player.getScore());
+                    break;
+            }
         }
     }
 
@@ -587,13 +633,10 @@ public class GameController {
         //Appear leaderboard
     }
 
-    public void playAgain() {
-        //Keep playerList and Score
-    }
-
     public void playNewGame() {
-        //Reset Board
-        //Reset player and its score
+        stage.close();
+        GameController gameController = new GameController();
+        gameController.update();
     }
 
     public void exit() {

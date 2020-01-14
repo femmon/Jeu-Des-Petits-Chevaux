@@ -1,14 +1,13 @@
-package santa_claus;
+package view;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.*;
 import javafx.util.Duration;
 
 class Sound {
     private MediaPlayer mediaPlayer;
 
     Sound(String fileName) {
-        Media media = new Media(getClass().getResource("/santa_claus/Music/" + fileName).toString());
+        Media media = new Media(getClass().getResource("/src/Music/" + fileName).toString());
         mediaPlayer = new MediaPlayer(media);
 
         mediaPlayer.setVolume(1);

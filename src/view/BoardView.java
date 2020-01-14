@@ -466,10 +466,24 @@ public class BoardView {
     public void pauseGame() {
         pauseScene = new PauseScene();
 
+        pauseScene.getButtons()[0].setOnMouseClicked(e -> {
+            try {
+                GameController.getInstance().playNewGame();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
         pauseScene.getButtons()[1].setOnMouseClicked(e -> mainBoard.getChildren().remove(pauseScene));
         pauseScene.getButtons()[2].setOnMouseClicked(e -> {
             try {
                 GameController.getInstance().playGame();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        pauseScene.getButtons()[3].setOnMouseClicked(e -> {
+            try {
+                GameController.getInstance().exit();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
