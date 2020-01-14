@@ -42,14 +42,30 @@ public class PathView {
     public void fillPath() {
         for (int index = 0; index < 5; index++) {
             getPathContents().add(createCircle());
-            getPathContents().get(index).setId(color + "_" + index);
+            if (Color.BLUE.equals(color) || Color.GREEN.equals(color)){
+                getPathContents().get(index).setId(color + "_" + index);
+            }
+            if (Color.ORANGE.equals(color) || Color.RED.equals(color)) {
+                getPathContents().get(index).setId(color + "_" + (10 - index));
+            }
         }
     }
 
     public void fillSecPath() {
         for (int index = 0; index < 6; index++) {
             getPathContents().add(createCircle());
-            getPathContents().get(index).setId(color + "_" + (10 - index));
+            if (Color.GREEN.equals(color)) {
+                getPathContents().get(index).setId(color + "_" + (index + 5));
+            }
+            if (Color.BLUE.equals(color)) {
+                getPathContents().get(index).setId(color + "_" + (10 - index));
+            }
+            if (Color.RED.equals(color)) {
+                getPathContents().get(index).setId(color + "_" + (5 - index));
+            }
+            if (Color.ORANGE.equals(color)) {
+                getPathContents().get(index).setId(color + "_" + (index));
+            }
         }
     }
 
