@@ -6,7 +6,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.*;
@@ -48,6 +50,12 @@ public class GameController {
 
     private GameController() throws IOException {
         // Create game view
+        StackPane boardView = FXMLLoader.load(getClass().getResource("../view/BoardView.fxml"));
+        stage = new Stage();
+        Scene boardScene = new Scene(boardView);
+        stage.setScene(boardScene);
+        stage.show();
+
         HBox board = FXMLLoader.load(getClass().getResource("../view/pachisi.fxml"));
         gameView = new GameView(board);
 
