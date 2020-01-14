@@ -19,17 +19,6 @@ import java.util.ArrayList;
 
 public class GameController {
 
-    //TODO: display score board
-    // playGame function
-    // Machine
-    // Set label for game play (button)
-    // Pause game
-    // Play again
-    // Play new game
-    // Unit test for demo
-    // Network
-
-    //FIXME to much global ???
     Stage stage;
     static GameController controller;
     BoardView boardView;
@@ -75,14 +64,6 @@ public class GameController {
             stage.show();
     }
 
-    /**
-     * The index labeling :
-     * 0 : Red nest/horse/homePath
-     * 1 : Green nest/horse/homePath
-     * 2 : Blue nest/horse/homePath
-     * 3 : Yellow nest/horse/homePath
-     * @param
-     */
 
 //-------------------------GAME PLAY------------------------------
 
@@ -146,6 +127,7 @@ public class GameController {
     }
 
     //-----------------------Set turn---------------------
+
     public void rollDiceForTurn() {
         isAnimationFinishedRollDiceForTurn = false;
 
@@ -273,12 +255,6 @@ public class GameController {
             default: return "";
         }
     }
-
-    private boolean wantToSummon() {
-        //check if the user want to summon or not
-        return false;
-    }
-
 
     private String convertPositionToPathID(Position position) {
         return position.getColor() + "_" + position.getNumber();
