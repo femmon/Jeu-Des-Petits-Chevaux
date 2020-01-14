@@ -12,42 +12,41 @@ import javafx.util.Duration;
 import model.Dice;
 
 public class RollDices extends GridPane {
-    private int seconds;
-    private ImageView imageDice = new ImageView();
+    private ImageView diceImage = new ImageView();
+    private int i = 1;
     private Timeline timer;
+    private double countTime = 0;
     private Dice dice;
 
     public RollDices(Dice dice) {
         this.dice = dice;
 
-        Dice randomDice = new Dice();
-        randomDice.throwDice();
-        imageDice.setImage(new Image("file:src/view/diceImage/" + randomDice.getDiceValue() + ".png",
-                100, 100, true, true));
-        getChildren().add(imageDice);
+        diceImage.setImage(new Image("file:src/view/dice/" + this.dice.getDiceValue() + ".png", 100, 100, true, true));
+        setAnimation(diceImage);
+        getChildren().add(diceImage);
         setAlignment(Pos.CENTER);
+    }
 
-        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> setTimeline()));
+    private void setNewAnimation() {
+        diceImage.setImage(new Image("file:src/view/dice-random/" + i + ".png", 100, 100, true, true));
+        i++;
+        if (i > 6) {
+            i = 1;
+
+        }
+    }
+
+    private void setAnimation(ImageView diceImage) {
+        timer = new Timeline(new KeyFrame(Duration.seconds(0.15), e -> {
+            countTime = countTime + 0.15;
+
+            setNewAnimation();
+            if (countTime > 1) {
+                timer.stop();
+                diceImage.setImage(new Image("file:src/view/dice/" + dice.getDiceValue() + ".png", 100, 100, true, true));
+            }
+        }));
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
-    }
-
-    private void setTimeline() {
-        seconds++;
-        if (seconds == 1) {
-            setAnimation(dice.getDiceValue());
-        }
-        else if (seconds == 3) {
-            timer.stop();
-        }
-    }
-
-    private void setAnimation (int diceValue) {
-        RotateTransition rt = new RotateTransition(Duration.seconds(1), imageDice);
-        rt.setFromAngle(0);
-        rt.setToAngle(360);
-        rt.setOnFinished(event -> imageDice.setImage(new Image("file:src/view/diceImage/" + dice.getDiceValue() + ".png",
-                100, 100, true, true)));
-        rt.play();
     }
 }

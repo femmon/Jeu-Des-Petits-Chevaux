@@ -150,7 +150,7 @@ public class GameController {
         isAnimationFinishedRollDiceForTurn = false;
 
         oneRollDiceForTurn();
-        timerRollDiceForTurn = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+        timerRollDiceForTurn = new Timeline(new KeyFrame(Duration.millis(2), event -> {
             oneRollDiceForTurn();
         }));
         timerRollDiceForTurn.setCycleCount(Timeline.INDEFINITE);
@@ -340,7 +340,7 @@ public class GameController {
         setPlayerInforInBoard();
         rollDiceForTurn();
 
-        timerPlayGame = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        timerPlayGame = new Timeline(new KeyFrame(Duration.millis(1), event -> {
             if (isAnimationFinishedRollDiceForTurn) {
                 // Reset
                 isAnimationFinishedRollDiceForTurn = false;
@@ -369,7 +369,7 @@ public class GameController {
     private void throwNewDiceAndGetInput() {
         throwDiceUntilMoveAvailable();
 
-        timerThrowNewDiceAndGetInput = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        timerThrowNewDiceAndGetInput = new Timeline(new KeyFrame(Duration.millis(1), event -> {
             if (!isAnimationFinishedThrowDiceUntilMoveAvailable) return;
 
             isAnimationFinishedThrowDiceUntilMoveAvailable = false;
@@ -435,7 +435,7 @@ public class GameController {
     private void throwDiceUntilMoveAvailable() {
         isAnimationFinishedThrowDiceUntilMoveAvailable = false;
         oneThrowDiceUntilMoveAvailable();
-        timerThrowDiceUntilMoveAvailable = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+        timerThrowDiceUntilMoveAvailable = new Timeline(new KeyFrame(Duration.millis(3), event -> {
             if (isMovePossible()) {
                 isAnimationFinishedThrowDiceUntilMoveAvailable = true;
                 timerThrowDiceUntilMoveAvailable.stop();
