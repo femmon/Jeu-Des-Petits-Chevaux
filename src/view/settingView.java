@@ -27,7 +27,6 @@ public class settingView {
     @FXML
     private VBox playerCheckBox, comCheckBox;
     private Parent playerSettingView;
-    private StackPane board;
 
     @FXML
     public void initialize() throws IOException{
@@ -60,11 +59,6 @@ public class settingView {
 
             // Get current stage
             Stage stage = (Stage) StrtButton.getScene().getWindow();
-
-            Scene primaryScene = new Scene(board);
-            stage.setScene(primaryScene);
-            stage.setTitle("Pachisi");
-            stage.show();
 
             getPlayerInfo();
             gameController.playGame();
@@ -134,8 +128,7 @@ public class settingView {
 
     }
 
-    public void initData(GameController gameController, StackPane board) {
+    public void initData(GameController gameController) {
         this.gameController = gameController;
-        this.board = board;
     }
 }

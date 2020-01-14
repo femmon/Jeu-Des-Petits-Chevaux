@@ -40,23 +40,23 @@ public class GameController {
     Dice dice2;
     private boolean[] clicked = {false, false, false}; // To know if btDice1, btDice2 and btBoth were clicked.
     private String clickedHorsePathViewId = "";
+    Timeline timerPlayGame;
     Timeline timerRollDiceForTurn;
     boolean isAnimationFinishedRollDiceForTurn;
     Timeline timerThrowDiceUntilMoveAvailable;
     boolean isAnimationFinishedThrowDiceUntilMoveAvailable;
     Timeline timerThrowNewDiceAndGetInput;
 
-    private GameController() throws IOException {
-        // Create game view
-        FXMLLoader boardLoader = new FXMLLoader((getClass().getResource("../view/BoardView.fxml")));
-        StackPane board = boardLoader.load();
-        boardView = boardLoader.getController();
-
-        // Create setting controller and pass in board to display after setting
+    private GameController() {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("../view/LanguageSettingView.fxml")));
-        Parent root = loader.load();
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         settingView controller = loader.getController();
-        controller.initData(this, board);
+        controller.initData(this);
 
         stage = new Stage();
         Scene scene = new Scene(root);
@@ -298,15 +298,29 @@ public class GameController {
     }
 
     public void playGame() {
+        resetTimeline();
+        // Create game view
+        FXMLLoader boardLoader = new FXMLLoader((getClass().getResource("../view/BoardView.fxml")));
+        StackPane boardViewStackPane = null;
+        try {
+            boardViewStackPane = boardLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        boardView = boardLoader.getController();
+
+        Scene scene = new Scene(boardViewStackPane);
+        stage.setScene(scene);
+        stage.setTitle("Playing");
+
         board = new Board(playerList);
         rollDiceForTurn();
 
-        Timeline timerPlayGame = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        timerPlayGame = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if (isAnimationFinishedRollDiceForTurn) {
                 // Reset
                 isAnimationFinishedRollDiceForTurn = false;
-                // TODO: How to kill TimeLine from
-//                timerPlayGame
+                timerPlayGame.stop();
                 turn = findPlayerWithHighestDice(findMaximumDiceValue());
 
                 throwNewDiceAndGetInput();
@@ -314,6 +328,15 @@ public class GameController {
         }));
         timerPlayGame.setCycleCount(Timeline.INDEFINITE);
         timerPlayGame.play();
+    }
+
+    private void resetTimeline() {
+        if (timerPlayGame != null) timerPlayGame.stop();
+        if (timerRollDiceForTurn != null) timerRollDiceForTurn.stop();
+        if (timerThrowDiceUntilMoveAvailable != null) timerThrowDiceUntilMoveAvailable.stop();
+        if (timerThrowNewDiceAndGetInput != null) timerThrowNewDiceAndGetInput.stop();
+        isAnimationFinishedRollDiceForTurn = false;
+        isAnimationFinishedThrowDiceUntilMoveAvailable = false;
     }
 
     /**
@@ -561,7 +584,6 @@ public class GameController {
     }
 
     public void playAgain() {
-        //Reset board
         //Keep playerList and Score
     }
 
