@@ -528,7 +528,7 @@ public class GameController {
             }
         }
 
-        ture
+        afterSuccessfulMove();
     }
 
     private void afterSuccessfulMove() {
